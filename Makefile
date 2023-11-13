@@ -12,7 +12,7 @@ CFLAGS= -Wall -Wextra -Werror  #-g -fsanitize=address
 msa7 = rm -rf
 obj = ${SRC:.c=.o}
 objb = ${SRCB:.c=.o}
-MLX = ./MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
+MLX = ./MLX420/build/libmlx42.a -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 
 libraries = ./gnl/gnl.a ./libft/libft.a 
 SUBDIRS = gnl libft
