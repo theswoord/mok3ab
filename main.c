@@ -1,6 +1,6 @@
 #include "cube3d.h"
 
-void draw(mlx_t *mlx, mlx_image_t *img)
+void draw(mlx_t *mlx, mlx_image_t *img, t_cube *cube)
 {
     mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
 
@@ -18,8 +18,8 @@ void draw(mlx_t *mlx, mlx_image_t *img)
     int y = 0;
     unsigned long color = 0xc86400;
     unsigned long FF = 0xc86400FF;
-    unsigned long floor = (220 << 24) | (100 << 16) | (0 << 8) | 0xFF; // hadi parsing dial color;
-    unsigned long s9ef = (225 << 24) | (30 << 16) | (0 << 8) | 0xFF; // hadi parsing dial color;
+    unsigned long floor = (cube->colors.F[0] << 24) | (cube->colors.F[1] << 16) | (cube->colors.F[2] << 8) | 0xFF; // hadi parsing dial color;
+    unsigned long s9ef = (cube->colors.C[0] << 24) | (cube->colors.C[1] << 16) | (cube->colors.F[2] << 8) | 0xFF; // hadi parsing dial color;
 
     printf("l3rd %d , lines %d \n",WIDTH,HEIGHT);
     while (x < WIDTH)
@@ -52,34 +52,85 @@ void draw(mlx_t *mlx, mlx_image_t *img)
     mlx_loop(mlx);
     mlx_terminate(mlx);
 }
+void map_divider(char * textures , char *background , char *map , t_cube *cube)
+{
+    cube->background = ft_split (background, '\n');
+    cube->textures = ft_split (textures, '\n');
+    cube->map = ft_split (map, '\n');
 
-// char **read_map(int fd, t_cube *cube)
-// {
+}
 
-//     char *longline = NULL;
-//     char *line = get_next_line(fd);
-
-//     while (line)
-//     {
-//         // longline
-//         if (found_after_space(line,'F'))
-//         {
-//             /* code */
-//         }
+void rgb_parse(char * str, t_cube *cube)
+{
+    // str = ft_strtrim(str, " \t");
+    int i = 0;
+    char * 
+    // while (str[i])
+    // {
         
-//     }
+    //     i++;
+    //     /* code */
+    // }
+    
+}
 
-//     // return line;
-// }
+void read_map(int fd, t_cube *cube)
+{
+
+    char *textures = NULL;
+    char *background = NULL;
+    char *map = NULL;
+
+    char *line = get_next_line(fd);
+
+    while (line)
+    {
+        // longline
+        if (found_after_space(line,'F') || found_after_space(line,'C') )
+        {
+            background = ft_strjoingnl(background,line);
+            free(line);
+            /* code */
+        }
+            else if (found_after_space(line,'N') || found_after_space(line,'S') ||found_after_space(line,'W') ||found_after_space(line,'E'))
+        {
+            textures = ft_strjoingnl(textures,line);
+            free(line);
+            /* code */
+        }
+           else if (found_after_space(line,'1'))
+        {
+            map = ft_strjoingnl(map,line);
+            free(line);
+            /* code */
+        }
+        else
+        {
+            free (line);
+        }
+        line = get_next_line(fd);
+
+    }
+    map_divider(textures,background,map,cube);
+    // return line;
+}
 
 int main(int ac, char **av)
 {
-
+    t_cube cube;
     mlx_t *mlx;
     mlx_image_t *img;
 
     int fd = open(av[1], O_RDONLY);
+    read_map(fd,   &cube );
+    // printf("%s\n", cube.background[0]);
+    print_tableau(cube.textures);
+    printf("---------------------\n");
+    print_tableau(cube.map);
+    printf("---------------------\n");
 
-    draw(mlx, img);
+    print_tableau(cube.background);
+
+    // draw(mlx, img);
     return 0;
 }

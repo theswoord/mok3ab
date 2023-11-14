@@ -16,6 +16,13 @@
 
 
 // } t_mlx;
+typedef struct s_colors
+{
+    /* data */
+    int F[3];
+    int C[3];
+}t_colors ;
+
 
 
 typedef struct s_cube
@@ -23,6 +30,7 @@ typedef struct s_cube
    
     
     // s_mlx mlxstruct;
+    t_colors colors;
     char **textures;
     char **background;
     char **map;
@@ -32,7 +40,10 @@ typedef struct s_cube
 
 bool found_after_space(char *str, char c);
 
-
+/*map*/
+void read_map(int fd, t_cube *cube);
+void map_divider(char * textures , char *background , char *map , t_cube *cube);
+void print_tableau(char ** tableau);
 
 
 

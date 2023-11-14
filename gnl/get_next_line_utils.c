@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouhali <nbouhali@student.1337.ma >       +#+  +:+       +#+        */
+/*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:55:22 by nbouhali          #+#    #+#             */
-/*   Updated: 2023/01/13 19:48:35 by nbouhali         ###   ########.fr       */
+/*   Updated: 2023/11/14 06:50:02 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlengnl(char *s)
 	size_t	a;
 
 	a = 0;
+	if (!s)
+		return 0;
 	while (s[a] != '\0')
 	{
 		a++;
