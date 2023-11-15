@@ -33,3 +33,15 @@ void print_tableau(char ** tableau)
     }
     
 }
+
+void free_tableau(char ** tab)
+{
+    int i = 0 ;
+    while (tab[i])
+    {
+        free(tab[i]);
+        i++;
+        /* code */
+    }
+    free(tab);
+}

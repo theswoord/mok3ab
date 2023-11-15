@@ -10,12 +10,13 @@
 #define WIDTH 800 //l3rd
 #define HEIGHT 600 //tol
 
-// typedef struct s_mlx
-// {
+typedef struct s_win
+{
+    mlx_t *mlx;
+    mlx_image_t *img;
 
 
-
-// } t_mlx;
+} t_win;
 typedef struct s_colors
 {
     /* data */
@@ -30,6 +31,7 @@ typedef struct s_cube
    
     
     // s_mlx mlxstruct;
+    t_win *window;
     t_colors colors;
     char **textures;
     char **background;
@@ -44,8 +46,8 @@ bool found_after_space(char *str, char c);
 void read_map(int fd, t_cube *cube);
 void map_divider(char * textures , char *background , char *map , t_cube *cube);
 void print_tableau(char ** tableau);
-
-
+void free_tableau(char ** tab);
+void rgb_parse(char * str, t_cube *cube);
 
 
 
