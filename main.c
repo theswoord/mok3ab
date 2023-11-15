@@ -1,5 +1,37 @@
 #include "cube3d.h"
 
+// void animation_init(t_cube *cube) // for bonus
+// {
+//     cube->anim[0] = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./blood.png"));
+//     cube->anim[1] = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./dry.png"));
+
+// }
+
+// void *animations_draw(t_cube *cube) // an7yedhom 
+// {
+//     // int i = 0;
+//     // while (i <= 1800)
+//     // {
+//     //     /* code */
+//     //     if (i == 600)
+//     //     {
+//     //         printf("%d\n",i);
+//             mlx_image_to_window(cube->window->mlx,cube->anim[0],500,500);
+//             /* code */
+//         // }
+//             mlx_image_to_window(cube->window->mlx,cube->anim[1],500,500);
+        
+
+
+//         usleep(500);
+//     //     if(i == 1800)
+//     //         i=0;
+//     //     i++;
+//     // }
+//     return NULL;
+// }
+
+
 void init_mlx(t_cube *cube)
 {
     cube->window->mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
@@ -205,7 +237,8 @@ int main(int ac, char **av)
     // mlx_image_to_window(cube.window->mlx, cube.mini_map,50,50);
     mini_map_draw(&cube);
     mlx_image_to_window(cube.window->mlx, cube.mini_map,0,0);
-
+    // animation_init(&cube); // memes
+    // mlx_loop_hook(cube.window->mlx,animations_draw(&cube),&cube);
     mlx_loop(cube.window->mlx);
     mlx_terminate(cube.window->mlx);
     return 0;

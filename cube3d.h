@@ -10,7 +10,7 @@
 #define WIDTH 1980 //l3rd
 #define HEIGHT 1080 //tol
 #define MINIBLOCK 32 //square block
-
+#define MINISCALE 1.25
 typedef struct s_win
 {
     mlx_t *mlx;
@@ -30,13 +30,19 @@ typedef struct s_map
     int max;
     int lines;
 }t_map;
-
+typedef struct s_player
+{
+    int x;
+    int y;
+}t_player;
 
 typedef struct s_cube
 {
    
     
     // s_mlx mlxstruct;
+    // mlx_image_t *anim[2]; // troll
+    t_player player;
     t_map map_stuff;
     t_win *window;
     t_colors colors;

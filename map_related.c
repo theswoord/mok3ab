@@ -5,7 +5,7 @@ void mini_map_draw(t_cube *cube)
 
     int x = 0;
     int y = 0;
-    int step = 32;
+    float step = 32 * MINISCALE;
     // print_tableau(cube->map);
     while (y < cube->map_stuff.lines)
     {
@@ -14,25 +14,26 @@ void mini_map_draw(t_cube *cube)
             if (cube->map[y][x] == ' ')
             {
                 // printf("%d %d\n" , y , x);
-                draw_2dblock(cube->mini_map,x*step,y*step,MINIBLOCK,0x000000FF);
+                draw_2dblock(cube->mini_map,x*step,y*step,step,0x000000FF);
 
                 /* code */
             }
             if (cube->map[y][x] == '0')
             {
-                draw_2dblock(cube->mini_map,x*step,y*step,MINIBLOCK,0xFFC0CBFF);
+                draw_2dblock(cube->mini_map,x*step,y*step,step,0xFFC0CBFF);
 
                 /* code */
             }
             if (cube->map[y][x] == '1')
             {
-                draw_2dblock(cube->mini_map,x*step,y*step,MINIBLOCK,0x00A36CFF);
+                draw_2dblock(cube->mini_map,x*step,y*step,step,0x00A36CFF);
 
                 /* code */
             }
             if (cube->map[y][x] == 'S' || cube->map[y][x] == 'N'|| cube->map[y][x] == 'E'|| cube->map[y][x] == 'W')
             {
-                draw_2dblock(cube->mini_map,x*step,y*step,MINIBLOCK,0xFFFF00FF);
+                draw_2dblock(cube->mini_map,x*step,y*step,step,0xFFFF00FF);
+                draw_2dblock(cube->mini_map,(x*step)/2,(y*step)/2,1,0xFF0000FF);
 
                 /* code */
             }
