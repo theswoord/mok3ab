@@ -45,3 +45,27 @@ void free_tableau(char ** tab)
     }
     free(tab);
 }
+
+char* copy_and_fill(char *str, int count , char c)
+{
+    int i = 0;
+    char *new;
+    new = ft_calloc(count+1,1);
+
+    while (str[i]!= '\0')
+    {
+        new[i] = str[i];
+        i++;
+        /* code */
+    }
+    while (i < count)
+    {
+        new[i] = c;
+        i++;
+        /* code */
+    }
+    // printf("%p %p\n",new, str);
+    
+    free(str);
+    return new;
+}

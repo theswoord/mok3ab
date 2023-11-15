@@ -1,12 +1,14 @@
 #include "cube3d.h"
 
-void init_all(t_cube *cube)
+void init_mlx(t_cube *cube)
 {
     cube->window->mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
     cube->window->img = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);
+    cube->mini_map = mlx_new_image(cube->window->mlx,WIDTH,HEIGHT);
+    // cube->mini_map = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./blood.png")); // test image fo9 image hh
 }
 
-void draw_background(mlx_t *mlx, mlx_image_t *img, t_cube *cube)
+void draw_background(mlx_image_t *img, t_cube *cube)
 {
     // mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
 
@@ -26,6 +28,7 @@ void draw_background(mlx_t *mlx, mlx_image_t *img, t_cube *cube)
     {
         while (y < HEIGHT/2)
         {
+        // printf("%d %d\n",x,y);
             mlx_put_pixel(img, x, y, s9ef );
             y++;
         }
@@ -38,7 +41,6 @@ void draw_background(mlx_t *mlx, mlx_image_t *img, t_cube *cube)
         y=0;
         x++;
     }
-    mlx_image_to_window(mlx, img, 0, 0);
     // mlx_
     // hh.
     // hhj =  mlx_new_image(mlx,100,100);
@@ -46,14 +48,18 @@ void draw_background(mlx_t *mlx, mlx_image_t *img, t_cube *cube)
     // // mlx_image_to_window(mlx , hh ,300,300);
     // mlx_image_to_window(mlx , hh,100,100);
     // // mlx_put_pixel()
-    mlx_loop(mlx);
-    mlx_terminate(mlx);
+
 }
 void map_divider(char * textures , char *background , char *map , t_cube *cube)
 {
     cube->background = ft_split (background, '\n');
+    free(background);
     cube->textures = ft_split (textures, '\n');
+    free(textures);
+
     cube->map = ft_split (map, '\n');
+    free(map);
+
 
 }
 void parse(t_cube *cube)
@@ -75,12 +81,16 @@ void set_rgb(char **tab, t_cube *cube, char what)
         /* code */
         if (what == 'F')
         {
+        // printf("f S %s\n", tab[i]);
         cube->colors.F[i] = ft_atoi(tab[i]); // hna ba9i check dial 255 < o > 0 o 3adad les i ila kan >3 err
+        // printf("F %d\n",cube->colors.F[i]);
             /* code */
         }
         if (what == 'C')
         {
         cube->colors.C[i] = ft_atoi(tab[i]); // hna ba9i check dial 255 < o > 0 o 3adad les i ila kan >3 err
+        // printf("C %d\n",cube->colors.C[i]);
+        
             /* code */
         }
         i++;
@@ -99,7 +109,7 @@ void rgb_parse(char * str, t_cube *cube)
     char* tmp = NULL;
     // found_after_space(str,'F');
     if (found_after_space(str,'F') == true){
-        tmp = ft_strtrim(str," \t");
+        tmp = ft_strtrim(str," \tF");
         free(str);
        what = 'F';
     }
@@ -170,8 +180,8 @@ void read_map(int fd, t_cube *cube)
 int main(int ac, char **av)
 {
     t_cube cube;
-    mlx_t *mlx;
-    mlx_image_t *img;
+    // mlx_t *mlx;
+    // mlx_image_t *img;
 
     int fd = open(av[1], O_RDONLY);
     read_map(fd,   &cube );
@@ -183,10 +193,20 @@ int main(int ac, char **av)
 
     print_tableau(cube.background);
     parse(&cube);
-    init_all(&cube);
+    init_mlx(&cube);
+    fill_map(&cube);
+    // printf("%s\n",cube.map[2]);
+    print_tableau(cube.map);
     // mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
     // img = mlx_new_image(mlx, WIDTH, HEIGHT);
+    // printf("fff\n");
+    draw_background(cube.window->img, &cube); // made the imgptr
+    mlx_image_to_window(cube.window->mlx, cube.window->img, 0, 0); // put img ptr on the window
+    // mlx_image_to_window(cube.window->mlx, cube.mini_map,50,50);
+    mini_map_draw(&cube);
+    mlx_image_to_window(cube.window->mlx, cube.mini_map,0,0);
 
-    draw_background(cube.window->mlx, cube.window->img, &cube);
+    mlx_loop(cube.window->mlx);
+    mlx_terminate(cube.window->mlx);
     return 0;
 }

@@ -6,9 +6,10 @@
 #include "./gnl/get_next_line.h"
 #include "MLX420/include/MLX42/MLX42.h"
 #include "stdbool.h"
-
-#define WIDTH 800 //l3rd
-#define HEIGHT 600 //tol
+#include "math.h"
+#define WIDTH 1980 //l3rd
+#define HEIGHT 1080 //tol
+#define MINIBLOCK 32 //square block
 
 typedef struct s_win
 {
@@ -24,6 +25,11 @@ typedef struct s_colors
     int C[3];
 }t_colors ;
 
+typedef struct s_map
+{
+    int max;
+    int lines;
+}t_map;
 
 
 typedef struct s_cube
@@ -31,11 +37,14 @@ typedef struct s_cube
    
     
     // s_mlx mlxstruct;
+    t_map map_stuff;
     t_win *window;
     t_colors colors;
     char **textures;
     char **background;
     char **map;
+    mlx_image_t *mini_map;
+
 
 } t_cube;
 
@@ -48,7 +57,10 @@ void map_divider(char * textures , char *background , char *map , t_cube *cube);
 void print_tableau(char ** tableau);
 void free_tableau(char ** tab);
 void rgb_parse(char * str, t_cube *cube);
-
+void draw_2dblock(mlx_image_t *img, int x , int y, int size, int color);
+void mini_map_draw(t_cube *cube);
+char* copy_and_fill(char *str, int count , char c);
+void fill_map(t_cube *cube);
 
 
 
