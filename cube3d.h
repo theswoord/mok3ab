@@ -82,7 +82,8 @@ char* copy_and_fill(char *str, int count , char c);
 void fill_map(t_cube *cube);
 void draw_player(t_cube *cube,mlx_image_t *img, int x, int y, int size);
 void pressed(mlx_key_data_t keydata,void *par);
-
+int abs(int n);
+void liner(t_cube *cube , int ex, int ey);
 
 
 
@@ -90,3 +91,5 @@ void pressed(mlx_key_data_t keydata,void *par);
 
 
 #endif
+
+// x= 848, y= 368
