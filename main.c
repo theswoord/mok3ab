@@ -9,25 +9,30 @@
 
 // void *animations_draw(t_cube *cube) // an7yedhom 
 // {
-//     // int i = 0;
-//     // while (i <= 1800)
-//     // {
-//     //     /* code */
-//     //     if (i == 600)
-//     //     {
-//     //         printf("%d\n",i);
+//     int i = 0;
+//     while (1)
+//     {
+//         /* code */
+//         if (i == 600)
+//         {
+//             printf("%d\n",i);
 //             mlx_image_to_window(cube->window->mlx,cube->anim[0],500,500);
-//             /* code */
-//         // }
+//             // mlx_delete_image(cube->window->mlx,cube->anim[0]);
+
 //             mlx_image_to_window(cube->window->mlx,cube->anim[1],500,500);
+//             // cube->anim[0] = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./blood.png"));
+//             // cube->anim[1] = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./dry.png"));
+
+//     //         /* code */
+//         }
+//         // sleep(1);
+//             // mlx_image_to_window(cube->window->mlx,cube->anim[1],500,500);
         
 
-
-//         usleep(500);
-//     //     if(i == 1800)
-//     //         i=0;
-//     //     i++;
-//     // }
+//         if(i == 1800)
+//             i=0;
+//         i++;
+//     }
 //     return NULL;
 // }
 
@@ -37,6 +42,9 @@ void init_mlx(t_cube *cube)
     cube->window->mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
     cube->window->img = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);
     cube->mini_map = mlx_new_image(cube->window->mlx,WIDTH,HEIGHT);
+        mlx_image_to_window(cube->window->mlx, cube->window->img, 0, 0); // put img ptr on the window
+    // mlx_image_to_window(cube->window->mlx, cube->mini_map,50,50);
+    mlx_image_to_window(cube->window->mlx, cube->mini_map,0,0);
     // cube->mini_map = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./blood.png")); // test image fo9 image hh
 }
 
@@ -52,6 +60,9 @@ void draw_background(mlx_image_t *img, t_cube *cube)
     // hhhh = mlx_texture_to_image(mlx, hh);
     int x = 0;
     int y = 0;
+    // printf("%d,%d,%d\n",cube->colors.F[0],cube->colors.F[1],cube->colors.F[2]);
+    // printf("%d,%d,%d\n",cube->colors.C[0],cube->colors.C[1],cube->colors.C[2]);
+
     unsigned long floor = (cube->colors.F[0] << 24) | (cube->colors.F[1] << 16) | (cube->colors.F[2] << 8) | 0xFF; // hadi parsing dial color;
     unsigned long s9ef = (cube->colors.C[0] << 24) | (cube->colors.C[1] << 16) | (cube->colors.C[2] << 8) | 0xFF; // hadi parsing dial color;
 
@@ -66,7 +77,7 @@ void draw_background(mlx_image_t *img, t_cube *cube)
         }
         while (y < HEIGHT)
         {
-            mlx_put_pixel(img,(x+HEIGHT/2),y,floor);
+            mlx_put_pixel(img,x,y,floor);
             y++;
         }
         
@@ -233,12 +244,12 @@ int main(int ac, char **av)
     // img = mlx_new_image(mlx, WIDTH, HEIGHT);
     // printf("fff\n");
     draw_background(cube.window->img, &cube); // made the imgptr
-    mlx_image_to_window(cube.window->mlx, cube.window->img, 0, 0); // put img ptr on the window
-    // mlx_image_to_window(cube.window->mlx, cube.mini_map,50,50);
     mini_map_draw(&cube);
-    mlx_image_to_window(cube.window->mlx, cube.mini_map,0,0);
+
     // animation_init(&cube); // memes
-    // mlx_loop_hook(cube.window->mlx,animations_draw(&cube),&cube);
+    // mlx_loop_hook(cube.window->mlx,animations_draw,&cube);
+    // mlx_loop_hook(cube.window->mlx,pressed,&cube);
+    mlx_key_hook(cube.window->mlx,&pressed,&cube);
     mlx_loop(cube.window->mlx);
     mlx_terminate(cube.window->mlx);
     return 0;

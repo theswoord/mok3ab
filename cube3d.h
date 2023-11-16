@@ -10,7 +10,20 @@
 #define WIDTH 1980 //l3rd
 #define HEIGHT 1080 //tol
 #define MINIBLOCK 32 //square block
-#define MINISCALE 1.25
+#define MINISCALE 1
+
+enum
+{
+    W= 87,
+    S= 83,
+    A= 65,
+    D= 68,
+
+    UP=265,
+    DOWN=264,
+    LEFT=263,
+    RIGHT=262,
+};
 typedef struct s_win
 {
     mlx_t *mlx;
@@ -67,7 +80,8 @@ void draw_2dblock(mlx_image_t *img, int x , int y, int size, int color);
 void mini_map_draw(t_cube *cube);
 char* copy_and_fill(char *str, int count , char c);
 void fill_map(t_cube *cube);
-
+void draw_player(t_cube *cube,mlx_image_t *img, int x, int y, int size);
+void pressed(mlx_key_data_t keydata,void *par);
 
 
 

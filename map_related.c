@@ -14,26 +14,28 @@ void mini_map_draw(t_cube *cube)
             if (cube->map[y][x] == ' ')
             {
                 // printf("%d %d\n" , y , x);
-                draw_2dblock(cube->mini_map,x*step,y*step,step,0x000000FF);
+                draw_2dblock(cube->mini_map,x*step,y*step,step,0x000000CF);
 
                 /* code */
             }
             if (cube->map[y][x] == '0')
             {
-                draw_2dblock(cube->mini_map,x*step,y*step,step,0xFFC0CBFF);
+                draw_2dblock(cube->mini_map,x*step,y*step,step,0xFFC0CBCF);
 
                 /* code */
             }
             if (cube->map[y][x] == '1')
             {
-                draw_2dblock(cube->mini_map,x*step,y*step,step,0x00A36CFF);
+                draw_2dblock(cube->mini_map,x*step,y*step,step,0x00A36CCF);
 
                 /* code */
             }
             if (cube->map[y][x] == 'S' || cube->map[y][x] == 'N'|| cube->map[y][x] == 'E'|| cube->map[y][x] == 'W')
             {
-                draw_2dblock(cube->mini_map,x*step,y*step,step,0xFFFF00FF);
-                draw_2dblock(cube->mini_map,(x*step)/2,(y*step)/2,1,0xFF0000FF);
+                // draw_2dblock(cube->mini_map,x*step,y*step,step,0xFFFF00CF);
+                draw_player(cube,cube->mini_map,x*step,y*step,step);
+                // continue;
+                // draw_2dblock(cube->mini_map,(x*step)/2,(y*step)/2,1,0xFF0000CF);
 
                 /* code */
             }
