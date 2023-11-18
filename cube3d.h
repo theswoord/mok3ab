@@ -11,7 +11,7 @@
 #define HEIGHT 1080 //tol
 #define MINIBLOCK 32 //square block
 #define MINISCALE 1
-
+#define SPEED 5
 enum
 {
     W= 87,
@@ -98,7 +98,7 @@ void pressed(mlx_key_data_t keydata,void *par);
 int abs(int n);
 void liner(t_cube *cube , int ex, int ey);
 int is_wall(t_cube *cube , int x , int y );
-
+void cast_v1(t_cube *cube);
 
 
 

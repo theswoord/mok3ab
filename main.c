@@ -99,10 +99,10 @@ void map_divider(char * textures , char *background , char *map , t_cube *cube)
     free(background);
     cube->textures = ft_split (textures, '\n');
     free(textures);
-
+    // printf("%s\n",map);
     cube->map = ft_split (map, '\n');
     free(map);
-
+    // print_tableau(cube->map);
 
 }
 void parse(t_cube *cube)
@@ -239,13 +239,13 @@ int main(int ac, char **av)
     init_mlx(&cube);
     fill_map(&cube);
     // printf("%s\n",cube.map[2]);
-    print_tableau(cube.map);
+    // print_tableau(cube.map);
     // mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
     // img = mlx_new_image(mlx, WIDTH, HEIGHT);
     // printf("fff\n");
     draw_background(cube.window->img, &cube); // made the imgptr
     mini_map_draw(&cube);
-
+    cast_v1(&cube);
     // animation_init(&cube); // memes
     // mlx_loop_hook(cube.window->mlx,animations_draw,&cube);
     // mlx_loop_hook(cube.window->mlx,pressed,&cube);

@@ -7,6 +7,7 @@ void mini_map_draw(t_cube *cube)
     int y = 0;
     float step = 32 * MINISCALE;
     static int save = 0;
+    // print_tableau(cube->map);
     while (y < cube->map_stuff.lines)
     {
         while (x < cube->map_stuff.max)
@@ -31,6 +32,8 @@ void mini_map_draw(t_cube *cube)
         x=0;
         y++;
     }
+    // is_wall(cube,1,34);
+    
 }
 
 void fill_map(t_cube *cube)

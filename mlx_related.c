@@ -11,38 +11,46 @@ void pressed(mlx_key_data_t keydata,void *par)
 
     if (keydata.key == W)
     {
-        cube->player.y-=1;
+        cube->player.y-=SPEED;
     mini_map_draw(cube);
 
         /* code */
     }
     if (keydata.key == A)
     {
-        cube->player.x-=1;
+        cube->player.x-=SPEED;
     mini_map_draw(cube);
 
         /* code */
     }    
     if (keydata.key == S)
     {
-        cube->player.y+=1;
+        cube->player.y+=SPEED;
     mini_map_draw(cube);
 
         /* code */
     }   
      if (keydata.key == D)
     {
-        cube->player.x+=1;
+        cube->player.x+=SPEED;
         
     mini_map_draw(cube);
 
         /* code */
     }
+    if (keydata.key == 256)
+    {
+        exit(0);
+
+        /* code */
+    }
     // mini_map_draw(&cube);
     
-    mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y,0xFF0000FF);
+    // mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y,0xFF0000FF);
     is_wall(cube,cube->player.x, cube->player.y);
-    // draw_player(cube,0);
+    cast_v1(cube);
+
+    draw_player(cube,0);
 
     // liner(cube,848,368);
     // mini_map_draw(cube);

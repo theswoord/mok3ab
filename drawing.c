@@ -117,14 +117,58 @@ void liner(t_cube *cube , int ex, int ey)
 int is_wall(t_cube *cube , int x , int y )
 {
     int i = 0;
-    double posX = (trunc((x*MINIBLOCK)/ WIDTH)); //blast width o height khassni size dial map
-    double posY = (trunc((y*MINIBLOCK)/HEIGHT));
-    int mapX = (int)posX;
-    int mapY = (int)posY;
-    printf("%f , %f \n", posX, posY);
-    printf("%d , %d [%c] \n", mapX, mapY,cube->map[mapY][mapX]);
+    // float posX = (trunc((x)/ (cube->map_stuff.max*32*MINISCALE))); //blast width o height khassni size dial map 7it kayakhod dial map kamla
+    if (cube->map[(int)y/32][(int)x/32]=='1')
+    {
+        return 1;
+        /* code */
+    }
     
+    // float posY = (trunc((y)/(cube->map_stuff.lines*32*MINISCALE)));
+    // int totalsteps = (cube->map_stuff.max*32*MINISCALE) / cube->map_stuff.max;
+    // int mapX = (int)posX;
+    // int mapY = (int)posY;
+    // printf("max x = %d, max y= %d\n",cube->map_stuff.max*MINIBLOCK,cube->map_stuff.lines*MINIBLOCK);
+    // // printf("%f , %f \n", posX, posY);
+    // printf("x=%d y=%d    %d  POSX=%f POSY=%f     %d , %d [%c] \n",x,y,totalsteps,posX,posY, mapX, mapY,cube->map[mapY][mapX]);
+    // printf("[%c]\n", cube->map[(int)y/32][(int)x/32]);
     return 0;
+}
+
+void cast_v1(t_cube *cube)
+{
+    int i = 0;
+    int x = cube->player.x; 
+    int y = cube->player.y; 
+    while (!is_wall(cube,x,y))
+    {
+        // while (i < 5)
+        // {
+        //     /* code */
+        //     i++;
+        // }
+        
+        liner(cube,x,y++);
+        liner(cube,x++,y);
+        // liner(cube,x,y--);
+        // liner(cube,x--,y);
+
+        // x--;
+        // liner(cube,x,y++);
+        // liner(cube,x,y++);
+        // liner(cube,x,y++);
+        // liner(cube,x--,y++);
+        // liner(cube,x--,y++);
+        // liner(cube,x++,y++);
+        // liner(cube,x++,y++);
+        // liner(cube,x++,y++);
+        // liner(cube,x,y++);
+        // liner(cube,x,y++);
+
+        // y++;
+        /* code */
+    }
+    
 }
 
 //ln 25 col 28
