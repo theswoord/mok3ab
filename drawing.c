@@ -21,38 +21,35 @@ void draw_2dblock(mlx_image_t *img, int x , int y, int size, int color)
     }
     
 }
-void draw_player(t_cube * cube , mlx_image_t *img, int x, int y, int size)
+void draw_player(t_cube * cube, int size)
 {
-    int i = 0;
-    int j = 0;
+    mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y-1,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y+1,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x+1,cube->player.y+1,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x+2,cube->player.y+3,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x+2,cube->player.y,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x+2,cube->player.y,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x+2,cube->player.y-1,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x+2,cube->player.y-2,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x+2,cube->player.y-3,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x+1,cube->player.y-4,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y-4,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x-1,cube->player.y-4,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x-2,cube->player.y-3,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x-2,cube->player.y-2,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x-2,cube->player.y-1,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x-2,cube->player.y,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x-2,cube->player.y+1,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x-2,cube->player.y+2,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x-2,cube->player.y+3,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x-1,cube->player.y+4,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y+4,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x+1,cube->player.y+4,0xFF0000FF);
+    mlx_put_pixel(cube->mini_map,cube->player.x+2,cube->player.y+4,0xFF0000FF);
 
-    while (i <= size)
-    {
-        while (j <= size)
-        {
-            // printf("%d %d\n",i , j);
-            // mlx_put_pixel(img,x+i,y+j,0xFFFF00CF);
 
-            if (i == size/2 && j == size/2)
-            {
-            cube->player.x = x+i;
-            cube->player.y = y+j;
-            // printf("x= %d, y= %d\n", cube->player.x, cube->player.y);
 
-            // mlx_put_pixel(img,x+i,y+j,0xFF0000FF);
-
-                /* code */
-            }
-            
-            j++;
-            
-            /* code */
-        }
-        j = 0;
-        i++;
-        /* code */
-    }
-    
 }
 
 void draw_line(mlx_image_t *img,int start , int end , int lenght)
@@ -99,3 +96,35 @@ void liner(t_cube *cube , int ex, int ey)
         i++;
     } 
 }
+// void generic_liner(t_cube * cube,)
+
+
+// void cast(t_cube * cube)
+// {
+//     int i = 0;
+//     cube->player.dirx = -1; // hado aytbdlo 3la 7sab starting position dial player
+//     cube->player.diry = 0;
+//     float planex = 0;
+//     float planey = 0.66; // drna 0.66 bach ndiro 66 degrees FOV
+
+//     while (/* condition */)
+//     {
+//         /* code */
+//     }
+    
+// }
+
+int is_wall(t_cube *cube , int x , int y )
+{
+    int i = 0;
+    double posX = (trunc((x*MINIBLOCK)/ WIDTH)); //blast width o height khassni size dial map
+    double posY = (trunc((y*MINIBLOCK)/HEIGHT));
+    int mapX = (int)posX;
+    int mapY = (int)posY;
+    printf("%f , %f \n", posX, posY);
+    printf("%d , %d [%c] \n", mapX, mapY,cube->map[mapY][mapX]);
+    
+    return 0;
+}
+
+//ln 25 col 28

@@ -47,7 +47,20 @@ typedef struct s_player
 {
     int x;
     int y;
+    float dirx;
+    float diry;
 }t_player;
+
+typedef struct s_lines
+{
+    int startx;
+    int starty;
+    int endx;
+    int endy;
+
+
+
+}t_lines;
 
 typedef struct s_cube
 {
@@ -80,10 +93,11 @@ void draw_2dblock(mlx_image_t *img, int x , int y, int size, int color);
 void mini_map_draw(t_cube *cube);
 char* copy_and_fill(char *str, int count , char c);
 void fill_map(t_cube *cube);
-void draw_player(t_cube *cube,mlx_image_t *img, int x, int y, int size);
+void draw_player(t_cube *cube, int size);
 void pressed(mlx_key_data_t keydata,void *par);
 int abs(int n);
 void liner(t_cube *cube , int ex, int ey);
+int is_wall(t_cube *cube , int x , int y );
 
 
 

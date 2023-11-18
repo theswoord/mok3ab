@@ -11,28 +11,28 @@ void pressed(mlx_key_data_t keydata,void *par)
 
     if (keydata.key == W)
     {
-        cube->player.y-=5;
+        cube->player.y-=1;
     mini_map_draw(cube);
 
         /* code */
     }
     if (keydata.key == A)
     {
-        cube->player.x-=5;
+        cube->player.x-=1;
     mini_map_draw(cube);
 
         /* code */
     }    
     if (keydata.key == S)
     {
-        cube->player.y+=5;
+        cube->player.y+=1;
     mini_map_draw(cube);
 
         /* code */
     }   
      if (keydata.key == D)
     {
-        cube->player.x+=5;
+        cube->player.x+=1;
         
     mini_map_draw(cube);
 
@@ -41,7 +41,10 @@ void pressed(mlx_key_data_t keydata,void *par)
     // mini_map_draw(&cube);
     
     mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y,0xFF0000FF);
-    liner(cube,50,50);
+    is_wall(cube,cube->player.x, cube->player.y);
+    // draw_player(cube,0);
+
+    // liner(cube,848,368);
     // mini_map_draw(cube);
     
     // printf("key is %d pressed = %d\n",cube->player.y, keydata.key);
