@@ -51,7 +51,7 @@ char* copy_and_fill(char *str, int count , char c)
     int i = 0;
     char *new;
     new = ft_calloc(count+1,1);
-
+    // printf("%d\n",count);
     while (str[i]!= '\0')
     {
         new[i] = str[i];
@@ -66,6 +66,6 @@ char* copy_and_fill(char *str, int count , char c)
     }
     // printf("%p %p\n",new, str);
     
-    free(str);
+    // free(str);
     return new;
 }

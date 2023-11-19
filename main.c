@@ -205,6 +205,7 @@ void read_map(int fd, t_cube *cube)
         }
            else if (found_after_space(line,'1'))
         {
+            // printf("%s, %d\n",line , ft_strlen(line));
             map = ft_strjoingnl(map,line);
             free(line);
             /* code */

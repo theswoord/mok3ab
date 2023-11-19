@@ -43,11 +43,13 @@ void fill_map(t_cube *cube)
     int j = 0;
     while (cube->map[j])
     {
-    cube->map_stuff.max = fmax(ft_strlengnl(cube->map[i]), ft_strlengnl(cube->map[i+1]));
+    cube->map_stuff.max = fmax(cube->map_stuff.max, ft_strlengnl(cube->map[j+1]));
+    // printf()
         j++; // here
         /* code */
     }
     cube->map_stuff.lines = j;
+    // printf("%d %d\n",cube->map_stuff.max,cube->map_stuff.lines);
     while (cube->map[i])
     {
         cube->map[i] = copy_and_fill(cube->map[i],cube->map_stuff.max,' ');

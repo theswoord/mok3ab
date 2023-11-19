@@ -99,7 +99,7 @@ int abs(int n);
 void liner(t_cube *cube , int ex, int ey);
 int is_wall(t_cube *cube , int x , int y );
 void cast_v1(t_cube *cube);
-
+int maxed(int a ,int b );
 
 
 
