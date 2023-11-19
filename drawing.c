@@ -149,9 +149,9 @@ void cast_v1(t_cube *cube)
         // }
         
         // liner(cube,x,y++);
-        liner(cube,x++,y);
+        liner(cube,x,y--);
         // liner(cube,x,y--);
-        // liner(cube,x--,y);
+        liner(cube,x--,y);
 
         // x--;
         // liner(cube,x,y++);

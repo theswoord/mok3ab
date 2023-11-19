@@ -11,31 +11,42 @@ void pressed(mlx_key_data_t keydata,void *par)
 
     if (keydata.key == W)
     {
+        if (!is_wall(cube,cube->player.x, cube->player.y-SPEED))
+        {
         cube->player.y-=SPEED;
     mini_map_draw(cube);
+            /* code */
+        }
+        
 
         /* code */
     }
     if (keydata.key == A)
     {
+         if (!is_wall(cube,cube->player.x-SPEED, cube->player.y))
+        {
         cube->player.x-=SPEED;
     mini_map_draw(cube);
-
+        }
         /* code */
     }    
     if (keydata.key == S)
     {
+                 if (!is_wall(cube,cube->player.x, cube->player.y+SPEED))
+        {
         cube->player.y+=SPEED;
     mini_map_draw(cube);
-
+        }
         /* code */
     }   
      if (keydata.key == D)
     {
+                 if (!is_wall(cube,cube->player.x+SPEED, cube->player.y))
+        {
         cube->player.x+=SPEED;
         
     mini_map_draw(cube);
-
+        }
         /* code */
     }
     if (keydata.key == 256)
@@ -58,3 +69,4 @@ void pressed(mlx_key_data_t keydata,void *par)
     // printf("key is %d pressed = %d\n",cube->player.y, keydata.key);
     
 }
+
