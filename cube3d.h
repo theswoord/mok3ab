@@ -73,6 +73,7 @@ typedef struct s_cube
     
     // s_mlx mlxstruct;
     // mlx_image_t *anim[2]; // troll
+    mlx_image_t *walls;
     t_player player;
     t_map map_stuff;
     t_win *window;

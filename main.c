@@ -42,9 +42,13 @@ void init_mlx(t_cube *cube)
     cube->window->mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
     cube->window->img = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);
     cube->mini_map = mlx_new_image(cube->window->mlx,WIDTH,HEIGHT);
+    cube->walls = mlx_new_image(cube->window->mlx,WIDTH,HEIGHT);
+
         mlx_image_to_window(cube->window->mlx, cube->window->img, 0, 0); // put img ptr on the window
     // mlx_image_to_window(cube->window->mlx, cube->mini_map,50,50);
     mlx_image_to_window(cube->window->mlx, cube->mini_map,0,0);
+        mlx_image_to_window(cube->window->mlx, cube->walls, 0, 0); // here 
+
     // cube->mini_map = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./blood.png")); // test image fo9 image hh
 }
 

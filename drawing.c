@@ -106,13 +106,19 @@ void liner(t_cube *cube , int ex, int ey)
     float X = cube->player.x; 
     float Y = cube->player.y; 
     // rotatePoint(&X, &Y, cube->player.x, cube->player.y, 66);
-    while (i <= steps){ 
-        // printf("bda %d, ghadi %d steps %d\n",X,Y,steps);
-        mlx_put_pixel(cube->mini_map,round(X),round(Y),0x0000FFFF); 
-        X += Xinc; 
+    while (steps > 0) {
+        X += Xinc;
         Y += Yinc;
-        i++;
-    } 
+        
+        // Check if the next point (X, Y) is a wall
+        if (is_wall(cube, round(X), round(Y))) {
+
+            break; // If it's a wall, stop drawing the line
+        }
+
+        mlx_put_pixel(cube->mini_map, round(X), round(Y), 0x0000FFFF);
+        steps--;
+    }
 }
 // void generic_liner(t_cube * cube,)
 
@@ -196,17 +202,19 @@ void cast_v1(t_cube *cube)
 
 void test_rota(t_cube *cube)
 {
-    int range = 0;
+    float fov = 33;
+    int range = !fov;
    float startx=cube->player.x;
    float starty=cube->player.y;
     float end_x = startx;
-    float end_y = starty-100;
+    float end_y = starty-1000; // had end ila l9it knadir liha b cast i win 
 
 //  int angle = 0;
     // float angle = 33.0f;
-    while (range < 30)
+    while (range <= fov)
     {
      float radangle = (cube->player.angle + range) * (M_PI / 180);
+    //  printf("%f\n", radangle);
     // int range =
      float distx =end_x - startx; // hado anbdl fihom 
      float disty = end_y - starty;

@@ -60,7 +60,7 @@ void pressed(mlx_key_data_t keydata,void *par)
         // exit(0);
     mini_map_draw(cube);
 
-        cube->player.angle-= 5; // counter clockwise rota;
+        cube->player.angle-= 10; // counter clockwise rota;
         /* code */
     } 
        if (keydata.key ==ROTA_RIGHT)
@@ -74,7 +74,7 @@ void pressed(mlx_key_data_t keydata,void *par)
     }
     // mini_map_draw(&cube);
     // cube->angle = 33.0;
-
+    // printf("%f\n", cube->player.angle);
     test_rota(cube);
     // mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y,0xFF0000FF);
     // is_wall(cube,cube->player.x, cube->player.y);
