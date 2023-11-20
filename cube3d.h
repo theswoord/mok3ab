@@ -23,6 +23,10 @@ enum
     DOWN=264,
     LEFT=263,
     RIGHT=262,
+
+    ROTA_LEFT = 263,
+    ROTA_RIGHT = 262,
+
 };
 typedef struct s_win
 {
@@ -49,6 +53,7 @@ typedef struct s_player
     int y;
     float dirx;
     float diry;
+    float angle; 
 }t_player;
 
 typedef struct s_lines
@@ -77,7 +82,6 @@ typedef struct s_cube
     char **map;
     mlx_image_t *mini_map;
 
-
 } t_cube;
 
 
@@ -100,7 +104,7 @@ void liner(t_cube *cube , int ex, int ey);
 int is_wall(t_cube *cube , int x , int y );
 void cast_v1(t_cube *cube);
 int maxed(int a ,int b );
-
+void test_rota(t_cube *cube);
 
 
 

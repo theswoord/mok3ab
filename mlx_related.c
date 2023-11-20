@@ -55,11 +55,30 @@ void pressed(mlx_key_data_t keydata,void *par)
 
         /* code */
     }
+        if (keydata.key == ROTA_LEFT)
+    {
+        // exit(0);
+    mini_map_draw(cube);
+
+        cube->player.angle-= 5; // counter clockwise rota;
+        /* code */
+    } 
+       if (keydata.key ==ROTA_RIGHT)
+    {
+    mini_map_draw(cube);
+
+               cube->player.angle+= 5;
+
+
+        /* code */
+    }
     // mini_map_draw(&cube);
-    
+    // cube->angle = 33.0;
+
+    test_rota(cube);
     // mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y,0xFF0000FF);
-    is_wall(cube,cube->player.x, cube->player.y);
-    cast_v1(cube);
+    // is_wall(cube,cube->player.x, cube->player.y);
+    // cast_v1(cube);
 
     draw_player(cube,0);
 

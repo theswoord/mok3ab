@@ -110,6 +110,7 @@ void parse(t_cube *cube)
     int i = 0;
     while (cube->background[i])
     {
+
         rgb_parse(cube->background[i],cube);
         i++;
         /* code */
@@ -155,6 +156,7 @@ void rgb_parse(char * str, t_cube *cube)
         tmp = ft_strtrim(str," \tF");
         free(str);
        what = 'F';
+
     }
     else if (found_after_space(str,'C') == true){
         tmp = ft_strtrim(str," \tC");
@@ -234,19 +236,21 @@ int main(int ac, char **av)
     // printf("---------------------\n");
     // print_tableau(cube.map);
     // printf("---------------------\n");
-
     print_tableau(cube.background);
     parse(&cube);
+
     init_mlx(&cube);
     fill_map(&cube);
     // printf("%s\n",cube.map[2]);
+
     // print_tableau(cube.map);
     // mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
     // img = mlx_new_image(mlx, WIDTH, HEIGHT);
     // printf("fff\n");
+    printf("ZABY\n");
     draw_background(cube.window->img, &cube); // made the imgptr
     mini_map_draw(&cube);
-    cast_v1(&cube);
+    // cast_v1(&cube);
     // animation_init(&cube); // memes
     // mlx_loop_hook(cube.window->mlx,animations_draw,&cube);
     // mlx_loop_hook(cube.window->mlx,pressed,&cube);
