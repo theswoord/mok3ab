@@ -12,6 +12,7 @@
 #define MINIBLOCK 32 //square block
 #define MINISCALE 1
 #define SPEED 5
+#define FOV 33
 enum
 {
     W= 87,
@@ -54,6 +55,11 @@ typedef struct s_player
     float dirx;
     float diry;
     float angle; 
+    float distx;
+    float disty;
+    float real_dis;
+    int ray_number;
+
 }t_player;
 
 typedef struct s_lines
@@ -64,7 +70,6 @@ typedef struct s_lines
     int endy;
 
 
-
 }t_lines;
 
 typedef struct s_cube
@@ -73,6 +78,7 @@ typedef struct s_cube
     
     // s_mlx mlxstruct;
     // mlx_image_t *anim[2]; // troll
+    int wallheight;
     mlx_image_t *walls;
     t_player player;
     t_map map_stuff;
@@ -106,8 +112,12 @@ int is_wall(t_cube *cube , int x , int y );
 void cast_v1(t_cube *cube);
 int maxed(int a ,int b );
 void test_rota(t_cube *cube);
+void draw_wall(t_cube * cube);
+void draw_verline(t_cube * cube,int x , int ystart , int yend  );
+void draw_rec(t_cube *cube , int id , int start , int height );
+void img_clear(mlx_image_t * img, int width, int height);
 
-
+// void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 
 #endif
 

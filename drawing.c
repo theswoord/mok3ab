@@ -112,7 +112,12 @@ void liner(t_cube *cube , int ex, int ey)
         
         // Check if the next point (X, Y) is a wall
         if (is_wall(cube, round(X), round(Y))) {
-
+            // cube->wallheight = 
+            cube->player.distx = fabs(X-cube->player.x);
+            cube->player.disty = fabs(Y-cube->player.y);
+            cube->player.real_dis = sqrt(pow((X-cube->player.x),2) + pow(Y-cube->player.y,2));
+            // printf("%f\n",cube->player.real_dis);
+            // printf("%d , x = %f y = %f dist x= %d dist y= %d \n", steps , fabs(X-cube->player.x) , fabs(Y-cube->player.y) ,disX , disY);
             break; // If it's a wall, stop drawing the line
         }
 
@@ -202,15 +207,17 @@ void cast_v1(t_cube *cube)
 
 void test_rota(t_cube *cube)
 {
-    float fov = 33;
+    float fov = FOV;
     int range = !fov;
    float startx=cube->player.x;
    float starty=cube->player.y;
     float end_x = startx;
-    float end_y = starty-1000; // had end ila l9it knadir liha b cast i win 
-
+    float end_y = starty-10000; // had end ila l9it knadir liha b cast i win 
+    cube->player.ray_number = FOV*2;
 //  int angle = 0;
     // float angle = 33.0f;
+    img_clear(cube->walls, WIDTH ,HEIGHT/2);
+
     while (range <= fov)
     {
      float radangle = (cube->player.angle + range) * (M_PI / 180);
@@ -224,6 +231,10 @@ void test_rota(t_cube *cube)
     // if (!is_wall(cube,rotated_x,rotated_y))
     // {
     liner(cube,rotated_x,rotated_y);
+
+    draw_wall(cube);
+    // mlx
+    // printf("")
         /* code */
     // }
     
@@ -236,3 +247,111 @@ void test_rota(t_cube *cube)
 
 
 // void rotate(t_cube *cube , )
+
+void draw_wall(t_cube * cube)
+{   
+    int i = 0;
+    int x = 0;
+    int y = 0;
+    float lenghty = 100/cube->player.disty;
+    float lenghtx = 100/cube->player.distx;
+    // printf("%f\n", cube->player.angle);
+    float Pro_dis = (WIDTH / 2 ) / tan(FOV*2/ 2 );
+    // cube.
+    float wallheight =fabsf((MINIBLOCK / cube->player.real_dis ) * Pro_dis); 
+    printf("wall %d, enhanced %f\n", MINIBLOCK, wallheight);
+    // printf("%f\n",wallheight);
+    // printf("%f %f \n",lenghtx , lenghty);
+    float lineH = HEIGHT ;
+
+    //       int drawStart = -wallheight / 2 + (HEIGHT/2) / 2;
+    //   if(drawStart < 0) drawStart = 0;
+    //   int drawEnd = wallheight / 2 + (HEIGHT/2) / 2;
+    //   if(drawEnd >= (HEIGHT/2)) drawEnd = (HEIGHT/2) - 1;
+    // printf("s = %d e = %d\n",drawStart,drawEnd);
+    while (i < cube->player.ray_number)
+    {
+        // printf("%f \n", lenght );
+        // mlx_put_pixel(cube->walls,HEIGHT/2*cube->player.distx,100,0x00FF00FF);
+        draw_rec(cube , i, (HEIGHT /4)-(wallheight/2) ,wallheight);
+        // draw_verline(cube,i,drawStart,drawEnd);
+        i++;
+        /* code */
+    }
+    
+    // while (/* condition */)
+    // {
+    //     /* code */
+    // }
+    
+}
+
+// void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey)
+// {
+//     int i =0;
+//     int disX = ex - sx ; //special dda
+//     int disY = ey - sx ;
+//     // printf("%d %d \n",disX,disY);
+//     int steps = 0;
+
+
+//     // steps = 
+//     if (abs(disX) > abs(disY))
+//     {
+//         steps = abs(disX);
+//         /* code */
+//     }
+//     else
+//         steps = abs(disY);
+    
+//     float Xinc = disX / (float)steps; 
+//     float Yinc = disY / (float)steps; 
+
+//     float X = sx; 
+//     float Y = sy; 
+//     // rotatePoint(&X, &Y, cube->player.x, cube->player.y, 66);
+//     while (steps > 0) {
+//         X += Xinc;
+//         Y += Yinc;
+        
+//         // Check if the next point (X, Y) is a wall
+    
+//             // cube->wallheight =
+//             // printf("%d , x = %f y = %f dist x= %d dist y= %d \n", steps , fabs(X-cube->player.x) , fabs(Y-cube->player.y) ,disX , disY);
+//         mlx_put_pixel(img, round(X), round(Y), 0x0000FFFF);
+//         steps--;
+//     }
+// }
+
+void draw_verline(t_cube * cube,int x , int ystart , int yend  )
+{
+    int i = 0;
+    int steps = (yend - ystart);
+    while (i < steps)
+    {
+        mlx_put_pixel(cube->walls,x , yend - steps , 0xFF0000FF );
+        i++;
+        /* code */
+    }
+    
+}
+void draw_rec(t_cube *cube , int id , int start , int height )
+{
+    int i = 0;
+    int j = 0;
+    int thickness = 32;
+    while (i < thickness)
+    {
+        /* code */
+    
+    
+    while (j < height)
+    {
+        /* code */
+        mlx_put_pixel(cube->walls,start+i*id,j+start,0xFFFFFFFF);
+        j++;
+    }
+    j =0;
+    i++;
+    }
+}

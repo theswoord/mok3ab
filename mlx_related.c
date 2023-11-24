@@ -60,7 +60,7 @@ void pressed(mlx_key_data_t keydata,void *par)
         // exit(0);
     mini_map_draw(cube);
 
-        cube->player.angle-= 10; // counter clockwise rota;
+        cube->player.angle-= 5; // counter clockwise rota;
         /* code */
     } 
        if (keydata.key ==ROTA_RIGHT)
@@ -76,6 +76,13 @@ void pressed(mlx_key_data_t keydata,void *par)
     // cube->angle = 33.0;
     // printf("%f\n", cube->player.angle);
     test_rota(cube);
+    // draw_rec(cube,10,10, 40);
+    // draw_rec(cube,50,10, 40);
+    // draw_rec(cube,90,10, 40);
+    // draw_rec(cube,130,10, 40);
+    // draw_rec(cube,170,10, 40);
+    // draw_rec(cube,210,10, 40);
+
     // mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y,0xFF0000FF);
     // is_wall(cube,cube->player.x, cube->player.y);
     // cast_v1(cube);
@@ -89,3 +96,21 @@ void pressed(mlx_key_data_t keydata,void *par)
     
 }
 
+void img_clear(mlx_image_t * img, int width, int height)
+{
+    int i = 0;
+    int j = 0;
+    while (j < height)
+    {
+        while (i < width)
+        {
+            /* code */
+            mlx_put_pixel(img,i,j,0x000000FF);
+            i++;
+        }
+        i=0;
+        j++;
+        /* code */
+    }
+    
+}
