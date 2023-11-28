@@ -11,7 +11,7 @@
 #define HEIGHT 1080 //tol
 #define MINIBLOCK 32 //square block
 #define MINISCALE 1
-#define SPEED 5
+#define SPEED 10
 #define FOV 33
 #define ROTSPEED 0.1f
 
@@ -138,7 +138,9 @@ void draw_verline(t_cube * cube,int x , int ystart , int yend  );
 void draw_rec(t_cube *cube , int id , int start , int height );
 void img_clear(mlx_image_t * img, int width, int height);
 void castingv2(t_cube *cube);
-void ddanalizer(mlx_image_t *img , t_cube *cube);
+void ddanalizer(mlx_image_t *img , t_cube *cube,int color);
+double normalizeAngle(double angle);
+void performRotation(t_cube *cube, int clockwise);
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 
 #endif

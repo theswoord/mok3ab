@@ -13,7 +13,8 @@ void pressed(mlx_key_data_t keydata,void *par)
     {
         if (!is_wall(cube,cube->player.x, cube->player.y-SPEED))
         {
-        cube->player.y-=SPEED;
+        cube->player.y+=cube->win.dirY*SPEED;
+        cube->player.x+=cube->win.dirX*SPEED;
     mini_map_draw(cube);
             // ddanalizer(cube->mini_map,cube);
 
@@ -38,7 +39,9 @@ void pressed(mlx_key_data_t keydata,void *par)
     {
                  if (!is_wall(cube,cube->player.x, cube->player.y+SPEED))
         {
-        cube->player.y+=SPEED;
+                    cube->player.y-=cube->win.dirY*SPEED;
+        cube->player.x-=cube->win.dirX*SPEED;
+        // cube->player.y+=SPEED;
     mini_map_draw(cube);
             // ddanalizer(cube->mini_map,cube);
 
@@ -67,25 +70,28 @@ void pressed(mlx_key_data_t keydata,void *par)
     {
         // exit(0);
     // mini_map_draw(cube);
-    double oldDirX = cube->win.dirX;
-      cube->win.dirX = cube->win.dirX * cos(-ROTSPEED) - cube->win.dirY * sin(-ROTSPEED);
-      cube->win.dirY = oldDirX * sin(-ROTSPEED) + cube->win.dirY * cos(-ROTSPEED);
+           double oldDirX = cube->win.dirX;
+      cube->win.dirX = cube->win.dirX * cos(ROTSPEED) - cube->win.dirY * sin(ROTSPEED);
+      cube->win.dirY = oldDirX * sin(ROTSPEED) + cube->win.dirY * cos(ROTSPEED);
       double oldPlaneX = cube->win.planeX;
-      cube->win.planeX = cube->win.planeX * cos(-ROTSPEED) - cube->win.planeY * sin(-ROTSPEED);
-      cube->win.planeY = oldPlaneX * sin(-ROTSPEED) + cube->win.planeY * cos(-ROTSPEED);
-        // cube->player.angle-= 5; // counter clockwise rota;
+      cube->win.planeX = cube->win.planeX * cos(ROTSPEED) - cube->win.planeY * sin(ROTSPEED);
+      cube->win.planeY = oldPlaneX * sin(ROTSPEED) + cube->win.planeY * cos(ROTSPEED);
+    // performRotation(cube,0);
     mini_map_draw(cube);
         /* code */
     } 
        if (keydata.key ==ROTA_RIGHT)
     {
 
-        double oldDirX = cube->win.dirX;
-      cube->win.dirX = cube->win.dirX * cos(ROTSPEED) - cube->win.dirY * sin(ROTSPEED);
-      cube->win.dirY = oldDirX * sin(ROTSPEED) + cube->win.dirY * cos(ROTSPEED);
+ double oldDirX = cube->win.dirX;
+      cube->win.dirX = cube->win.dirX * cos(-ROTSPEED) - cube->win.dirY * sin(-ROTSPEED);
+      cube->win.dirY = oldDirX * sin(-ROTSPEED) + cube->win.dirY * cos(-ROTSPEED);
       double oldPlaneX = cube->win.planeX;
-      cube->win.planeX = cube->win.planeX * cos(ROTSPEED) - cube->win.planeY * sin(ROTSPEED);
-      cube->win.planeY = oldPlaneX * sin(ROTSPEED) + cube->win.planeY * cos(ROTSPEED);
+      cube->win.planeX = cube->win.planeX * cos(-ROTSPEED) - cube->win.planeY * sin(-ROTSPEED);
+      cube->win.planeY = oldPlaneX * sin(-ROTSPEED) + cube->win.planeY * cos(-ROTSPEED);
+        // cube->player.angle-= 5; // counter clockwise rota;
+    // performRotation(cube,1);
+
     mini_map_draw(cube);
             //    cube->player.angle+= 5;
 
@@ -109,7 +115,7 @@ void pressed(mlx_key_data_t keydata,void *par)
 
     draw_player(cube,0);
     // test_rota(cube);
-    img_clear(cube->mini_map,WIDTH,HEIGHT);
+    img_clear(cube->window->img,WIDTH,HEIGHT);
     castingv2(cube);
     // liner(cube,848,368);
     // mini_map_draw(cube);

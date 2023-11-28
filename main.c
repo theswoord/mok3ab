@@ -276,8 +276,8 @@ void castingv2(t_cube *cube)
     int stepY;
       int side; //was a NS or a EW wall hit?
       double perpWallDist;
-    cube->win.planeX = 1.0;
-    cube->win.planeY = 1.0;
+    cube->win.planeX = 0;
+    cube->win.planeY = 0.66;
     while (x <= WIDTH)
     {
         cube->win.cameraX = 2 * x / (double)(WIDTH) - 1;
@@ -342,13 +342,14 @@ void castingv2(t_cube *cube)
           cube->win.posinmapY += stepY;
           side = 1;
         }
+        // printf("%f %f , st")
         // printf("%f %d %f %d\n",cube->win.sideDistX,cube->win.posinmapX ,cube->win.sideDistY ,cube->win.posinmapY);
         //Check if ray has hit a wall
         // printf("%d %d %c \n", cube->win.posinmapY, cube->win.posinmapX ,cube->map[cube->win.posinmapY][cube->win.posinmapX]);
-            // cube->dda.startx = cube->player.x;
-            // cube->dda.starty = cube->player.y;
-            // cube->dda.endx = ((cube->win.posinmapX*32.0)+32*(1-stepX)/2);
-            // cube->dda.endy = ((cube->win.posinmapY*32.0)+32*(1-stepY)/2);
+            cube->dda.startx = cube->player.x;
+            cube->dda.starty = cube->player.y;
+            cube->dda.endx = ((cube->win.posinmapX*32.0)+32*(1-stepX)/2);
+            cube->dda.endy = ((cube->win.posinmapY*32.0)+32*(1-stepY)/2);
             // printf("end %f %f\n",cube->dda.endx,cube->dda.endy );
             // printf("%d")
             // printf("%d\n", x);
@@ -358,30 +359,32 @@ void castingv2(t_cube *cube)
         {
             // ddanalizer(cube->mini_map,cube);
             // cube->dda.startx =
-            // ddanalizer(cube->mini_map,cube);
+            ddanalizer(cube->mini_map,cube, 0xFF0000FF);
             // printf("kk\n");
              hit = 1; // an7bs 7d hnaya
 
         }
       }
-            if(side == 0)
-             perpWallDist = (cube->win.sideDistX - cube->win.deltaDistX);
-      else
-      perpWallDist = (cube->win.sideDistY - cube->win.deltaDistY);
+        if(side == 0)
+        perpWallDist = (cube->win.sideDistX - cube->win.deltaDistX);
+        else
+        perpWallDist = (cube->win.sideDistY - cube->win.deltaDistY);
 
       //Calculate height of line to draw on screen
       int lineHeight = (int)(HEIGHT / perpWallDist);
-
       //calculate lowest and highest pixel to fill in current stripe
       int drawStart = -lineHeight / 2 + HEIGHT / 2;
       if(drawStart < 0) drawStart = 0;
       int drawEnd = lineHeight / 2 + HEIGHT / 2;
       if(drawEnd >= HEIGHT) drawEnd = HEIGHT - 1;
+
+      int color = 0x0000FFFF;
             cube->dda.startx = x;
             cube->dda.starty =drawStart;
             cube->dda.endx = x;
             cube->dda.endy = drawEnd;
-            ddanalizer(cube->mini_map,cube);
+            if(side == 1) {color = 0x0FF000FF;}
+            ddanalizer(cube->window->img,cube, color);
         
         x++;
     }

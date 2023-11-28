@@ -70,7 +70,7 @@ char* copy_and_fill(char *str, int count , char c)
     return new;
 }
 
-void ddanalizer(mlx_image_t *img , t_cube *cube)
+void ddanalizer(mlx_image_t *img , t_cube *cube, int color)
 {   
     // if (cube->dda.)
     // {
@@ -104,7 +104,33 @@ void ddanalizer(mlx_image_t *img , t_cube *cube)
     while (steps > 0) {
         X += Xinc;
         Y += Yinc;
-        mlx_put_pixel(img, round(X), round(Y), 0x0000FFFF);
+        mlx_put_pixel(img, round(X), round(Y), color);
         steps--;
     }
+}
+double normalizeAngle(double angle) {
+    while (angle < 0) {
+        angle += M_2_PI; // Add 2π until the angle is non-negative
+    }
+    while (angle >= M_2_PI) {
+        angle -= M_2_PI; // Subtract 2π until the angle is within the desired range
+    }
+    return angle;
+}
+void performRotation(t_cube *cube, int clockwise) {
+    double rotation = clockwise ? ROTSPEED : -ROTSPEED; // Determine clockwise or counterclockwise rotation
+
+    // double oldDirX = cube->win.dirX;
+    // cube->win.dirX = cube->win.dirX * cos(rotation) - cube->win.dirY * sin(rotation);
+    // cube->win.dirY = oldDirX * sin(rotation) + cube->win.dirY * cos(rotation);
+
+    double oldPlaneX = cube->win.planeX;
+    cube->win.planeX = cube->win.planeX * cos(rotation) - cube->win.planeY * sin(rotation);
+    cube->win.planeY = oldPlaneX * sin(rotation) + cube->win.planeY * cos(rotation);
+
+    // Normalize angles after rotation
+    // cube->win.dirX = normalizeAngle(cube->win.dirX);
+    // cube->win.dirY = normalizeAngle(cube->win.dirY);
+    cube->win.planeX = normalizeAngle(cube->win.planeX);
+    cube->win.planeY = normalizeAngle(cube->win.planeY);
 }
