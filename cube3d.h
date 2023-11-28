@@ -13,6 +13,8 @@
 #define MINISCALE 1
 #define SPEED 5
 #define FOV 33
+#define ROTSPEED 0.1f
+
 enum
 {
     W= 87,
@@ -52,8 +54,7 @@ typedef struct s_player
 {
     int x;
     int y;
-    float dirx;
-    float diry;
+
     float angle; 
     float distx;
     float disty;
@@ -64,13 +65,31 @@ typedef struct s_player
 
 typedef struct s_lines
 {
-    int startx;
-    int starty;
-    int endx;
-    int endy;
+    double startx;
+    double starty;
+    double endx;
+    double endy;
 
 
 }t_lines;
+
+typedef struct s_lodev
+{
+double dirX; // first direction fach kaychof ila kan N(X=0,Y=-1)S(X=0,Y=+1)E(X=+1,Y=0)W(X=-1,Y=0)
+double dirY;
+double planeX;
+double planeY;
+double RaydirecX;
+double RaydirecY;
+int posinmapX;
+int posinmapY;
+double sideDistX;
+double sideDistY;
+double deltaDistX;
+double deltaDistY;
+      //double cameraX = 2 * x / double(w) - 1; //x-coordinate in camera space
+      double cameraX; // x being 0 to WIDTH;
+}t_lodev;
 
 typedef struct s_cube
 {
@@ -78,6 +97,8 @@ typedef struct s_cube
     
     // s_mlx mlxstruct;
     // mlx_image_t *anim[2]; // troll
+    t_lodev win;
+    t_lines dda;
     int wallheight;
     mlx_image_t *walls;
     t_player player;
@@ -116,7 +137,8 @@ void draw_wall(t_cube * cube);
 void draw_verline(t_cube * cube,int x , int ystart , int yend  );
 void draw_rec(t_cube *cube , int id , int start , int height );
 void img_clear(mlx_image_t * img, int width, int height);
-
+void castingv2(t_cube *cube);
+void ddanalizer(mlx_image_t *img , t_cube *cube);
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 
 #endif

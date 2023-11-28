@@ -69,3 +69,42 @@ char* copy_and_fill(char *str, int count , char c)
     // free(str);
     return new;
 }
+
+void ddanalizer(mlx_image_t *img , t_cube *cube)
+{   
+    // if (cube->dda.)
+    // {
+    //     /* code */
+    // }
+    
+
+    float disX = cube->dda.endx - cube->dda.startx ; 
+    float disY = cube->dda.endy - cube->dda.starty;
+    int steps = 0;
+
+    if (fabs(disX) > fabs(disY))
+    {
+        steps = fabs(disX);
+        /* code */
+    }
+    else
+        steps = fabs(disY);
+    
+    float Xinc = disX / (float)steps; 
+    float Yinc = disY / (float)steps; 
+
+    float X = cube->dda.startx; 
+    float Y = cube->dda.starty; 
+    if (X > WIDTH || Y > HEIGHT)
+    {
+        return;
+        /* code */
+    }
+    
+    while (steps > 0) {
+        X += Xinc;
+        Y += Yinc;
+        mlx_put_pixel(img, round(X), round(Y), 0x0000FFFF);
+        steps--;
+    }
+}

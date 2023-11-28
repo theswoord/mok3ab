@@ -204,19 +204,23 @@ void cast_v1(t_cube *cube)
     }
     
 }
+void cast_v2(t_cube * cube) // v2 is the improved version 7it to check if it's a wall in every pixel ain't the best thing to do
+{
+
+}
 
 void test_rota(t_cube *cube)
 {
     float fov = FOV;
-    int range = !fov;
+    float range = !fov;
    float startx=cube->player.x;
    float starty=cube->player.y;
     float end_x = startx;
-    float end_y = starty-10000; // had end ila l9it knadir liha b cast i win 
+    float end_y = starty-100000; // had end ila l9it knadir liha b cast i win 
     cube->player.ray_number = FOV*2;
 //  int angle = 0;
     // float angle = 33.0f;
-    img_clear(cube->walls, WIDTH ,HEIGHT/2);
+    // img_clear(cube->walls, WIDTH ,HEIGHT/2);
 
     while (range <= fov)
     {
@@ -227,18 +231,21 @@ void test_rota(t_cube *cube)
      float disty = end_y - starty;
     float rotated_x = startx + (distx * cos(radangle) - disty * sin(radangle));
     float rotated_y = starty + (distx * sin(radangle) + disty * cos(radangle));
+    // cube->dda.endx = rotated_x ;
+    // cube->dda.endy = rotated_y ;
+
     // printf("sx %f sy %f disx %f disy %f rotatedx %f rotatedy %f \n",startx,starty,distx,disty, rotated_x, rotated_y);
     // if (!is_wall(cube,rotated_x,rotated_y))
     // {
     liner(cube,rotated_x,rotated_y);
 
-    draw_wall(cube);
+    // draw_wall(cube);
     // mlx
     // printf("")
         /* code */
     // }
     
-    range++;
+    range+=1;
         /* code */
     }
     
@@ -259,7 +266,7 @@ void draw_wall(t_cube * cube)
     float Pro_dis = (WIDTH / 2 ) / tan(FOV*2/ 2 );
     // cube.
     float wallheight =fabsf((MINIBLOCK / cube->player.real_dis ) * Pro_dis); 
-    printf("wall %d, enhanced %f\n", MINIBLOCK, wallheight);
+    // printf("wall %d, enhanced %f\n", MINIBLOCK, wallheight);
     // printf("%f\n",wallheight);
     // printf("%f %f \n",lenghtx , lenghty);
     float lineH = HEIGHT ;
@@ -269,16 +276,19 @@ void draw_wall(t_cube * cube)
     //   int drawEnd = wallheight / 2 + (HEIGHT/2) / 2;
     //   if(drawEnd >= (HEIGHT/2)) drawEnd = (HEIGHT/2) - 1;
     // printf("s = %d e = %d\n",drawStart,drawEnd);
+    //000000000000000000
+
     while (i < cube->player.ray_number)
     {
-        // printf("%f \n", lenght );
+
+        printf("%d \n", i );
         // mlx_put_pixel(cube->walls,HEIGHT/2*cube->player.distx,100,0x00FF00FF);
         draw_rec(cube , i, (HEIGHT /4)-(wallheight/2) ,wallheight);
         // draw_verline(cube,i,drawStart,drawEnd);
         i++;
         /* code */
     }
-    
+    //000000000000000000
     // while (/* condition */)
     // {
     //     /* code */

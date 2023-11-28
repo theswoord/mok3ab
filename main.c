@@ -254,12 +254,135 @@ int main(int ac, char **av)
     // printf("ZABY\n");
     draw_background(cube.window->img, &cube); // made the imgptr
     mini_map_draw(&cube);
+    printf("fff%f %f\n",cube.win.dirX,cube.win.dirY);
+    // castingv2(&cube);
     // cast_v1(&cube);
     // animation_init(&cube); // memes
     // mlx_loop_hook(cube.window->mlx,animations_draw,&cube);
     // mlx_loop_hook(cube.window->mlx,pressed,&cube);
+    // cube.win.planeX = 0;
+    // cube.win.planeY = 0.66f;
+
     mlx_key_hook(cube.window->mlx,&pressed,&cube);
     mlx_loop(cube.window->mlx);
     mlx_terminate(cube.window->mlx);
     return 0;
+}
+
+void castingv2(t_cube *cube)
+{
+    int x = 0;
+    int stepX;
+    int stepY;
+      int side; //was a NS or a EW wall hit?
+      double perpWallDist;
+    cube->win.planeX = 1.0;
+    cube->win.planeY = 1.0;
+    while (x <= WIDTH)
+    {
+        cube->win.cameraX = 2 * x / (double)(WIDTH) - 1;
+        
+        cube->win.RaydirecX = cube->win.dirX + cube->win.planeX * cube->win.cameraX;
+        cube->win.RaydirecY = cube->win.dirY + cube->win.planeY * cube->win.cameraX;
+        cube->win.posinmapX = (int)cube->player.x/MINIBLOCK;
+        cube->win.posinmapY = (int)cube->player.y/MINIBLOCK;
+        // pr
+    if (cube->win.RaydirecX == 0 )
+    {
+        cube->win.deltaDistX = INFINITY;
+        /* code */
+    }
+    else
+        cube->win.deltaDistX = sqrt(1.0+ (cube->win.RaydirecY * cube->win.RaydirecY) / (cube->win.RaydirecX * cube->win.RaydirecX));
+    
+        if (cube->win.RaydirecY == 0 )
+    {
+        cube->win.deltaDistY = INFINITY;
+        /* code */
+    }
+    else
+        cube->win.deltaDistY = sqrt(1.0+ (cube->win.RaydirecX * cube->win.RaydirecX) / (cube->win.RaydirecY * cube->win.RaydirecY));
+    
+        // printf("ray x%f ray Y %f elx %f del y%f\n", cube->win.RaydirecX,cube->win.RaydirecY,cube->win.deltaDistX, cube->win.deltaDistY);
+    if(cube->win.RaydirecX < 0)
+      {
+        stepX = -1;
+        cube->win.sideDistX = (cube->player.x/MINIBLOCK - cube->win.posinmapX) * cube->win.deltaDistX;
+      }
+      else
+      {
+        stepX = 1;
+        cube->win.sideDistX = (cube->player.x/MINIBLOCK + 1.0 - cube->win.posinmapX) * cube->win.deltaDistX;
+      }
+      if(cube->win.RaydirecY < 0)
+      {
+        stepY = -1;
+        cube->win.sideDistY = (cube->player.y/MINIBLOCK - cube->win.posinmapY) * cube->win.deltaDistY;
+      }
+      else
+      {
+        stepY = 1;
+        cube->win.sideDistY = (cube->player.y/MINIBLOCK + 1.0 - cube->win.posinmapY) * cube->win.deltaDistY;
+
+      }
+      int hit = 0 ;
+    //   printf("%f\n",cube->win.cameraX);
+      while(hit == 0 )
+      {
+        //jump to next map square, either in x-direction, or in y-direction
+        if(cube->win.sideDistX < cube->win.sideDistY)
+        {
+          cube->win.sideDistX += cube->win.deltaDistX;
+          cube->win.posinmapX += stepX;
+          side = 0;
+        }
+        else
+        {
+          cube->win.sideDistY += cube->win.deltaDistY;
+          cube->win.posinmapY += stepY;
+          side = 1;
+        }
+        // printf("%f %d %f %d\n",cube->win.sideDistX,cube->win.posinmapX ,cube->win.sideDistY ,cube->win.posinmapY);
+        //Check if ray has hit a wall
+        // printf("%d %d %c \n", cube->win.posinmapY, cube->win.posinmapX ,cube->map[cube->win.posinmapY][cube->win.posinmapX]);
+            // cube->dda.startx = cube->player.x;
+            // cube->dda.starty = cube->player.y;
+            // cube->dda.endx = ((cube->win.posinmapX*32.0)+32*(1-stepX)/2);
+            // cube->dda.endy = ((cube->win.posinmapY*32.0)+32*(1-stepY)/2);
+            // printf("end %f %f\n",cube->dda.endx,cube->dda.endy );
+            // printf("%d")
+            // printf("%d\n", x);
+            // printf("sdX %f sdY %f posX %d posY %d \n", cube->win.sideDistX , cube->win.sideDistY,cube->win.posinmapX*32,cube->win.posinmapY*32 );
+            // printf("sx %d sy %d ex %d ey %d \n", cube->dda.startx,cube->dda.starty,cube->dda.endx,cube->dda.endy);
+        if(cube->map[cube->win.posinmapY][cube->win.posinmapX] == '1')
+        {
+            // ddanalizer(cube->mini_map,cube);
+            // cube->dda.startx =
+            // ddanalizer(cube->mini_map,cube);
+            // printf("kk\n");
+             hit = 1; // an7bs 7d hnaya
+
+        }
+      }
+            if(side == 0)
+             perpWallDist = (cube->win.sideDistX - cube->win.deltaDistX);
+      else
+      perpWallDist = (cube->win.sideDistY - cube->win.deltaDistY);
+
+      //Calculate height of line to draw on screen
+      int lineHeight = (int)(HEIGHT / perpWallDist);
+
+      //calculate lowest and highest pixel to fill in current stripe
+      int drawStart = -lineHeight / 2 + HEIGHT / 2;
+      if(drawStart < 0) drawStart = 0;
+      int drawEnd = lineHeight / 2 + HEIGHT / 2;
+      if(drawEnd >= HEIGHT) drawEnd = HEIGHT - 1;
+            cube->dda.startx = x;
+            cube->dda.starty =drawStart;
+            cube->dda.endx = x;
+            cube->dda.endy = drawEnd;
+            ddanalizer(cube->mini_map,cube);
+        
+        x++;
+    }
 }
