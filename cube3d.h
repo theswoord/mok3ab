@@ -57,6 +57,11 @@ typedef struct s_colors
     /* data */
     int F[3];
     int C[3];
+    unsigned long *NO;
+    unsigned long *SO;
+    unsigned long *WE;
+    unsigned long *EA;
+
 }t_colors ;
 
 typedef struct s_map
@@ -79,11 +84,11 @@ typedef struct s_player
 
 typedef struct s_lines
 {
+    unsigned long color;
     double startx;
     double starty;
     double endx;
     double endy;
-
 
 }t_lines;
 
@@ -158,7 +163,8 @@ double normalizeAngle(double angle);
 void performRotation(t_cube *cube, int clockwise);
 void parse_textures(t_cube *cube);
 void draw_background(mlx_image_t *img, t_cube *cube);
-
+unsigned long *extract_color(mlx_texture_t *texture);
+void texture_set(t_cube *cube); // you need to free
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 
 #endif

@@ -35,15 +35,45 @@
 //     }
 //     return NULL;
 // }
+void texture_set(t_cube *cube)
+{
+    cube->colors.EA = extract_color(cube->drawings.EA);
+    cube->colors.SO = extract_color(cube->drawings.SO);
+    cube->colors.NO = extract_color(cube->drawings.NO);
+    cube->colors.WE = extract_color(cube->drawings.WE);
 
+
+};
+
+unsigned long *extract_color(mlx_texture_t *texture)
+{
+   int i = 0 ;
+    int j = 0;
+    int total = texture->height*texture->width*texture->bytes_per_pixel;
+    unsigned long *tmp  = malloc((texture->height*texture->width)*sizeof(unsigned long));
+    while (i < total)
+    {   
+        // j++;
+        // if (/* condition */)
+        // {
+        //     /* code */
+        // }
+                
+        tmp[i] = (texture->pixels[j]<< 24) | (texture->pixels[j+1] << 16) | (texture->pixels[j+2] << 8) | (texture->pixels[j+3]);
+        j+= texture->bytes_per_pixel;
+        i++;
+    }
+    mlx_delete_texture(texture);
+    return(tmp);
+}
 
 void init_mlx(t_cube *cube)
 {
     cube->window->mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
+    printf("hh\n");
     cube->window->img = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);
     cube->mini_map = mlx_new_image(cube->window->mlx,WIDTH,HEIGHT);
     cube->walls = mlx_new_image(cube->window->mlx,WIDTH,HEIGHT/2); // this is temporary
-
         mlx_image_to_window(cube->window->mlx, cube->window->img, 0, 0); // put img ptr on the window
     // mlx_image_to_window(cube->window->mlx, cube->mini_map,50,50);
     mlx_image_to_window(cube->window->mlx, cube->mini_map,0,0);
@@ -229,57 +259,34 @@ void read_map(int fd, t_cube *cube)
 
 int main(int ac, char **av)
 {
-    t_cube cube;
-    // mlx_t *mlx;
-    // mlx_image_t *img;
-
+    t_cube *cube = (t_cube*)malloc(sizeof(t_cube));
+    ft_memset(cube,0,sizeof(t_cube));
+    cube->window = malloc(sizeof(t_win));
     int fd = open(av[1], O_RDONLY);
-    read_map(fd,   &cube );
-    // printf("%s\n", cube.background[0]);
-    // print_tableau(cube.textures);
-    // printf("---------------------\n");
-    // print_tableau(cube.map);
-    // printf("---------------------\n");
-    print_tableau(cube.textures);
-    parse(&cube);
-    parse_textures(&cube);
-    init_mlx(&cube);
-    
-    fill_map(&cube);
-    // printf("%s\n",cube.map[2]);
+    read_map(fd,   cube );
+    print_tableau(cube->textures);
+    parse(cube);
+    parse_textures(cube);
+    texture_set(cube);
 
-    // print_tableau(cube.map);
+
+    init_mlx(cube);
+    
+    fill_map(cube);
     // mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
     // img = mlx_new_image(mlx, WIDTH, HEIGHT);
     // printf("ZABY\n");
-    draw_background(cube.window->img, &cube); // made the imgptr
-    mini_map_draw(&cube);
-    // printf("fff\n");
-    // printf("fff%f %f\n",cube.win.dirX,cube.win.dirY);
-    // castingv2(&cube);
-    // cast_v1(&cube);
+    draw_background(cube->window->img, cube); // made the imgptr
+    mini_map_draw(cube);
     // animation_init(&cube); // memes
     // mlx_loop_hook(cube.window->mlx,animations_draw,&cube);
     // mlx_loop_hook(cube.window->mlx,pressed,&cube);
-    // cube.win.planeX = 0;
-    // cube.win.planeY = 0.66f;
-    //       mlx_texture_t *hh;
-    //   hh =  cube.drawings.EA;
-    // //   hh.
-    //   for (size_t i = 0; hh->pixels[i]; i++)
-    //   {
-    // //   printf("%d\n",hh->pixels[i]);
-    //     /* code */
-    //   }
-    cube.win.planeX = 0;
-    cube.win.planeY = 0.86;
-    mlx_key_hook(cube.window->mlx,&pressed,&cube);
-    mlx_loop(cube.window->mlx);
-    mlx_terminate(cube.window->mlx);
-    // while (1)
-    // {
-    //     /* code */
-    // }
+    
+    cube->win.planeX = 0;
+    cube->win.planeY = 0.86;
+    mlx_key_hook(cube->window->mlx,&pressed,cube);
+    mlx_loop(cube->window->mlx);
+    mlx_terminate(cube->window->mlx);
     return 0;
 }
 
@@ -408,13 +415,22 @@ void castingv2(t_cube *cube)
     
       
         // printf("%f\n", wallX*32);
-      int color = 0x0000FFFF;
+
+    //   unsigned long color = cube->colors.NO[k];
+    int k = 0;
+    int l = 0;
+    
+    cube->dda.color = cube->colors.WE[x];
+
+
             cube->dda.startx = x;
             cube->dda.starty =drawStart;
             cube->dda.endx = x;
             cube->dda.endy = drawEnd;
-            if(side == 1) {color = 0x0FF000FF;}
-            ddanalizer(cube->window->img,cube, color);
+            if(side == 1) {cube->dda.color = cube->colors.NO[x];}
+    
+            ddanalizer(cube->window->img,cube, cube->dda.color);
+            // mlx_put_pixel()
         
         x++;
     }
