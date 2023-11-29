@@ -98,6 +98,36 @@ void pressed(mlx_key_data_t keydata,void *par)
 
         /* code */
     }
+    if (keydata.key ==265)
+    {
+    cube->win.planeY +=0.05 ;
+    // mlx_put_string(cube->window->mlx,ft_itoa(cube->win.planeY),1500,800);
+    printf("plane y =%f\n",cube->win.planeY);
+        // cube->player.angle-= 5; // counter clockwise rota;
+    // performRotation(cube,1);
+
+    // mini_map_draw(cube);
+            //    cube->player.angle+= 5;
+
+
+        /* code */
+    }
+     if (keydata.key ==264)
+    {
+    cube->win.planeY -=0.05 ;
+    printf("plane y =%f\n",cube->win.planeY);
+
+    // mlx_put_string(cube->window->mlx,ft_itoa(cube->win.planeY),1500,800);
+
+        // cube->player.angle-= 5; // counter clockwise rota;
+    // performRotation(cube,1);
+
+    // mini_map_draw(cube);
+            //    cube->player.angle+= 5;
+
+
+        /* code */
+    }
     // mini_map_draw(&cube);
     // cube->angle = 33.0;
     // printf("%f\n", cube->player.angle);

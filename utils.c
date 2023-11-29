@@ -66,7 +66,7 @@ char* copy_and_fill(char *str, int count , char c)
     }
     // printf("%p %p\n",new, str);
     
-    // free(str);
+    free(str);
     return new;
 }
 

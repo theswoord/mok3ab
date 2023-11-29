@@ -30,7 +30,21 @@ enum
     ROTA_LEFT = 263,
     ROTA_RIGHT = 262,
 
+    NO=8,
+    SO=2,
+    WE=4,
+    EA=6,
 };
+
+typedef struct s_textures
+{
+    mlx_texture_t *NO;
+    mlx_texture_t *SO;
+    mlx_texture_t *WE;
+    mlx_texture_t *EA;
+
+}t_textures;
+
 typedef struct s_win
 {
     mlx_t *mlx;
@@ -97,6 +111,7 @@ typedef struct s_cube
     
     // s_mlx mlxstruct;
     // mlx_image_t *anim[2]; // troll
+    t_textures drawings;
     t_lodev win;
     t_lines dda;
     int wallheight;
@@ -141,6 +156,9 @@ void castingv2(t_cube *cube);
 void ddanalizer(mlx_image_t *img , t_cube *cube,int color);
 double normalizeAngle(double angle);
 void performRotation(t_cube *cube, int clockwise);
+void parse_textures(t_cube *cube);
+void draw_background(mlx_image_t *img, t_cube *cube);
+
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 
 #endif

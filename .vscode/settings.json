@@ -1,6 +1,14 @@
 {
     "cmake.configureOnOpen": false,
     "files.associations": {
-        "string": "cpp"
+        "string": "cpp",
+        "__bit_reference": "c",
+        "algorithm": "c",
+        "bitset": "c",
+        "chrono": "c",
+        "map": "c",
+        "set": "c",
+        "unordered_map": "c",
+        "unordered_set": "c"
     }
 }
