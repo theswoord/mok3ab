@@ -12,22 +12,20 @@ void pressed(void *par)
 
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_W))
     {
-        // if (!is_wall(cube, cube->player.x, cube->player.y - SPEED))
-        // {
+            // int minix = 1 - 2* signbit(cube->win.dirX);
+            // int miniy = 1 - 2* signbit(cube->win.dirY);
+            // if(cube->win.dirY >= 1)
+            // else 
+            // cube->player.y += miniy;
+            // if(cube->win.dirX >= 1)
+            // cube->player.x += cube->win.dirX * SPEED;
+            // else 
+            // cube->player.x += minix;
+
             cube->player.y += cube->win.dirY * SPEED;
             cube->player.x += cube->win.dirX * SPEED;
-        //     // cube->player.y = sin(cube->win.dirY)*SPEED;
-        //     // cube->player.x = sin(cube->win.dirX)*SPEED;
 
             mini_map_draw(cube);
-        //     // ddanalizer(cube->mini_map,cube);
-
-        //     /* code */
-        // }
-        
-    //     if(cube->map[(int)(cube->player.y + cube->win.dirY * SPEED)][cube->player.x] == '0')  cube->player.x += cube->win.dirX * SPEED;
-    //   if(cube->map[cube->player.y][(int)(cube->player.x + cube->win.dirX * SPEED)] == '0') cube->player.y += cube->win.dirY * SPEED;
-        /* code */
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_A))
     {
@@ -41,16 +39,12 @@ void pressed(void *par)
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_S))
     {
-        // if (!is_wall(cube, cube->player.x, cube->player.y + SPEED))
-        // {
-            cube->player.y -= cube->win.dirY * SPEED;
             cube->player.x -= cube->win.dirX * SPEED;
-            // cube->player.y+=SPEED;
+            cube->player.y -= cube->win.dirY * SPEED;
+            printf("%f \n", cube->win.dirY * SPEED);
             mini_map_draw(cube);
-            // ddanalizer(cube->mini_map,cube);
-        // }
-        /* code */
     }
+    
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_D))
     {
         if (!is_wall(cube, cube->player.x + SPEED, cube->player.y))
@@ -68,7 +62,7 @@ void pressed(void *par)
 
         /* code */
     }
-    if (mlx_is_key_down(cube->window->mlx, MLX_KEY_LEFT))
+    if (mlx_is_key_down(cube->window->mlx, MLX_KEY_RIGHT))
     {
         // exit(0);
         // mini_map_draw(cube);
@@ -82,7 +76,7 @@ void pressed(void *par)
         mini_map_draw(cube);
         /* code */
     }
-    if (mlx_is_key_down(cube->window->mlx, MLX_KEY_RIGHT))
+    if (mlx_is_key_down(cube->window->mlx, MLX_KEY_LEFT))
     {
 
         double oldDirX = cube->win.dirX;
@@ -108,36 +102,36 @@ void pressed(void *par)
 
         /* code */
     }
-    // if (mlx_is_key_down(cube->window->mlx, MLX_KEY_UP))
-    // {
-    // cube->win.planeY +=0.05 ;
-    // // mlx_put_string(cube->window->mlx,ft_itoa(cube->win.planeY),1500,800);
-    // printf("plane y =%f\n",cube->win.planeY);
-    //     // cube->player.angle-= 5; // counter clockwise rota;
-    // // performRotation(cube,1);
+    if (mlx_is_key_down(cube->window->mlx, MLX_KEY_UP))
+    {
+    cube->win.planeY +=0.05 ;
+    // mlx_put_string(cube->window->mlx,ft_itoa(cube->win.planeY),1500,800);
+    printf("plane y =%f\n",cube->win.planeY);
+        // cube->player.angle-= 5; // counter clockwise rota;
+    // performRotation(cube,1);
 
-    // // mini_map_draw(cube);
-    //         //    cube->player.angle+= 5;
-
-
-    //     /* code */
-    // }
-    //  if (mlx_is_key_down(cube->window->mlx, MLX_KEY_DOWN))
-    // {
-    // cube->win.planeY -=0.05 ;
-    // printf("plane y =%f\n",cube->win.planeY);
-
-    // // mlx_put_string(cube->window->mlx,ft_itoa(cube->win.planeY),1500,800);
-
-    //     // cube->player.angle-= 5; // counter clockwise rota;
-    // // performRotation(cube,1);
-
-    // // mini_map_draw(cube);
-    //         //    cube->player.angle+= 5;
+    // mini_map_draw(cube);
+            //    cube->player.angle+= 5;
 
 
-    //     /* code */
-    // }
+        /* code */
+    }
+     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_DOWN))
+    {
+    cube->win.planeY -=0.05 ;
+    printf("plane y =%f\n",cube->win.planeY);
+
+    // mlx_put_string(cube->window->mlx,ft_itoa(cube->win.planeY),1500,800);
+
+        // cube->player.angle-= 5; // counter clockwise rota;
+    // performRotation(cube,1);
+
+    // mini_map_draw(cube);
+            //    cube->player.angle+= 5;
+
+
+        /* code */
+    }
     // mini_map_draw(&cube);
     // cube->angle = 33.0;
     // printf("%f\n", cube->player.angle);

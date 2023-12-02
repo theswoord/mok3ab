@@ -251,7 +251,7 @@ void read_map(int fd, t_cube *cube)
 int main(int ac, char **av)
 {
     t_cube *cube = (t_cube *)malloc(sizeof(t_cube));
-    ft_memset(cube, 0.0, sizeof(t_cube));
+    ft_memset(cube, 0, sizeof(t_cube));
     cube->window = malloc(sizeof(t_win));
     int fd = open(av[1], O_RDONLY);
     read_map(fd, cube);
@@ -272,9 +272,9 @@ int main(int ac, char **av)
     // mlx_loop_hook(cube.window->mlx,animations_draw,&cube);
     // mlx_loop_hook(cube.window->mlx,pressed,&cube);
 
-    cube->win.planeX = 0;
-    cube->win.planeY = 0.86;
-    castingv2(cube);
+    // cube->win.planeX = 0.66;
+    // cube->win.planeY = 0.0;
+    // castingv2(cube);
 
     mlx_loop_hook(cube->window->mlx, &pressed, cube);
     // mlx_key_hook(cube->window->mlx,&pressed,cube);
@@ -292,31 +292,22 @@ void castingv2(t_cube *cube)
     double perpWallDist;
 
     // printf("%f\n", atan((cube->win.planeY/1.0)*(M_PI/180)));
-    while (x <= WIDTH)
+    while (x < WIDTH)
     {
-        cube->win.cameraX = 2 * x / (double)(WIDTH)-1;
+        cube->win.cameraX = 2.0 * x / (double)(WIDTH)-1;
 
         cube->win.RaydirecX = cube->win.dirX + cube->win.planeX * cube->win.cameraX;
         cube->win.RaydirecY = cube->win.dirY + cube->win.planeY * cube->win.cameraX;
-        cube->win.posinmapX = cube->player.x / MINIBLOCK;
-        cube->win.posinmapY = cube->player.y / MINIBLOCK;
-        printf("fin ghadi x %f fin ghadi y  %f\n", cube->win.dirX, cube->win.dirY);
-        printf("%d %d %d %d \n",cube->player.x,cube->player.y,cube->win.posinmapX,cube->win.posinmapY);
+        cube->win.posinmapX = cube->player.x / (int)MINIBLOCK;
+        cube->win.posinmapY = cube->player.y / (int)MINIBLOCK;
+        // printf("fin ghadi x %f fin ghadi y  %f %f\n", cube->win.dirX, cube->win.dirY , pow(cube->win.dirX,2)+pow(cube->win.dirY,2) );
+        // printf("%d %d %d %d \n",cube->player.x,cube->player.y,cube->win.posinmapX,cube->win.posinmapY);
         // pr
-        if (cube->win.RaydirecX == 0)
-        {
-            cube->win.deltaDistX = 1e30;
-            /* code */
-        }
-        else
+        printf("%f %f\n",cube->win.RaydirecX,cube->win.RaydirecY);
+
             cube->win.deltaDistX = fabs(1 / cube->win.RaydirecX);
 
-        if (cube->win.RaydirecY == 0)
-        {
-            cube->win.deltaDistY = 1e30;
-            /* code */
-        }
-        else
+
             cube->win.deltaDistY = fabs(1 / cube->win.RaydirecY);
 
         // printf("ray x%f ray Y %f elx %f del y%f\n", cube->win.RaydirecX,cube->win.RaydirecY,cube->win.deltaDistX, cube->win.deltaDistY);
@@ -348,13 +339,13 @@ void castingv2(t_cube *cube)
             if (cube->win.sideDistX < cube->win.sideDistY)
             {
                 cube->win.sideDistX += cube->win.deltaDistX;
-                cube->win.posinmapX += (int)stepX;
+                cube->win.posinmapX += stepX;
                 side = 0;
             }
             else
             {
                 cube->win.sideDistY += cube->win.deltaDistY;
-                cube->win.posinmapY += (int)stepY;
+                cube->win.posinmapY += stepY;
                 side = 1;
             }
 
@@ -419,7 +410,13 @@ void castingv2(t_cube *cube)
         {
             cube->dda.color = 0xFFAA0FFF;
         }
-
+        // while (k < 32)
+        // {
+        //     /* code */
+        // textured(cube->window->img, cube, cube->colors.SO);
+        //     k++;
+        // }
+        
         ddanalizer(cube->window->img, cube, cube->dda.color);
         // mlx_put_pixel()
 

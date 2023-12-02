@@ -11,9 +11,9 @@
 #define HEIGHT 1080 //tol
 #define MINIBLOCK 32.0 //square block
 #define MINISCALE 1
-#define SPEED 2
+#define SPEED 5.0
 #define FOV 33
-#define ROTSPEED 0.1
+#define ROTSPEED 0.08
 
 enum
 {
@@ -165,6 +165,7 @@ void parse_textures(t_cube *cube);
 void draw_background(mlx_image_t *img, t_cube *cube);
 unsigned long *extract_color(mlx_texture_t *texture);
 void texture_set(t_cube *cube); // you need to free
+void textured(mlx_image_t *img , t_cube *cube, unsigned long *row);
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 
 #endif

@@ -108,6 +108,47 @@ void ddanalizer(mlx_image_t *img , t_cube *cube, int color)
         steps--;
     }
 }
+void textured(mlx_image_t *img , t_cube *cube, unsigned long *row)
+{   
+    // if (cube->dda.)
+    // {
+    //     /* code */
+    // }
+    int i = 0;
+    
+
+    float disX = cube->dda.endx - cube->dda.startx ; 
+    float disY = cube->dda.endy - cube->dda.starty;
+    int steps = 0;
+
+    if (fabs(disX) > fabs(disY))
+    {
+        steps = fabs(disX);
+        /* code */
+    }
+    else
+        steps = fabs(disY);
+    
+    float Xinc = disX / (float)steps; 
+    float Yinc = disY / (float)steps; 
+
+    float X = cube->dda.startx; 
+    float Y = cube->dda.starty; 
+    if (X > WIDTH || Y > HEIGHT)
+    {
+        return;
+        /* code */
+    }
+    
+    while (steps > 0 ) {
+        X += Xinc;
+        Y += Yinc;
+        mlx_put_pixel(img, round(X), round(Y), row[(i%32)*32+i/32]);
+        steps--;
+        i++;
+    }
+    // i = 0;
+}
 double normalizeAngle(double angle) {
     while (angle < 0) {
         angle += M_2_PI; // Add 2π until the angle is non-negative

@@ -26,16 +26,22 @@ void mini_map_draw(t_cube *cube)
                 draw_player(cube,MINIBLOCK);
                 if(cube->map[y][x] == 'S')
                 {
+                cube->win.planeX = -0.66;
+                cube->win.planeY = 0.0;
                 cube->win.dirX = 0.0;
                 cube->win.dirY = 1.0;
                 }
                 if(cube->map[y][x] == 'N')
                 {
+                cube->win.planeX = 0.66;
+                cube->win.planeY = 0.0;
                 cube->win.dirX = 0.0;
                 cube->win.dirY = -1.0;
                 }
                 if(cube->map[y][x] == 'E')
                 {
+                cube->win.planeX = 0;
+                cube->win.planeY = -0.66;
                 cube->win.dirX = -1.0;
                 cube->win.dirY = 0.0;
                 }
@@ -43,7 +49,8 @@ void mini_map_draw(t_cube *cube)
                 {
                 cube->win.dirX = 1.0;
                 cube->win.dirY = 0.0;
-
+                cube->win.planeX = 0.0;
+                cube->win.planeY = 0.66;
                 }
                 // draw_player(cube,cube->mini_map,x*step,y*step,step);
             }
