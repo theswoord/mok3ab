@@ -6,9 +6,9 @@ void draw_2dblock(mlx_image_t *img, int x , int y, int size, int color)
     int i = 0;
     int j = 0;
 
-    while (i <= size)
+    while (i <= size-2)
     {
-        while (j <= size)
+        while (j <= size-2)
         {
             // printf("%d %d\n",i , j);
             mlx_put_pixel(img,x+i,y+j,color);
@@ -265,7 +265,7 @@ void draw_wall(t_cube * cube)
     // printf("%f\n", cube->player.angle);
     float Pro_dis = (WIDTH / 2 ) / tan(FOV*2/ 2 );
     // cube.
-    float wallheight =fabsf((MINIBLOCK / cube->player.real_dis ) * Pro_dis); 
+    float wallheight =fabs((MINIBLOCK / cube->player.real_dis ) * Pro_dis); 
     // printf("wall %d, enhanced %f\n", MINIBLOCK, wallheight);
     // printf("%f\n",wallheight);
     // printf("%f %f \n",lenghtx , lenghty);

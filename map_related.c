@@ -21,28 +21,28 @@ void mini_map_draw(t_cube *cube)
             if ((cube->map[y][x] == 'S' || cube->map[y][x] == 'N'|| cube->map[y][x] == 'E'|| cube->map[y][x] == 'W') && save == 0)
             {
                 save = 1;
-                cube->player.x = (x*step)+MINIBLOCK/2;
-                cube->player.y = (y*step)+MINIBLOCK/2;
+                cube->player.x = (x*step)+(int)MINIBLOCK/2;
+                cube->player.y = (y*step)+(int)MINIBLOCK/2;
                 draw_player(cube,MINIBLOCK);
                 if(cube->map[y][x] == 'S')
                 {
-                cube->win.dirX = 0;
-                cube->win.dirY = 1;
+                cube->win.dirX = 0.0;
+                cube->win.dirY = 1.0;
                 }
                 if(cube->map[y][x] == 'N')
                 {
-                cube->win.dirX = 0;
-                cube->win.dirY = -1;
+                cube->win.dirX = 0.0;
+                cube->win.dirY = -1.0;
                 }
                 if(cube->map[y][x] == 'E')
                 {
-                cube->win.dirX = -1;
-                cube->win.dirY = 0;
+                cube->win.dirX = -1.0;
+                cube->win.dirY = 0.0;
                 }
                 if(cube->map[y][x] == 'W')
                 {
-                cube->win.dirX = 1;
-                cube->win.dirY = 0;
+                cube->win.dirX = 1.0;
+                cube->win.dirY = 0.0;
 
                 }
                 // draw_player(cube,cube->mini_map,x*step,y*step,step);

@@ -9,11 +9,11 @@
 #include "math.h"
 #define WIDTH 1980 //l3rd
 #define HEIGHT 1080 //tol
-#define MINIBLOCK 32 //square block
+#define MINIBLOCK 32.0 //square block
 #define MINISCALE 1
-#define SPEED 10
+#define SPEED 2
 #define FOV 33
-#define ROTSPEED 0.1f
+#define ROTSPEED 0.1
 
 enum
 {
@@ -146,7 +146,7 @@ void mini_map_draw(t_cube *cube);
 char* copy_and_fill(char *str, int count , char c);
 void fill_map(t_cube *cube);
 void draw_player(t_cube *cube, int size);
-void pressed(mlx_key_data_t keydata,void *par);
+void pressed(void *par);
 int abs(int n);
 void liner(t_cube *cube , int ex, int ey);
 int is_wall(t_cube *cube , int x , int y );
