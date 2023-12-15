@@ -9,7 +9,7 @@
 #include "math.h"
 #define WIDTH 1980 //l3rd
 #define HEIGHT 1080 //tol
-#define MINIBLOCK 32.0 //square block
+#define MINIBLOCK 32 //square block
 #define MINISCALE 1
 #define SPEED 5.0
 #define FOV 33
@@ -61,7 +61,8 @@ typedef struct s_colors
     unsigned long *SO;
     unsigned long *WE;
     unsigned long *EA;
-
+    unsigned long finalfloor;
+    unsigned long finalceil;
 }t_colors ;
 
 typedef struct s_map
@@ -110,12 +111,25 @@ double deltaDistY;
       double cameraX; // x being 0 to WIDTH;
 }t_lodev;
 
+typedef struct s_gatto
+{
+    float deltax;
+    float deltay;
+    float angle;
+    float rayangle;
+    float rayx;
+    float rayy;
+    float xoffset;
+    float yoffset;
+}t_gatto;
+
 typedef struct s_cube
 {
    
     
     // s_mlx mlxstruct;
     // mlx_image_t *anim[2]; // troll
+    t_gatto v3;
     t_textures drawings;
     t_lodev win;
     t_lines dda;
@@ -166,6 +180,10 @@ void draw_background(mlx_image_t *img, t_cube *cube);
 unsigned long *extract_color(mlx_texture_t *texture);
 void texture_set(t_cube *cube); // you need to free
 void textured(mlx_image_t *img , t_cube *cube, unsigned long *row);
+void set_background(t_cube *cube);
+void cast_v3(t_cube *cube);
+float d2r(float deg );
+int fixangle(int a);
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 
 #endif

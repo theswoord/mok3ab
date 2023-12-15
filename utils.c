@@ -175,3 +175,20 @@ void performRotation(t_cube *cube, int clockwise) {
     cube->win.planeX = normalizeAngle(cube->win.planeX);
     cube->win.planeY = normalizeAngle(cube->win.planeY);
 }
+
+float d2r(float deg )
+{
+    return (deg*M_PI/180.0);
+}
+int fixangle(int a)
+{
+    if (a > 359)
+    {
+        a -= 360;
+    }
+    if (a < 0)
+    {
+        a += 360;
+    }
+    return a;
+}

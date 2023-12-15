@@ -78,6 +78,13 @@ void init_mlx(t_cube *cube)
     // cube->mini_map = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./blood.png")); // test image fo9 image hh
 }
 
+void set_background(t_cube *cube)
+{
+    //  unsigned long floor 
+    cube->colors.finalfloor = (cube->colors.F[0] << 24) | (cube->colors.F[1] << 16) | (cube->colors.F[2] << 8) | 0xFF; // hadi parsing dial color;
+    cube->colors.finalceil = (cube->colors.C[0] << 24) | (cube->colors.C[1] << 16) | (cube->colors.C[2] << 8) | 0xFF;  // hadi parsing dial color;
+}
+
 void draw_background(mlx_image_t *img, t_cube *cube)
 {
     // mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
@@ -92,9 +99,9 @@ void draw_background(mlx_image_t *img, t_cube *cube)
     int y = 0;
     // printf("%d,%d,%d\n",cube->colors.F[0],cube->colors.F[1],cube->colors.F[2]);
     // printf("%d,%d,%d\n",cube->colors.C[0],cube->colors.C[1],cube->colors.C[2]);
-
-    unsigned long floor = (cube->colors.F[0] << 24) | (cube->colors.F[1] << 16) | (cube->colors.F[2] << 8) | 0xFF; // hadi parsing dial color;
-    unsigned long s9ef = (cube->colors.C[0] << 24) | (cube->colors.C[1] << 16) | (cube->colors.C[2] << 8) | 0xFF;  // hadi parsing dial color;
+    // set_background(cube);
+    // unsigned long floor = (cube->colors.F[0] << 24) | (cube->colors.F[1] << 16) | (cube->colors.F[2] << 8) | 0xFF; // hadi parsing dial color;
+    // unsigned long s9ef = (cube->colors.C[0] << 24) | (cube->colors.C[1] << 16) | (cube->colors.C[2] << 8) | 0xFF;  // hadi parsing dial color;
 
     // printf("l3rd %d , lines %d \n",WIDTH,HEIGHT);
     while (x < WIDTH)
@@ -102,12 +109,12 @@ void draw_background(mlx_image_t *img, t_cube *cube)
         while (y < HEIGHT / 2)
         {
             // printf("%d %d\n",x,y);
-            mlx_put_pixel(img, x, y, s9ef);
+            mlx_put_pixel(img, x, y, cube->colors.finalceil);
             y++;
         }
         while (y < HEIGHT)
         {
-            mlx_put_pixel(img, x, y, floor);
+            mlx_put_pixel(img, x, y, cube->colors.finalfloor);
             y++;
         }
 
@@ -143,6 +150,8 @@ void parse(t_cube *cube)
         i++;
         /* code */
     }
+    set_background(cube);
+
 }
 void set_rgb(char **tab, t_cube *cube, char what)
 {
@@ -268,6 +277,8 @@ int main(int ac, char **av)
     // printf("ZABY\n");
     draw_background(cube->window->img, cube); // made the imgptr
     mini_map_draw(cube);
+                cube->v3.deltax=cos(cube->v3.angle)*5;
+            cube->v3.deltay=sin(cube->v3.angle)*5;
     // animation_init(&cube); // memes
     // mlx_loop_hook(cube.window->mlx,animations_draw,&cube);
     // mlx_loop_hook(cube.window->mlx,pressed,&cube);
@@ -292,6 +303,8 @@ void castingv2(t_cube *cube)
     double perpWallDist;
 
     // printf("%f\n", atan((cube->win.planeY/1.0)*(M_PI/180)));
+    img_clear(cube->window->img, WIDTH, HEIGHT);
+
     while (x < WIDTH)
     {
         cube->win.cameraX = 2.0 * x / (double)(WIDTH)-1;
@@ -303,7 +316,7 @@ void castingv2(t_cube *cube)
         // printf("fin ghadi x %f fin ghadi y  %f %f\n", cube->win.dirX, cube->win.dirY , pow(cube->win.dirX,2)+pow(cube->win.dirY,2) );
         // printf("%d %d %d %d \n",cube->player.x,cube->player.y,cube->win.posinmapX,cube->win.posinmapY);
         // pr
-        printf("%f %f\n",cube->win.RaydirecX,cube->win.RaydirecY);
+        // printf("%f %f\n",cube->win.RaydirecX,cube->win.RaydirecY);
 
             cube->win.deltaDistX = fabs(1 / cube->win.RaydirecX);
 
@@ -319,7 +332,7 @@ void castingv2(t_cube *cube)
         else
         {
             stepX = 1;
-            cube->win.sideDistX = ((cube->player.x / MINIBLOCK) + 1.0 - cube->win.posinmapX) * cube->win.deltaDistX;
+            cube->win.sideDistX = ((cube->player.x / MINIBLOCK)  - cube->win.posinmapX) * cube->win.deltaDistX;
         }
         if (cube->win.RaydirecY < 0)
         {
@@ -329,7 +342,7 @@ void castingv2(t_cube *cube)
         else
         {
             stepY = 1;
-            cube->win.sideDistY = ((cube->player.y / MINIBLOCK) + 1.0 - cube->win.posinmapY) * cube->win.deltaDistY;
+            cube->win.sideDistY = ((cube->player.y / MINIBLOCK) - cube->win.posinmapY) * cube->win.deltaDistY;
         }
         int hit = 0;
         //   printf("%f\n",cube->win.cameraX);
@@ -387,10 +400,10 @@ void castingv2(t_cube *cube)
         // calculate lowest and highest pixel to fill in current stripe
         int pitch = 100;
 
-        int drawStart = -lineHeight / 2 + HEIGHT / 2;
+        int drawStart = (-lineHeight / 2) + (HEIGHT / 2);
         if (drawStart < 0)
             drawStart = 0;
-        int drawEnd = lineHeight / 2 + HEIGHT / 2;
+        int drawEnd = (lineHeight / 2) + (HEIGHT / 2);
         if (drawEnd >= HEIGHT)
             drawEnd = HEIGHT - 1;
 
@@ -422,4 +435,72 @@ void castingv2(t_cube *cube)
 
         x++;
     }
+
+}
+
+void cast_v3(t_cube *cube)
+{
+
+        int i = 0;
+        float tanges;
+        while (i < 1)
+        {
+            tanges =  atan(cube->v3.rayangle);
+            if (cube->v3.rayangle > M_PI )
+            {
+                cube->v3.rayy = (int)(cube->player.y / MINIBLOCK)*MINIBLOCK ;
+                cube->v3.rayx = (cube->player.y - cube->v3.rayy)*tanges + cube->player.x;
+                cube->v3.yoffset = -MINIBLOCK;
+                cube->v3.xoffset = -cube->v3.yoffset*tanges;
+                /* code */
+            }
+            if (cube->v3.rayangle < M_PI )
+            {
+                cube->v3.rayy = (int)((cube->player.y / MINIBLOCK)*MINIBLOCK)+MINIBLOCK ;
+                cube->v3.rayx = (cube->player.y - cube->v3.rayy)*tanges + cube->player.x;
+                cube->v3.yoffset = MINIBLOCK;
+                cube->v3.xoffset = -cube->v3.yoffset*tanges;
+                /* code */
+            }
+            if (cube->v3.rayangle == 0 ||  cube->v3.rayangle == M_PI)
+            {
+                cube->v3.rayx = cube->player.x;
+                cube->v3.rayy = cube->player.y;
+                
+                /* code */
+            }
+            // printf("%f %fhhh\n",cube->v3.rayx,cube->v3.rayy);
+            printf("|%f| |%f| hhh |%f| |%f|\n",cube->v3.rayx,cube->v3.rayy,cube->v3.xoffset,cube->v3.yoffset);
+            // printf("%d %d\n",(int)cube->v3.rayy/MINIBLOCK, (int)cube->v3.rayx/MINIBLOCK);
+            while (1)
+            {
+                if (cube->map[(int)cube->v3.rayy/MINIBLOCK][(int)cube->v3.rayx/MINIBLOCK] == '1'   )
+                {
+                    break;
+                }
+                else
+                {
+                    cube->v3.rayx += cube->v3.xoffset;
+                    cube->v3.rayy += cube->v3.yoffset;
+
+            printf("|%f| |%f| hhh |%f| |%f|\n",cube->v3.rayx,cube->v3.rayy,cube->v3.xoffset,cube->v3.yoffset);
+
+                }
+                
+            }
+            
+                cube->v3.rayangle = cube->v3.angle;
+        cube->dda.startx = cube->player.x;
+        cube->dda.starty = cube->player.y;
+        cube->dda.endx = cube->v3.rayx;
+        cube->dda.endy = cube->v3.rayy;
+            
+            i++;
+        }
+
+
+        draw_player(cube,0);
+draw_background(cube->window->img, cube);
+        ddanalizer(cube->mini_map,cube,0x000000FF);
+
 }
