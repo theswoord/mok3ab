@@ -443,9 +443,13 @@ void cast_v3(t_cube *cube)
 
         int i = 0;
         float tanges;
+        cube->v3.rayangle = cube->v3.angle;
+
+
         while (i < 1)
         {
-            tanges =  atan(cube->v3.rayangle);
+            tanges =  - 1/tan(cube->v3.rayangle);
+            // printf("%f %f \n",cube->v3.angle,tanges);
             if (cube->v3.rayangle > M_PI )
             {
                 cube->v3.rayy = (int)(cube->player.y / MINIBLOCK)*MINIBLOCK ;
@@ -462,28 +466,31 @@ void cast_v3(t_cube *cube)
                 cube->v3.xoffset = -cube->v3.yoffset*tanges;
                 /* code */
             }
+            // printf("%f\n",cube->v3.rayangle);
             if (cube->v3.rayangle == 0 ||  cube->v3.rayangle == M_PI)
             {
+                printf("vertical \n");
                 cube->v3.rayx = cube->player.x;
                 cube->v3.rayy = cube->player.y;
                 
                 /* code */
             }
             // printf("%f %fhhh\n",cube->v3.rayx,cube->v3.rayy);
-            printf("|%f| |%f| hhh |%f| |%f|\n",cube->v3.rayx,cube->v3.rayy,cube->v3.xoffset,cube->v3.yoffset);
+            // printf("|%f| |%f| hhh |%f| |%f|\n",cube->v3.rayx,cube->v3.rayy,cube->v3.xoffset,cube->v3.yoffset);
             // printf("%d %d\n",(int)cube->v3.rayy/MINIBLOCK, (int)cube->v3.rayx/MINIBLOCK);
             while (1)
             {
-                if (cube->map[(int)cube->v3.rayy/MINIBLOCK][(int)cube->v3.rayx/MINIBLOCK] == '1'   )
+                if (cube->map[(int)cube->v3.rayy/MINIBLOCK ][(int)cube->v3.rayx/MINIBLOCK] == '1')
                 {
                     break;
                 }
                 else
                 {
-                    cube->v3.rayx += cube->v3.xoffset;
                     cube->v3.rayy += cube->v3.yoffset;
+                    printf("%f\n",cube->v3.yoffset);
+                    cube->v3.rayx += cube->v3.xoffset;
 
-            printf("|%f| |%f| hhh |%f| |%f|\n",cube->v3.rayx,cube->v3.rayy,cube->v3.xoffset,cube->v3.yoffset);
+            // printf("|%f| |%f| hhh |%f| |%f|\n",cube->v3.rayx,cube->v3.rayy,cube->v3.xoffset,cube->v3.yoffset);
 
                 }
                 
