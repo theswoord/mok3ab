@@ -14,6 +14,8 @@
 #define SPEED 5.0
 #define FOV 33
 #define ROTSPEED 0.08
+#define P2 M_PI/2
+#define P3 3*M_PI/2
 
 enum
 {

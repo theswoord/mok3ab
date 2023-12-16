@@ -34,7 +34,7 @@ void pressed(void *par)
     {
         // if (!is_wall(cube, cube->player.x - SPEED, cube->player.y))
         // {
-            cube->v3.angle -= 0.1;
+            cube->v3.angle -= 0.01;
             // cube->v3.angle = fixangle(cube->v3.angle);
             if (cube->v3.angle < 0)
             {
@@ -68,7 +68,7 @@ void pressed(void *par)
         // if (!is_wall(cube, cube->player.x + SPEED, cube->player.y))
         // {
             // cube->player.x += SPEED;
-            cube->v3.angle += 0.1;
+            cube->v3.angle += 0.01;
                         if (cube->v3.angle > 2*M_PI)
             {
                 cube->v3.angle -= 2* M_PI;
