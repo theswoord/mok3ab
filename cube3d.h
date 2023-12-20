@@ -7,15 +7,20 @@
 #include "MLX420/include/MLX42/MLX42.h"
 #include "stdbool.h"
 #include "math.h"
+#include <limits.h>
 #define WIDTH 1980 //l3rd
 #define HEIGHT 1080 //tol
 #define MINIBLOCK 32 //square block
 #define MINISCALE 1
 #define SPEED 5.0
-#define FOV 33
-#define ROTSPEED 0.08
+#define FOV 66*4
+#define ROTSPEED 0.05
+#define P1 3.1415926535
 #define P2 M_PI/2
 #define P3 3*M_PI/2
+#define RAD 0.0174533/4.0
+
+
 
 enum
 {
@@ -36,6 +41,9 @@ enum
     SO=2,
     WE=4,
     EA=6,
+
+    VERTICAL = 88,
+    HORIZONTAL = 99,
 };
 
 typedef struct s_textures
@@ -115,14 +123,19 @@ double deltaDistY;
 
 typedef struct s_gatto
 {
-    float deltax;
-    float deltay;
-    float angle;
-    float rayangle;
-    float rayx;
-    float rayy;
-    float xoffset;
-    float yoffset;
+    int what;
+    double deltax;
+    double deltay;
+    double angle;
+    double rayangle;
+    double rayx;
+    double rayy;
+    double xoffset;
+    double yoffset;
+    double Hx;
+    double Hy;
+    double Vx;
+    double Vy;
 }t_gatto;
 
 typedef struct s_cube

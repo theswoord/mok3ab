@@ -10,74 +10,72 @@ void pressed(void *par)
     t_cube *cube = par;
     // printf("x= %d, y= %d\n", cube->player.x, cube->player.y);
 
+        // printf("x %f y %f\n", cube->v3.deltax, cube->v3.deltay);
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_W))
     {
-            // int minix = 1 - 2* signbit(cube->win.dirX);
-            // int miniy = 1 - 2* signbit(cube->win.dirY);
-            // if(cube->win.dirY >= 1)
-            // else 
-            // cube->player.y += miniy;
-            // if(cube->win.dirX >= 1)
-            // cube->player.x += cube->win.dirX * SPEED;
-            // else 
-            // cube->player.x += minix;
+        // int minix = 1 - 2* signbit(cube->win.dirX);
+        // int miniy = 1 - 2* signbit(cube->win.dirY);
+        // if(cube->win.dirY >= 1)
+        // else
+        // cube->player.y += miniy;
+        // if(cube->win.dirX >= 1)
+        // cube->player.x += cube->win.dirX * SPEED;
+        // else
+        // cube->player.x += minix;
 
-            // cube->player.y += cube->win.dirY * SPEED;
-            // cube->player.x += cube->win.dirX * SPEED;
-            cube->player.y += cube->v3.deltay;
-            cube->player.x += cube->v3.deltax;
+        // cube->player.y += cube->win.dirY * SPEED;
+        // cube->player.x += cube->win.dirX * SPEED;
+        cube->player.y += cube->v3.deltay;
+        cube->player.x += cube->v3.deltax;
 
-
-            mini_map_draw(cube);
+        mini_map_draw(cube);
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_LEFT))
     {
         // if (!is_wall(cube, cube->player.x - SPEED, cube->player.y))
         // {
-            cube->v3.angle -= 0.01;
-            // cube->v3.angle = fixangle(cube->v3.angle);
-            if (cube->v3.angle < 0)
-            {
-                cube->v3.angle+= 2* M_PI;
-            }
-            cube->v3.deltax=cos(cube->v3.angle)*5;
-            cube->v3.deltay=sin(cube->v3.angle)*5;
+        cube->v3.angle -= ROTSPEED;
+        // cube->v3.angle = fixangle(cube->v3.angle);
+        if (cube->v3.angle < 0)
+        {
+            cube->v3.angle += 2 * M_PI;
+        }
+        cube->v3.deltax = cos(cube->v3.angle)*5;
+        cube->v3.deltay = sin(cube->v3.angle)*5;
 
-
-            
-            // cube->player.x -= SPEED;
-            mini_map_draw(cube);
+        // cube->player.x -= SPEED;
+        mini_map_draw(cube);
         //     // ddanalizer(cube->mini_map,cube);
         // }
         /* code */
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_S))
     {
-            // cube->player.x -= cube->win.dirX * SPEED;
-            // cube->player.y -= cube->win.dirY * SPEED;
-            // printf("%f \n", cube->win.dirY * SPEED);
-            cube->player.y -= cube->v3.deltay;
-            cube->player.x -= cube->v3.deltax;
-            // cube->player.y += SPEED;
+        // cube->player.x -= cube->win.dirX * SPEED;
+        // cube->player.y -= cube->win.dirY * SPEED;
+        // printf("%f \n", cube->win.dirY * SPEED);
+        cube->player.y -= cube->v3.deltay;
+        cube->player.x -= cube->v3.deltax;
+        // cube->player.y += SPEED;
 
-            mini_map_draw(cube);
+        mini_map_draw(cube);
     }
-    
+
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_RIGHT))
     {
         // if (!is_wall(cube, cube->player.x + SPEED, cube->player.y))
         // {
-            // cube->player.x += SPEED;
-            cube->v3.angle += 0.01;
-                        if (cube->v3.angle > 2*M_PI)
-            {
-                cube->v3.angle -= 2* M_PI;
-            }
-            // cube->v3.angle = fixangle(cube->v3.angle);
-            cube->v3.deltax=cos(cube->v3.angle)*5;
-            cube->v3.deltay=sin(cube->v3.angle)*5;
-            mini_map_draw(cube);
-            // ddanalizer(cube->mini_map,cube);
+        // cube->player.x += SPEED;
+        cube->v3.angle += ROTSPEED;
+        if (cube->v3.angle >= 2 * M_PI)
+        {
+            cube->v3.angle -= 2 * M_PI;
+        }
+        // cube->v3.angle = fixangle(cube->v3.angle);
+        cube->v3.deltax = cos(cube->v3.angle)*5;
+        cube->v3.deltay = sin(cube->v3.angle)*5;
+        mini_map_draw(cube);
+        // ddanalizer(cube->mini_map,cube);
         // }
         /* code */
     }
@@ -115,7 +113,7 @@ void pressed(void *par)
         // // else if (fabs(cube->win.dirY) == 1.0 && fabs(cube->win.dirX) != 0.0)
         // // {
         // //     cube->win.dirX=round(cube->win.dirX);
-        // // } 
+        // // }
         // double oldPlaneX = cube->win.planeX;
         // cube->win.planeX = cube->win.planeX * cos(-ROTSPEED) - cube->win.planeY * sin(-ROTSPEED);
         // cube->win.planeY = oldPlaneX * sin(-ROTSPEED) + cube->win.planeY * cos(-ROTSPEED);
@@ -138,7 +136,6 @@ void pressed(void *par)
     // // mini_map_draw(cube);
     //         //    cube->player.angle+= 5;
 
-
     //     /* code */
     // }
     //  if (mlx_is_key_down(cube->window->mlx, MLX_KEY_DOWN))
@@ -153,7 +150,6 @@ void pressed(void *par)
 
     // // mini_map_draw(cube);
     //         //    cube->player.angle+= 5;
-
 
     //     /* code */
     // }
@@ -174,7 +170,7 @@ void pressed(void *par)
 
     draw_player(cube, 0);
     // test_rota(cube);
-            mini_map_draw(cube);
+    mini_map_draw(cube);
     // castingv2(cube);
     cast_v3(cube);
     // liner(cube,848,368);

@@ -100,7 +100,7 @@ void ddanalizer(mlx_image_t *img , t_cube *cube, int color)
         return;
         /* code */
     }
-    
+    // printf("%f %f\n",cube->dda.endx,cube->dda.endy);
     while (steps > 0) {
         X += Xinc;
         Y += Yinc;

@@ -434,15 +434,18 @@ void castingv2(t_cube *cube)
     }
 }
 
-void horizontal(t_cube *cube)
+double horizontal(t_cube *cube)
 {
-    float tanges;
+    // cube->v3.rayangle = cube->v3.angle;
+    double tanges;
     int mapy;
     int mapx;
     tanges = -1 / tan(cube->v3.rayangle);
+    // printf("%f %f\n", cube->v3.rayangle, tanges);
     if (cube->v3.rayangle > M_PI)
     {
-        cube->v3.rayy = (int)(cube->player.y / MINIBLOCK) * MINIBLOCK;
+        cube->v3.rayy = floor(((cube->player.y / MINIBLOCK) * MINIBLOCK)) - 0.001;
+        // printf("%f\n", cube->v3.rayy);
         cube->v3.rayx = (cube->player.y - cube->v3.rayy) * tanges + cube->player.x;
         cube->v3.yoffset = -MINIBLOCK;
         cube->v3.xoffset = -cube->v3.yoffset * tanges;
@@ -454,42 +457,79 @@ void horizontal(t_cube *cube)
         cube->v3.yoffset = MINIBLOCK;
         cube->v3.xoffset = -cube->v3.yoffset * tanges;
     }
-    if (cube->v3.rayangle == 0 || cube->v3.rayangle == M_PI)
+    if (cube->v3.rayangle == 0)
     {
         cube->v3.rayx = cube->player.x;
+        cube->v3.xoffset = MINIBLOCK;
         cube->v3.rayy = cube->player.y;
     }
+    if (cube->v3.rayangle == M_PI)
+    {
+        cube->v3.rayx = cube->player.x;
+        cube->v3.xoffset = -MINIBLOCK;
+        cube->v3.rayy = cube->player.y;
+    }
+    // printf("ha1\n");
+
     while (1)
     {
+
         mapy = (int)cube->v3.rayy / MINIBLOCK;
         mapx = (int)cube->v3.rayx / MINIBLOCK;
-        if (cube->map[mapy][mapx] == '1')
+        // printf("mapx = %d  mapy= %d maxx %d maxy %d\n",mapx,mapy, cube->map_stuff.max ,cube->map_stuff.lines);
+        if ((mapy >= cube->map_stuff.lines || mapx >= cube->map_stuff.max)|| (mapy <= 0 || mapx <=0) || cube->map[mapy][mapx] == '1')
         {
+
             break;
         }
         else
         {
-            cube->v3.rayy += cube->v3.yoffset;
-            cube->v3.rayx += cube->v3.xoffset;
+            // printf("map %d \n", mapy);
+
+            // printf("%f\n", cube->v3.rayy);
+
+            // printf("hh\n");
+            // printf("y= %f  x= %f\n",cube->v3.yoffset,cube->v3.xoffset);
+            if (cube->v3.rayy < HEIGHT && cube->v3.rayy > 0)
+            {
+                cube->v3.rayy += cube->v3.yoffset;
+                /* code */
+            }
+            else
+                return (999998897897897);
+            if (cube->v3.rayx < WIDTH && cube->v3.rayx > 0)
+            {
+                /* code */
+                cube->v3.rayx += cube->v3.xoffset;
+            }
+            else
+                return (999998897897897);
         }
     }
-            cube->dda.startx = cube->player.x;
-        cube->dda.starty = cube->player.y;
-        cube->dda.endx = cube->v3.rayx;
-        cube->dda.endy = cube->v3.rayy;
-    ddanalizer(cube->mini_map, cube, 0x00FF00FF);
+    cube->v3.Hx = cube->v3.rayx;
+    cube->v3.Hy = cube->v3.rayy;
 
+    return (pow(cube->v3.Hx - cube->player.x, 2) + pow(cube->v3.Hy - cube->player.y, 2)); // sqrt if i need distance;
+                                                                                          // printf("ha2\n");
+
+    //         cube->dda.startx = cube->player.x;
+    //     cube->dda.starty = cube->player.y;
+    //     cube->dda.endx = cube->v3.rayx;
+    //     cube->dda.endy = cube->v3.rayy;
+    // ddanalizer(cube->mini_map, cube, 0x00FF00FF);
+    // printf("ha2\n");
+    // return 0;
 }
-void vertical(t_cube *cube)
+double vertical(t_cube *cube)
 {
-    float tanges;
+    double tanges;
     int mapy;
     int mapx;
-    tanges = - tan(cube->v3.rayangle);
-    printf("h%f %fh\n",tanges,cube->v3.rayangle );
+    tanges = -tan(cube->v3.rayangle);
+    // printf("h%f %fh\n",tanges,cube->v3.rayangle );
     if (cube->v3.rayangle > P2 && cube->v3.rayangle < P3)
     {
-        cube->v3.rayx = (int)(cube->player.x / MINIBLOCK) * MINIBLOCK;
+        cube->v3.rayx = floor((cube->player.x / MINIBLOCK) * MINIBLOCK) - 0.001;
         cube->v3.rayy = (cube->player.x - cube->v3.rayx) * tanges + cube->player.y;
         cube->v3.xoffset = -MINIBLOCK;
         cube->v3.yoffset = -cube->v3.xoffset * tanges;
@@ -501,49 +541,98 @@ void vertical(t_cube *cube)
         cube->v3.xoffset = MINIBLOCK;
         cube->v3.yoffset = -cube->v3.xoffset * tanges;
     }
-    if (cube->v3.rayangle == 0 || cube->v3.rayangle == M_PI)
+    if (cube->v3.rayangle == P2)
     {
         cube->v3.rayx = cube->player.x;
+        cube->v3.yoffset = MINIBLOCK;
+        cube->v3.rayy = cube->player.y;
+    }
+    if (cube->v3.rayangle == P3)
+    {
+        cube->v3.rayx = cube->player.x;
+        cube->v3.yoffset = -MINIBLOCK;
         cube->v3.rayy = cube->player.y;
     }
     while (1)
     {
         mapy = (int)cube->v3.rayy / MINIBLOCK;
         mapx = (int)cube->v3.rayx / MINIBLOCK;
-        if (cube->map[mapy][mapx] == '1')
+        // printf("x = %d y =  %d     %d %d\n", mapx, mapy, cube->map_stuff.max, cube->map_stuff.lines);
+        if ((mapy >= cube->map_stuff.lines || mapx >= cube->map_stuff.max) || (mapy <= 0 || mapx <=0) || cube->map[mapy][mapx] == '1')
         {
+
+            // printf("fdfdf\n");
             break;
         }
         else
         {
-            cube->v3.rayy += cube->v3.yoffset;
-            cube->v3.rayx += cube->v3.xoffset;
+            if (cube->v3.rayy < HEIGHT && cube->v3.rayy > 0)
+            {
+                cube->v3.rayy += cube->v3.yoffset;
+                /* code */
+            }
+            else
+                return (999998897897897);
+            if (cube->v3.rayx < WIDTH && cube->v3.rayx > 0)
+            {
+                /* code */
+                cube->v3.rayx += cube->v3.xoffset;
+            }
+            else
+                return (999998897897897);
+            // cube->v3.rayy += cube->v3.yoffset;
+            // cube->v3.rayx += cube->v3.xoffset;
         }
     }
-            cube->dda.startx = cube->player.x;
-        cube->dda.starty = cube->player.y;
-        cube->dda.endx = cube->v3.rayx;
-        cube->dda.endy = cube->v3.rayy;
-    ddanalizer(cube->mini_map, cube, 0xFF0000FF);
+    cube->v3.Vx = cube->v3.rayx;
+    cube->v3.Vy = cube->v3.rayy;
 
+    return (pow(cube->v3.Vx - cube->player.x, 2) + pow(cube->v3.Vy - cube->player.y, 2));
+    // return 0;
 }
 void cast_v3(t_cube *cube)
 {
     int color = 0xFFFFFFFF;
-    int i = 0;
+    float i = 0;
     float tanges;
-    cube->v3.rayangle = cube->v3.angle;
+    cube->v3.rayangle = cube->v3.angle - FOV/2 *RAD;
+    // double viewangle = cube->v3.angle;
+    // printf("%f\n", cube->v3.rayangle );
     int mapx;
     int mapy;
 
-    while (i < 1)
+    while (i < FOV)
     {
-        // hh-------------------------------------------
+    cube->v3.rayangle +=  RAD;
+            if (cube->v3.rayangle < 0)
+        {
+            cube->v3.rayangle += 2 * M_PI;
+        }
+            if (cube->v3.rayangle >= 2 * M_PI)
+        {
+            cube->v3.rayangle -= 2 * M_PI;
+        }
+        double dH = horizontal(cube);
+        double dV = vertical(cube);
 
-        // horizontal(cube);
-        vertical(cube);
-        // cube->v3.rayangle = cube->v3.angle;
-
+        // printf("%f %f\n" , cube->v3.rayangle , cube->v3.angle);
+        if (dH < dV)
+        {
+            cube->dda.startx = cube->player.x;
+            cube->dda.starty = cube->player.y;
+            cube->dda.endx = cube->v3.Hx;
+            cube->dda.endy = cube->v3.Hy;
+            ddanalizer(cube->mini_map, cube, 0xFF0000FF);
+            /* code */
+        }
+        else
+        {
+            cube->dda.startx = cube->player.x;
+            cube->dda.starty = cube->player.y;
+            cube->dda.endx = cube->v3.Vx;
+            cube->dda.endy = cube->v3.Vy;
+            ddanalizer(cube->mini_map, cube, 0x00FF00FF);
+        }
 
         i++;
     }

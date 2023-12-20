@@ -30,7 +30,7 @@ void mini_map_draw(t_cube *cube)
                 cube->win.planeY = 0.0;
                 cube->win.dirX = 0.0;
                 cube->win.dirY = 1.0;
-                cube->v3.angle = 3.0*M_PI/2.0;
+                cube->v3.angle = P3;
                 }
                 if(cube->map[y][x] == 'N')
                 {
@@ -38,7 +38,7 @@ void mini_map_draw(t_cube *cube)
                 cube->win.planeY = 0.0;
                 cube->win.dirX = 0.0;
                 cube->win.dirY = -1.0;
-                cube->v3.angle = M_PI/2.0;
+                cube->v3.angle = P2;
 
                 }
                 if(cube->map[y][x] == 'E')
