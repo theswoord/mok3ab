@@ -9,7 +9,10 @@ void pressed(void *par)
     // mlx_key_d
     t_cube *cube = par;
     // printf("x= %d, y= %d\n", cube->player.x, cube->player.y);
-
+        int testx = (cube->player.x + cube->v3.deltax)/MINIBLOCK;
+        int testy = (cube->player.y + cube->v3.deltay)/MINIBLOCK;
+         int backx = (cube->player.x - cube->v3.deltax)/MINIBLOCK;
+        int backy = (cube->player.y - cube->v3.deltay)/MINIBLOCK;
         // printf("x %f y %f\n", cube->v3.deltax, cube->v3.deltay);
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_W))
     {
@@ -23,10 +26,23 @@ void pressed(void *par)
         // else
         // cube->player.x += minix;
 
+        // printf("%d %d %c \n ", testx , testy , cube->map[testy][testx]);
         // cube->player.y += cube->win.dirY * SPEED;
         // cube->player.x += cube->win.dirX * SPEED;
+        // if (cube->map[((int)cube->player.y/MINIBLOCK + (int)cube->v3.deltay)][((int)cube->player.x/MINIBLOCK + (int)cube->v3.deltax)] != '1')
+        // {
+            if (cube->map[testy][testx] != '1')
+            {
         cube->player.y += cube->v3.deltay;
         cube->player.x += cube->v3.deltax;
+                /* code */
+            }
+            
+        // printf("%d %d  %f %f\n",cube->player.y,cube->player.x, cube->v3.deltay,cube->v3.deltax);
+            /* code */
+        // }
+        
+
 
         mini_map_draw(cube);
     }
@@ -54,8 +70,11 @@ void pressed(void *par)
         // cube->player.x -= cube->win.dirX * SPEED;
         // cube->player.y -= cube->win.dirY * SPEED;
         // printf("%f \n", cube->win.dirY * SPEED);
+                    if (cube->map[backy][backx] != '1')
+            {
         cube->player.y -= cube->v3.deltay;
         cube->player.x -= cube->v3.deltax;
+            }
         // cube->player.y += SPEED;
 
         mini_map_draw(cube);
@@ -96,6 +115,8 @@ void pressed(void *par)
         // cube->win.planeX = cube->win.planeX * cos(ROTSPEED) - cube->win.planeY * sin(ROTSPEED);
         // cube->win.planeY = oldPlaneX * sin(ROTSPEED) + cube->win.planeY * cos(ROTSPEED);
         // // performRotation(cube,0);
+        cube->player.y -= cube->v3.deltay;
+        cube->player.x -= cube->v3.deltax;
         mini_map_draw(cube);
         /* code */
     }

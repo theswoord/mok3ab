@@ -12,13 +12,13 @@
 #define HEIGHT 1080 //tol
 #define MINIBLOCK 32 //square block
 #define MINISCALE 1
-#define SPEED 5.0
-#define FOV 66*4
+#define SPEED 1.0
+#define FOV 66*8
 #define ROTSPEED 0.05
 #define P1 3.1415926535
 #define P2 M_PI/2
 #define P3 3*M_PI/2
-#define RAD 0.0174533/4.0
+#define RAD 0.0174533/8.0
 
 
 
@@ -67,10 +67,10 @@ typedef struct s_colors
     /* data */
     int F[3];
     int C[3];
-    unsigned long *NO;
-    unsigned long *SO;
-    unsigned long *WE;
-    unsigned long *EA;
+    unsigned char *NO;
+    unsigned char *SO;
+    unsigned char *WE;
+    unsigned char *EA;
     unsigned long finalfloor;
     unsigned long finalceil;
 }t_colors ;
@@ -124,6 +124,7 @@ double deltaDistY;
 typedef struct s_gatto
 {
     int what;
+    double distance;
     double deltax;
     double deltay;
     double angle;
@@ -136,6 +137,7 @@ typedef struct s_gatto
     double Hy;
     double Vx;
     double Vy;
+    int wallheight;
 }t_gatto;
 
 typedef struct s_cube
@@ -184,7 +186,7 @@ int maxed(int a ,int b );
 void test_rota(t_cube *cube);
 void draw_wall(t_cube * cube);
 void draw_verline(t_cube * cube,int x , int ystart , int yend  );
-void draw_rec(t_cube *cube , int id , int start , int height );
+void draw_rec(mlx_image_t *img ,t_cube *cube , int thickness , int color );
 void img_clear(mlx_image_t * img, int width, int height);
 void castingv2(t_cube *cube);
 void ddanalizer(mlx_image_t *img , t_cube *cube,int color);
@@ -192,7 +194,7 @@ double normalizeAngle(double angle);
 void performRotation(t_cube *cube, int clockwise);
 void parse_textures(t_cube *cube);
 void draw_background(mlx_image_t *img, t_cube *cube);
-unsigned long *extract_color(mlx_texture_t *texture);
+unsigned char *extract_color(mlx_texture_t *texture);
 void texture_set(t_cube *cube); // you need to free
 void textured(mlx_image_t *img , t_cube *cube, unsigned long *row);
 void set_background(t_cube *cube);
@@ -204,3 +206,5 @@ int fixangle(int a);
 #endif
 
 // x= 848, y= 368
+
+//320 //160 

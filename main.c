@@ -42,12 +42,12 @@ void texture_set(t_cube *cube)
     cube->colors.WE = extract_color(cube->drawings.WE);
 };
 
-unsigned long *extract_color(mlx_texture_t *texture)
+unsigned char *extract_color(mlx_texture_t *texture)
 {
     int i = 0;
     int j = 0;
     int total = texture->height * texture->width * texture->bytes_per_pixel;
-    unsigned long *tmp = malloc((texture->height * texture->width) * sizeof(unsigned long));
+    unsigned char *tmp = malloc((texture->height * texture->width) * sizeof(unsigned char));
     while (i < total)
     {
         // j++;
@@ -276,8 +276,8 @@ int main(int ac, char **av)
     // printf("ZABY\n");
     draw_background(cube->window->img, cube); // made the imgptr
     mini_map_draw(cube);
-    cube->v3.deltax = cos(cube->v3.angle) * 5;
-    cube->v3.deltay = sin(cube->v3.angle) * 5;
+    cube->v3.deltax = cos(cube->v3.angle) * 5; // speed
+    cube->v3.deltay = sin(cube->v3.angle) * 5; // speed
     // animation_init(&cube); // memes
     // mlx_loop_hook(cube.window->mlx,animations_draw,&cube);
     // mlx_loop_hook(cube.window->mlx,pressed,&cube);
@@ -600,7 +600,10 @@ void cast_v3(t_cube *cube)
     // printf("%f\n", cube->v3.rayangle );
     int mapx;
     int mapy;
+    // img_clear(cube->mini_map,WIDTH,HEIGHT);
+    img_clear(cube->window->img,WIDTH,HEIGHT);
 
+    // draw_background(cube->window->img,cube);
     while (i < FOV)
     {
     cube->v3.rayangle +=  RAD;
@@ -616,27 +619,54 @@ void cast_v3(t_cube *cube)
         double dV = vertical(cube);
 
         // printf("%f %f\n" , cube->v3.rayangle , cube->v3.angle);
+        cube->v3.wallheight = (HEIGHT/2 * MINIBLOCK)/ cube->v3.distance;
+
+                if (cube->v3.wallheight > HEIGHT/2)
+        {
+           cube->v3.wallheight = HEIGHT/2;
+        }
+    float lineOffset = WIDTH - cube->v3.wallheight/2 ;
+
         if (dH < dV)
         {
+            cube->v3.distance = dH;
             cube->dda.startx = cube->player.x;
             cube->dda.starty = cube->player.y;
             cube->dda.endx = cube->v3.Hx;
             cube->dda.endy = cube->v3.Hy;
             ddanalizer(cube->mini_map, cube, 0xFF0000FF);
+                            cube->dda.startx = i;
+            cube->dda.starty = HEIGHT/2;
+            cube->dda.endx = i;
+            cube->dda.endy = cube->v3.wallheight + HEIGHT/2;
+            ddanalizer(cube->window->img, cube, 0xFFFF00FF);
             /* code */
         }
         else
         {
+            cube->v3.distance = dV;
             cube->dda.startx = cube->player.x;
             cube->dda.starty = cube->player.y;
             cube->dda.endx = cube->v3.Vx;
             cube->dda.endy = cube->v3.Vy;
             ddanalizer(cube->mini_map, cube, 0x00FF00FF);
+                cube->dda.startx = i;
+            cube->dda.starty = HEIGHT/2;
+            cube->dda.endx = i;
+            cube->dda.endy = cube->v3.wallheight + HEIGHT/2;
+            ddanalizer(cube->window->img, cube, 0x0000FFFF);
         }
-
+        // printf("%d \n", cube->v3.wallheight);
+        
+            // draw_rec(cube->window->img,cube,4, 0xFFFF00FF);
         i++;
     }
 
     draw_player(cube, 0);
     // draw_background(cube->window->img, cube);
+}
+
+void fix_fisheye(t_cube * cube)
+{
+
 }

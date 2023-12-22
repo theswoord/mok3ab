@@ -6,9 +6,9 @@ void draw_2dblock(mlx_image_t *img, int x , int y, int size, int color)
     int i = 0;
     int j = 0;
 
-    while (i <= size-2)
+    while (i <= size)
     {
-        while (j <= size-2)
+        while (j <= size)
         {
             // printf("%d %d\n",i , j);
             mlx_put_pixel(img,x+i,y+j,color);
@@ -283,7 +283,7 @@ void draw_wall(t_cube * cube)
 
         printf("%d \n", i );
         // mlx_put_pixel(cube->walls,HEIGHT/2*cube->player.distx,100,0x00FF00FF);
-        draw_rec(cube , i, (HEIGHT /4)-(wallheight/2) ,wallheight);
+        // draw_rec(cube , i, (HEIGHT /4)-(wallheight/2) ,wallheight);
         // draw_verline(cube,i,drawStart,drawEnd);
         i++;
         /* code */
@@ -345,23 +345,23 @@ void draw_verline(t_cube * cube,int x , int ystart , int yend  )
     }
     
 }
-void draw_rec(t_cube *cube , int id , int start , int height )
+void draw_rec(mlx_image_t *img ,t_cube *cube , int thickness , int color )
 {
+    
+    int xs = cube->dda.startx;
+    int xe= cube->dda.endx;
+    int ys= cube->dda.starty;
+    int ye= cube->dda.endy;
     int i = 0;
-    int j = 0;
-    int thickness = 32;
+
     while (i < thickness)
     {
         /* code */
-    
-    
-    while (j < height)
-    {
-        /* code */
-        mlx_put_pixel(cube->walls,start+i*id,j+start,0xFFFFFFFF);
-        j++;
+        cube->dda.starty += i ;
+        ddanalizer(img,cube,color);
+        i++;
     }
-    j =0;
-    i++;
-    }
+    cube->dda.starty = ys;
 }
+
+// ddanalizer()
