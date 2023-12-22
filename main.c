@@ -509,7 +509,7 @@ double horizontal(t_cube *cube)
     cube->v3.Hx = cube->v3.rayx;
     cube->v3.Hy = cube->v3.rayy;
 
-    return (pow(cube->v3.Hx - cube->player.x, 2) + pow(cube->v3.Hy - cube->player.y, 2)); // sqrt if i need distance;
+    return (sqrtf(pow(cube->v3.Hx - cube->player.x, 2) + pow(cube->v3.Hy - cube->player.y, 2))); // sqrt if i need distance;
                                                                                           // printf("ha2\n");
 
     //         cube->dda.startx = cube->player.x;
@@ -587,7 +587,7 @@ double vertical(t_cube *cube)
     cube->v3.Vx = cube->v3.rayx;
     cube->v3.Vy = cube->v3.rayy;
 
-    return (pow(cube->v3.Vx - cube->player.x, 2) + pow(cube->v3.Vy - cube->player.y, 2));
+    return (sqrtf(pow(cube->v3.Vx - cube->player.x, 2) + pow(cube->v3.Vy - cube->player.y, 2)));
     // return 0;
 }
 void cast_v3(t_cube *cube)
@@ -600,9 +600,7 @@ void cast_v3(t_cube *cube)
     // printf("%f\n", cube->v3.rayangle );
     int mapx;
     int mapy;
-    // img_clear(cube->mini_map,WIDTH,HEIGHT);
     img_clear(cube->window->img,WIDTH,HEIGHT);
-
     // draw_background(cube->window->img,cube);
     while (i < FOV)
     {
@@ -656,7 +654,7 @@ void cast_v3(t_cube *cube)
             cube->dda.endy = cube->v3.wallheight + HEIGHT/2;
             ddanalizer(cube->window->img, cube, 0x0000FFFF);
         }
-        // printf("%d \n", cube->v3.wallheight);
+        // printf("%f \n", cube->v3.distance);
         
             // draw_rec(cube->window->img,cube,4, 0xFFFF00FF);
         i++;
@@ -666,7 +664,4 @@ void cast_v3(t_cube *cube)
     // draw_background(cube->window->img, cube);
 }
 
-void fix_fisheye(t_cube * cube)
-{
-
-}
+// void fix
