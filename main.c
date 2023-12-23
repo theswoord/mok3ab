@@ -42,12 +42,12 @@ void texture_set(t_cube *cube)
     cube->colors.WE = extract_color(cube->drawings.WE);
 };
 
-unsigned char *extract_color(mlx_texture_t *texture)
+unsigned long *extract_color(mlx_texture_t *texture)
 {
     int i = 0;
     int j = 0;
     int total = texture->height * texture->width * texture->bytes_per_pixel;
-    unsigned char *tmp = malloc((texture->height * texture->width) * sizeof(unsigned char));
+    unsigned long *tmp = malloc((texture->height * texture->width) * sizeof(unsigned long));
     while (i < total)
     {
         // j++;
@@ -73,7 +73,7 @@ void init_mlx(t_cube *cube)
     mlx_image_to_window(cube->window->mlx, cube->window->img, 0, 0); // put img ptr on the window
     // mlx_image_to_window(cube->window->mlx, cube->mini_map,50,50);
     mlx_image_to_window(cube->window->mlx, cube->mini_map, 0, 0);
-    mlx_image_to_window(cube->window->mlx, cube->walls, 0, 0); // here
+    // mlx_image_to_window(cube->window->mlx, cube->walls, 0, 0); // here
 
     // cube->mini_map = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./blood.png")); // test image fo9 image hh
 }
@@ -276,8 +276,11 @@ int main(int ac, char **av)
     // printf("ZABY\n");
     draw_background(cube->window->img, cube); // made the imgptr
     mini_map_draw(cube);
+    mlx_delete_image(cube->window->mlx,cube->mini_map);// hadi ach nkhdm ghir f walls
     cube->v3.deltax = cos(cube->v3.angle) * 5; // speed
     cube->v3.deltay = sin(cube->v3.angle) * 5; // speed
+    printf("%f , %f\n", cube->v3.angle, P2);
+
     // animation_init(&cube); // memes
     // mlx_loop_hook(cube.window->mlx,animations_draw,&cube);
     // mlx_loop_hook(cube.window->mlx,pressed,&cube);
@@ -600,8 +603,13 @@ void cast_v3(t_cube *cube)
     // printf("%f\n", cube->v3.rayangle );
     int mapx;
     int mapy;
-    img_clear(cube->window->img,WIDTH,HEIGHT);
-    // draw_background(cube->window->img,cube);
+    // img_clear(cube->window->img,WIDTH,HEIGHT);
+    draw_background(cube->window->img,cube);
+            //     cube->dda.startx = cube->player.x;
+            // cube->dda.starty = cube->player.y;
+            // cube->dda.endx = cube->player.x + cube->v3.deltax * 5;
+            // cube->dda.endy = cube->player.y + cube->v3.deltay*5;
+            // ddanalizer(cube->mini_map, cube, 0xFFFF00FF);
     while (i < FOV)
     {
     cube->v3.rayangle +=  RAD;
@@ -628,40 +636,75 @@ void cast_v3(t_cube *cube)
         if (dH < dV)
         {
             cube->v3.distance = dH;
-            cube->dda.startx = cube->player.x;
-            cube->dda.starty = cube->player.y;
-            cube->dda.endx = cube->v3.Hx;
-            cube->dda.endy = cube->v3.Hy;
-            ddanalizer(cube->mini_map, cube, 0xFF0000FF);
-                            cube->dda.startx = i;
-            cube->dda.starty = HEIGHT/2;
-            cube->dda.endx = i;
-            cube->dda.endy = cube->v3.wallheight + HEIGHT/2;
-            ddanalizer(cube->window->img, cube, 0xFFFF00FF);
+            // cube->dda.startx = cube->player.x;
+            // cube->dda.starty = cube->player.y;
+            // cube->dda.endx = cube->v3.Hx;
+            // cube->dda.endy = cube->v3.Hy;
+            // ddanalizer(cube->mini_map, cube, 0xFF0000FF);
+            cube->v3.side = 0;
+            // cube->dda.startx = i;
+            // cube->dda.starty = HEIGHT/2;
+            // cube->dda.endx = i;
+            // cube->dda.endy = cube->v3.wallheight + HEIGHT/2;
             /* code */
         }
         else
         {
             cube->v3.distance = dV;
-            cube->dda.startx = cube->player.x;
-            cube->dda.starty = cube->player.y;
-            cube->dda.endx = cube->v3.Vx;
-            cube->dda.endy = cube->v3.Vy;
-            ddanalizer(cube->mini_map, cube, 0x00FF00FF);
-                cube->dda.startx = i;
+            // cube->dda.startx = cube->player.x;
+            // cube->dda.starty = cube->player.y;
+            // cube->dda.endx = cube->v3.Vx;
+            // cube->dda.endy = cube->v3.Vy;
+            cube->v3.side = 1;
+        }
+        // printf("%f \n", cube->v3.distance);
+
+            cube->dda.startx = i;
             cube->dda.starty = HEIGHT/2;
             cube->dda.endx = i;
             cube->dda.endy = cube->v3.wallheight + HEIGHT/2;
-            ddanalizer(cube->window->img, cube, 0x0000FFFF);
-        }
-        // printf("%f \n", cube->v3.distance);
-        
+            draw_textures(cube->window->img, cube);
             // draw_rec(cube->window->img,cube,4, 0xFFFF00FF);
         i++;
     }
 
-    draw_player(cube, 0);
+    // draw_player(cube, 0);
     // draw_background(cube->window->img, cube);
 }
 
 // void fix
+void draw_textures(mlx_image_t * img,t_cube * cube )
+{
+
+int color;
+int i = 0;
+if (cube->v3.side == 0)
+{
+    // while (i < 32)
+    // {
+    //     /* code */
+    //     color = cube->colors.NO[0];
+
+    //     // printf("%d\n",cube->colors.NO[i]);
+    //     i++;
+    // }
+    // i = 0;
+    // color = 0xFF00FFFF;
+    /* code */
+            textured(img, cube,cube->colors.NO);
+    
+}
+else
+{
+    // color = 0x00FFFF;
+            textured(img, cube,cube->colors.WE);
+
+}
+
+
+            // textured(img, cube, color);
+
+
+
+
+}

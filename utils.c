@@ -143,7 +143,7 @@ void textured(mlx_image_t *img , t_cube *cube, unsigned long *row)
     while (steps > 0 ) {
         X += Xinc;
         Y += Yinc;
-        mlx_put_pixel(img, round(X), round(Y), row[(i%32)*32+i/32]);
+        mlx_put_pixel(img, X,Y, row[(i%32)*32+i/32]);
         steps--;
         i++;
     }
