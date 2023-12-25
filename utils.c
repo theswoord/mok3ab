@@ -100,11 +100,13 @@ void ddanalizer(mlx_image_t *img , t_cube *cube, int color)
         return;
         /* code */
     }
+    // printf("X %f  Y %f \n",disX,disY);
     // printf("%f %f\n",cube->dda.endx,cube->dda.endy);
     while (steps > 0) {
         X += Xinc;
         Y += Yinc;
         mlx_put_pixel(img, round(X), round(Y), color);
+
         steps--;
     }
 }
@@ -143,9 +145,14 @@ void textured(mlx_image_t *img , t_cube *cube, unsigned long *row)
     while (steps > 0 ) {
         X += Xinc;
         Y += Yinc;
+        // while (i < 1024)
+        // {
         mlx_put_pixel(img, X,Y, row[(i%32)*32+i/32]);
-        steps--;
         i++;
+            /* code */
+        // }
+        
+        steps--;
     }
     // i = 0;
 }

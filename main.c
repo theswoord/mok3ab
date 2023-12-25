@@ -48,6 +48,11 @@ unsigned long *extract_color(mlx_texture_t *texture)
     int j = 0;
     int total = texture->height * texture->width * texture->bytes_per_pixel;
     unsigned long *tmp = malloc((texture->height * texture->width) * sizeof(unsigned long));
+    if (!tmp)
+    {
+        fprintf(stderr, "Failed to allocate memory\n");
+        exit(EXIT_FAILURE);
+    }
     while (i < total)
     {
         // j++;
@@ -276,9 +281,9 @@ int main(int ac, char **av)
     // printf("ZABY\n");
     draw_background(cube->window->img, cube); // made the imgptr
     mini_map_draw(cube);
-    mlx_delete_image(cube->window->mlx,cube->mini_map);// hadi ach nkhdm ghir f walls
-    cube->v3.deltax = cos(cube->v3.angle) * 5; // speed
-    cube->v3.deltay = sin(cube->v3.angle) * 5; // speed
+    mlx_delete_image(cube->window->mlx, cube->mini_map); // hadi ach nkhdm ghir f walls
+    cube->v3.deltax = cos(cube->v3.angle) * 5;           // speed
+    cube->v3.deltay = sin(cube->v3.angle) * 5;           // speed
     printf("%f , %f\n", cube->v3.angle, P2);
 
     // animation_init(&cube); // memes
@@ -480,7 +485,7 @@ double horizontal(t_cube *cube)
         mapy = (int)cube->v3.rayy / MINIBLOCK;
         mapx = (int)cube->v3.rayx / MINIBLOCK;
         // printf("mapx = %d  mapy= %d maxx %d maxy %d\n",mapx,mapy, cube->map_stuff.max ,cube->map_stuff.lines);
-        if ((mapy >= cube->map_stuff.lines || mapx >= cube->map_stuff.max)|| (mapy <= 0 || mapx <=0) || cube->map[mapy][mapx] == '1')
+        if ((mapy >= cube->map_stuff.lines || mapx >= cube->map_stuff.max) || (mapy <= 0 || mapx <= 0) || cube->map[mapy][mapx] == '1')
         {
 
             break;
@@ -513,7 +518,7 @@ double horizontal(t_cube *cube)
     cube->v3.Hy = cube->v3.rayy;
 
     return (sqrtf(pow(cube->v3.Hx - cube->player.x, 2) + pow(cube->v3.Hy - cube->player.y, 2))); // sqrt if i need distance;
-                                                                                          // printf("ha2\n");
+                                                                                                 // printf("ha2\n");
 
     //         cube->dda.startx = cube->player.x;
     //     cube->dda.starty = cube->player.y;
@@ -561,7 +566,7 @@ double vertical(t_cube *cube)
         mapy = (int)cube->v3.rayy / MINIBLOCK;
         mapx = (int)cube->v3.rayx / MINIBLOCK;
         // printf("x = %d y =  %d     %d %d\n", mapx, mapy, cube->map_stuff.max, cube->map_stuff.lines);
-        if ((mapy >= cube->map_stuff.lines || mapx >= cube->map_stuff.max) || (mapy <= 0 || mapx <=0) || cube->map[mapy][mapx] == '1')
+        if ((mapy >= cube->map_stuff.lines || mapx >= cube->map_stuff.max) || (mapy <= 0 || mapx <= 0) || cube->map[mapy][mapx] == '1')
         {
 
             // printf("fdfdf\n");
@@ -598,26 +603,26 @@ void cast_v3(t_cube *cube)
     int color = 0xFFFFFFFF;
     float i = 0;
     float tanges;
-    cube->v3.rayangle = cube->v3.angle - FOV/2 *RAD;
+    cube->v3.rayangle = cube->v3.angle - FOV / 2 * RAD;
     // double viewangle = cube->v3.angle;
     // printf("%f\n", cube->v3.rayangle );
     int mapx;
     int mapy;
     // img_clear(cube->window->img,WIDTH,HEIGHT);
-    draw_background(cube->window->img,cube);
-            //     cube->dda.startx = cube->player.x;
-            // cube->dda.starty = cube->player.y;
-            // cube->dda.endx = cube->player.x + cube->v3.deltax * 5;
-            // cube->dda.endy = cube->player.y + cube->v3.deltay*5;
-            // ddanalizer(cube->mini_map, cube, 0xFFFF00FF);
+    draw_background(cube->window->img, cube);
+    //     cube->dda.startx = cube->player.x;
+    // cube->dda.starty = cube->player.y;
+    // cube->dda.endx = cube->player.x + cube->v3.deltax * 5;
+    // cube->dda.endy = cube->player.y + cube->v3.deltay*5;
+    // ddanalizer(cube->mini_map, cube, 0xFFFF00FF);
     while (i < FOV)
     {
-    cube->v3.rayangle +=  RAD;
-            if (cube->v3.rayangle < 0)
+        cube->v3.rayangle += RAD;
+        if (cube->v3.rayangle < 0)
         {
             cube->v3.rayangle += 2 * M_PI;
         }
-            if (cube->v3.rayangle >= 2 * M_PI)
+        if (cube->v3.rayangle >= 2 * M_PI)
         {
             cube->v3.rayangle -= 2 * M_PI;
         }
@@ -625,46 +630,30 @@ void cast_v3(t_cube *cube)
         double dV = vertical(cube);
 
         // printf("%f %f\n" , cube->v3.rayangle , cube->v3.angle);
-        cube->v3.wallheight = (HEIGHT/2 * MINIBLOCK)/ cube->v3.distance;
+        cube->v3.wallheight = (HEIGHT * MINIBLOCK) / cube->v3.distance;
 
-                if (cube->v3.wallheight > HEIGHT/2)
+        if (cube->v3.wallheight > HEIGHT)
         {
-           cube->v3.wallheight = HEIGHT/2;
+            cube->v3.wallheight = HEIGHT;
         }
-    float lineOffset = WIDTH - cube->v3.wallheight/2 ;
+        float lineOffset = WIDTH - cube->v3.wallheight / 2;
 
         if (dH < dV)
         {
             cube->v3.distance = dH;
-            // cube->dda.startx = cube->player.x;
-            // cube->dda.starty = cube->player.y;
-            // cube->dda.endx = cube->v3.Hx;
-            // cube->dda.endy = cube->v3.Hy;
-            // ddanalizer(cube->mini_map, cube, 0xFF0000FF);
             cube->v3.side = 0;
-            // cube->dda.startx = i;
-            // cube->dda.starty = HEIGHT/2;
-            // cube->dda.endx = i;
-            // cube->dda.endy = cube->v3.wallheight + HEIGHT/2;
-            /* code */
         }
         else
         {
             cube->v3.distance = dV;
-            // cube->dda.startx = cube->player.x;
-            // cube->dda.starty = cube->player.y;
-            // cube->dda.endx = cube->v3.Vx;
-            // cube->dda.endy = cube->v3.Vy;
             cube->v3.side = 1;
         }
-        // printf("%f \n", cube->v3.distance);
-
-            cube->dda.startx = i;
-            cube->dda.starty = HEIGHT/2;
-            cube->dda.endx = i;
-            cube->dda.endy = cube->v3.wallheight + HEIGHT/2;
-            draw_textures(cube->window->img, cube);
-            // draw_rec(cube->window->img,cube,4, 0xFFFF00FF);
+        cube->dda.startx = i;
+        cube->dda.starty = HEIGHT / 4;
+        cube->dda.endx = i;
+        cube->dda.endy = cube->v3.wallheight + HEIGHT / 4;
+        draw_textures(cube->window->img, cube);
+        // draw_rec(cube->window->img,cube,4, 0xFFFF00FF);
         i++;
     }
 
@@ -673,38 +662,54 @@ void cast_v3(t_cube *cube)
 }
 
 // void fix
-void draw_textures(mlx_image_t * img,t_cube * cube )
+void draw_textures(mlx_image_t *img, t_cube *cube)
 {
 
-int color;
-int i = 0;
-if (cube->v3.side == 0)
-{
-    // while (i < 32)
-    // {
-    //     /* code */
-    //     color = cube->colors.NO[0];
+    int color;
+    int i = 0;
+    if (cube->v3.side == 0)
+    {
+        // while (i < 32)
+        // {
+        //     /* code */
+        //     color = cube->colors.NO[0];
+        if (cube->v3.rayangle < M_PI)
+        {
+            // ddanalizer(img, cube, 0xFF0000FF);
+            textured(img, cube,cube->colors.SO);
 
-    //     // printf("%d\n",cube->colors.NO[i]);
-    //     i++;
-    // }
-    // i = 0;
-    // color = 0xFF00FFFF;
-    /* code */
-            textured(img, cube,cube->colors.NO);
-    
-}
-else
-{
-    // color = 0x00FFFF;
+            /* code */
+        }
+        else
+            // ddanalizer(img, cube, 0x0000FFFF);
             textured(img, cube,cube->colors.WE);
 
-}
+        //     // printf("%d\n",cube->colors.NO[i]);
+        //     i++;
+        // }
+        // i = 0;
+        // color = 0xFF00FFFF;
+        /* code */
+        // textured(img, cube,cube->colors.NO);
+        // ddanalizer(img,cube,0xFF0000FF);
+    }
+    else
+    {
+        // color = 0x00FFFF;
+        if (cube->v3.rayangle > P3 || cube->v3.rayangle < P2)
+        {
+            textured(img, cube,cube->colors.EA);
 
+            // ddanalizer(img, cube, 0xFFFF00FF);
 
-            // textured(img, cube, color);
+            /* code */
+        }
+        else
+            // ddanalizer(img, cube, 0x00FF00FF);
+            textured(img, cube,cube->colors.NO);
 
+        // ddanalizer(img,cube,0x00FF00FF);
+    }
 
-
-
+    // textured(img, cube, color);
 }

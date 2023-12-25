@@ -13,12 +13,12 @@
 #define MINIBLOCK 32 //square block
 #define MINISCALE 1
 #define SPEED 1.0
-#define FOV 66*32 // 32 
+#define FOV 66*32.0 // 32 
 #define ROTSPEED 0.05
 #define P1 3.1415926535
 #define P2 M_PI/2
 #define P3 3*M_PI/2
-#define RAD 0.0174533/32
+#define RAD 0.0174533/32.0
 
 
 
