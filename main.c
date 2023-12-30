@@ -36,23 +36,29 @@
 // }
 void texture_set(t_cube *cube)
 {
-    cube->colors.EA = extract_color(cube->drawings.EA);
-    cube->colors.SO = extract_color(cube->drawings.SO);
-    cube->colors.NO = extract_color(cube->drawings.NO);
-    cube->colors.WE = extract_color(cube->drawings.WE);
+    cube->colors->EA = extract_color(cube->drawings->EA);
+    cube->colors->NO = extract_color(cube->drawings->NO);
+    cube->colors->WE = extract_color(cube->drawings->WE);
+    cube->colors->SO = extract_color(cube->drawings->SO);
+    // printf("%p %p %p %p\n",cube->drawings->NO,cube->drawings->SO,cube->drawings->EA,cube->drawings->WE);
+    // printf("%p %p %p %p\n",cube->colors->NO,cube->colors->SO,cube->colors->EA,cube->colors->WE);
+
+
 };
 
 unsigned long *extract_color(mlx_texture_t *texture)
 {
     int i = 0;
     int j = 0;
-    int total = texture->height * texture->width * texture->bytes_per_pixel;
+    int total = texture->height * texture->width;
     unsigned long *tmp = malloc((texture->height * texture->width) * sizeof(unsigned long));
-    if (!tmp)
-    {
-        fprintf(stderr, "Failed to allocate memory\n");
-        exit(EXIT_FAILURE);
-    }
+    // printf("wtf%p \n",tmp);
+
+    // if (!tmp)
+    // {
+    //     fprintf(stderr, "Failed to allocate memory\n");
+    //     exit(EXIT_FAILURE);
+    // }
     while (i < total)
     {
         // j++;
@@ -62,10 +68,11 @@ unsigned long *extract_color(mlx_texture_t *texture)
         // }
 
         tmp[i] = (texture->pixels[j] << 24) | (texture->pixels[j + 1] << 16) | (texture->pixels[j + 2] << 8) | (texture->pixels[j + 3]);
+        // printf("%d %d %d %d\n", texture->pixels[j],texture->pixels[j+1],texture->pixels[j+2],texture->pixels[j+3]);
         j += texture->bytes_per_pixel;
         i++;
     }
-    mlx_delete_texture(texture);
+    // mlx_delete_texture(texture);
     return (tmp);
 }
 
@@ -86,8 +93,8 @@ void init_mlx(t_cube *cube)
 void set_background(t_cube *cube)
 {
     //  unsigned long floor
-    cube->colors.finalfloor = (cube->colors.F[0] << 24) | (cube->colors.F[1] << 16) | (cube->colors.F[2] << 8) | 0xFF; // hadi parsing dial color;
-    cube->colors.finalceil = (cube->colors.C[0] << 24) | (cube->colors.C[1] << 16) | (cube->colors.C[2] << 8) | 0xFF;  // hadi parsing dial color;
+    cube->colors->finalfloor = (cube->colors->F[0] << 24) | (cube->colors->F[1] << 16) | (cube->colors->F[2] << 8) | 0xFF; // hadi parsing dial color;
+    cube->colors->finalceil = (cube->colors->C[0] << 24) | (cube->colors->C[1] << 16) | (cube->colors->C[2] << 8) | 0xFF;  // hadi parsing dial color;
 }
 
 void draw_background(mlx_image_t *img, t_cube *cube)
@@ -114,12 +121,12 @@ void draw_background(mlx_image_t *img, t_cube *cube)
         while (y < HEIGHT / 2)
         {
             // printf("%d %d\n",x,y);
-            mlx_put_pixel(img, x, y, cube->colors.finalceil);
+            mlx_put_pixel(img, x, y, cube->colors->finalceil);
             y++;
         }
         while (y < HEIGHT)
         {
-            mlx_put_pixel(img, x, y, cube->colors.finalfloor);
+            mlx_put_pixel(img, x, y, cube->colors->finalfloor);
             y++;
         }
 
@@ -166,13 +173,13 @@ void set_rgb(char **tab, t_cube *cube, char what)
         if (what == 'F')
         {
             // printf("f S %s\n", tab[i]);
-            cube->colors.F[i] = ft_atoi(tab[i]); // hna ba9i check dial 255 < o > 0 o 3adad les i ila kan >3 err
+            cube->colors->F[i] = ft_atoi(tab[i]); // hna ba9i check dial 255 < o > 0 o 3adad les i ila kan >3 err
             // printf("F %d\n",cube->colors.F[i]);
             /* code */
         }
         if (what == 'C')
         {
-            cube->colors.C[i] = ft_atoi(tab[i]); // hna ba9i check dial 255 < o > 0 o 3adad les i ila kan >3 err
+            cube->colors->C[i] = ft_atoi(tab[i]); // hna ba9i check dial 255 < o > 0 o 3adad les i ila kan >3 err
             // printf("C %d\n",cube->colors.C[i]);
 
             /* code */
@@ -265,12 +272,22 @@ int main(int ac, char **av)
 {
     t_cube *cube = (t_cube *)malloc(sizeof(t_cube));
     ft_memset(cube, 0, sizeof(t_cube));
-    cube->window = malloc(sizeof(t_win));
+    cube->window = (t_win*)malloc(sizeof(t_win));
+    ft_memset(cube, 0, sizeof(t_win));
+
+    cube->colors = (t_colors*)malloc(sizeof(t_colors));
+    ft_memset(cube, 0, sizeof(t_colors));
+
+    cube->drawings = (t_textures*)malloc(sizeof(t_textures));
+    ft_memset(cube, 0, sizeof(t_textures));
+
     int fd = open(av[1], O_RDONLY);
     read_map(fd, cube);
     print_tableau(cube->textures);
     parse(cube);
     parse_textures(cube);
+    // printf("%p %p %p %p\n",cube->drawings->NO,cube->drawings->SO,cube->drawings->EA,cube->drawings->WE);
+
     texture_set(cube);
 
     init_mlx(cube);
@@ -603,13 +620,14 @@ void cast_v3(t_cube *cube)
     int color = 0xFFFFFFFF;
     float i = 0;
     float tanges;
-    cube->v3.rayangle = cube->v3.angle - FOV / 2 * RAD;
+    cube->v3.rayangle = cube->v3.angle - FOV / 2 * RAD ;
     // double viewangle = cube->v3.angle;
     // printf("%f\n", cube->v3.rayangle );
     int mapx;
     int mapy;
     // img_clear(cube->window->img,WIDTH,HEIGHT);
     draw_background(cube->window->img, cube);
+    // txtured(cube, cube->window->img);
     //     cube->dda.startx = cube->player.x;
     // cube->dda.starty = cube->player.y;
     // cube->dda.endx = cube->player.x + cube->v3.deltax * 5;
@@ -648,10 +666,21 @@ void cast_v3(t_cube *cube)
             cube->v3.distance = dV;
             cube->v3.side = 1;
         }
+    //           int drawStart = -cube->v3.wallheight / 2 + HEIGHT / 2;
+    //   if(drawStart < 0) drawStart = 0;
+    //   int drawEnd = cube->v3.wallheight / 2 + HEIGHT / 2;
+    //   if(drawEnd >= HEIGHT) drawEnd = HEIGHT - 1;
+        double ofsset = cube->v3.wallheight;
+        // printf("%d\n", cube->v3.wallheight);
+        // printf("hh %f\n", ofsset);
         cube->dda.startx = i;
-        cube->dda.starty = HEIGHT / 4;
-        cube->dda.endx = i;
-        cube->dda.endy = cube->v3.wallheight + HEIGHT / 4;
+        cube->dda.starty = HEIGHT / 2 - cube->v3.wallheight/2 ;
+        cube->dda.endx = i ;
+        cube->dda.endy = cube->v3.wallheight + HEIGHT /2;
+        // printf("sty %f endy %f \n", cube->dda.starty, cube->dda.endy);
+
+// printf("%d\n",cube->v3.wallheight);
+
         draw_textures(cube->window->img, cube);
         // draw_rec(cube->window->img,cube,4, 0xFFFF00FF);
         i++;
@@ -675,14 +704,16 @@ void draw_textures(mlx_image_t *img, t_cube *cube)
         //     color = cube->colors.NO[0];
         if (cube->v3.rayangle < M_PI)
         {
-            // ddanalizer(img, cube, 0xFF0000FF);
-            textured(img, cube,cube->colors.SO);
+            ddanalizer(img, cube, 0xFF0000FF);
+            // textured(img, cube,cube->colors->SO);
 
             /* code */
         }
         else
-            // ddanalizer(img, cube, 0x0000FFFF);
-            textured(img, cube,cube->colors.WE);
+            ddanalizer(img, cube, 0x0000FFFF);
+        //  txtured(cube, cube->window->img,cube->colors->NO );
+
+            // textured(img, cube,cube->colors->WE);
 
         //     // printf("%d\n",cube->colors.NO[i]);
         //     i++;
@@ -698,15 +729,15 @@ void draw_textures(mlx_image_t *img, t_cube *cube)
         // color = 0x00FFFF;
         if (cube->v3.rayangle > P3 || cube->v3.rayangle < P2)
         {
-            textured(img, cube,cube->colors.EA);
+            // textured(img, cube,cube->colors->EA);
 
-            // ddanalizer(img, cube, 0xFFFF00FF);
+            ddanalizer(img, cube, 0xFFFF00FF);
 
             /* code */
         }
         else
-            // ddanalizer(img, cube, 0x00FF00FF);
-            textured(img, cube,cube->colors.NO);
+            ddanalizer(img, cube, 0x00FF00FF);
+            // textured(img, cube,cube->colors->NO);
 
         // ddanalizer(img,cube,0x00FF00FF);
     }

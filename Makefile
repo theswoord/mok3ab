@@ -50,7 +50,7 @@ clean :
 cleanbonus : 
 	${msa7} ${objb}
 
-fclean : clean
+fclean : clean libsclean
 	${msa7} ${NAME}
 fcleanbonus : cleanbonus
 	${msa7} ${NAMEB}

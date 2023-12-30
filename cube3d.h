@@ -13,12 +13,12 @@
 #define MINIBLOCK 32 //square block
 #define MINISCALE 1
 #define SPEED 1.0
-#define FOV 66*32.0 // 32 
+#define FOV 66*30  // 32 
 #define ROTSPEED 0.05
 #define P1 3.1415926535
 #define P2 M_PI/2
 #define P3 3*M_PI/2
-#define RAD 0.0174533/32.0
+#define RAD 0.0174533 /30.0
 
 
 
@@ -148,7 +148,7 @@ typedef struct s_cube
     // s_mlx mlxstruct;
     // mlx_image_t *anim[2]; // troll
     t_gatto v3;
-    t_textures drawings;
+    t_textures *drawings;
     t_lodev win;
     t_lines dda;
     int wallheight;
@@ -156,7 +156,7 @@ typedef struct s_cube
     t_player player;
     t_map map_stuff;
     t_win *window;
-    t_colors colors;
+    t_colors *colors;
     char **textures;
     char **background;
     char **map;
@@ -203,7 +203,7 @@ void cast_v3(t_cube *cube);
 float d2r(float deg );
 int fixangle(int a);
 void draw_textures(mlx_image_t * img,t_cube * cube );
-
+void txtured(t_cube * cube, mlx_image_t * img, unsigned long *tex);
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 
 #endif
