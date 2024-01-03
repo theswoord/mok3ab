@@ -12,7 +12,7 @@
 #define HEIGHT 1080 //tol
 #define MINIBLOCK 32 //square block
 #define MINISCALE 1
-#define SPEED 1.0
+#define SPEED 3.0
 #define FOV 66*30  // 32 
 #define ROTSPEED 0.05
 #define P1 3.1415926535
@@ -204,6 +204,7 @@ float d2r(float deg );
 int fixangle(int a);
 void draw_textures(mlx_image_t * img,t_cube * cube );
 void txtured(t_cube * cube, mlx_image_t * img, unsigned long *tex);
+void txtv3(mlx_image_t *img,t_cube *cube, unsigned long *row, int fin, int y);
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 
 #endif

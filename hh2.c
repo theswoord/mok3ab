@@ -41,10 +41,15 @@ int main()
     test =  mlx_new_image(mlx, WIDTH, HEIGHT);
     mlx_image_to_window(mlx,test,0,0); 
 
+// for (size_t i = 0; i < 10; i++)
+// {
+    mlx_put_pixel(test,50,50,0xFF0000FF);
+    /* code */
+// }
 
-    unsigned long *te = NULL;
-    mlx_texture_t * hh = mlx_load_png("./textures/SO.png");
-    te = extract_color(hh);
+    // unsigned long *te = NULL;
+    // mlx_texture_t * hh = mlx_load_png("./textures/SO.png");
+    // te = extract_color(hh);
     
     // for (size_t i = 0; i < 1024; i++)
     // {

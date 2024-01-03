@@ -268,3 +268,76 @@ void txtured(t_cube *cube, mlx_image_t *img,unsigned long *tex )
         }
     }
 }
+
+void txtv3(mlx_image_t *img,t_cube *cube, unsigned long *row, int fin, int y)
+{
+        static int  i = 0;
+       static int k = 0;
+    // double disX = 32;
+    // double disY = 32;
+    int steps = 0;
+    float disX = 0;
+    float disY = 32;
+
+    // printf("fin %d \n", fin);
+        if (fabs(disX) > fabs(disY))
+    {
+        steps = fabs(disX);
+        /* code */
+    }
+    else
+        steps = fabs(disY);
+    
+    
+    float X = fin;
+    float Y = y;
+    
+    // if (fabs(disX) > fabs(disY))
+    // {
+    //     steps = fabs(disX);
+    //     /* code */
+    // }
+    // else
+    //     steps = fabs(disY);
+        // mlx_put_pixel(img, 50, 50, row[(i % 32) * 32 + i / 32]);
+
+    // double Xinc = disX / 32;
+    // double Yinc = disY / 32;
+    float Xinc = disX / (float)steps;
+    float Yinc = disY / (float)steps;
+    // float X = cube->dda.startx;
+    // float Y = cube->dda.starty;
+    // double X =50;
+    // double Y = 50;
+    // if (X > WIDTH || Y > HEIGHT)
+    // {
+    //     return;
+    //     /* code */
+    // }
+    // printf("%f %f\n",X,Y);
+    while (steps > 0)
+    {
+        X += Xinc;
+        Y += Yinc;
+        // while (i < 1024)
+        // {
+        mlx_put_pixel(img, X, Y, row[(k % 32) * 32 + k / 32]);
+
+        k++;
+        // if (k % 32 == 0)
+        // {
+        //     break
+        // }
+        
+        if (k ==1024)
+        {
+            // break; 
+           k = 0;
+        }
+        
+        /* code */
+        // }
+
+        steps--;
+    }
+}

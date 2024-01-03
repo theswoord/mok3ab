@@ -21,10 +21,10 @@ void pressed(void *par)
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_LEFT))
     {
         cube->v3.angle -= ROTSPEED;
-        if (cube->v3.angle < 0)
-        {
-            cube->v3.angle += 2 * M_PI;
-        }
+        // if (cube->v3.angle < 0)
+        // {
+        //     cube->v3.angle += 2 * M_PI;
+        // }
         cube->v3.deltax = cos(cube->v3.angle) * 5;
         cube->v3.deltay = sin(cube->v3.angle) * 5;
         // mini_map_draw(cube);
