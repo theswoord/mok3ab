@@ -36,24 +36,32 @@
 // }
 void texture_set(t_cube *cube)
 {
-    cube->colors->EA = extract_color(cube->drawings->EA);
-    cube->colors->NO = extract_color(cube->drawings->NO);
-    cube->colors->WE = extract_color(cube->drawings->WE);
-    cube->colors->SO = extract_color(cube->drawings->SO);
+    cube->colors->EA = extract_color(cube->drawings->EA,cube->colors->dim);//1
+    cube->colors->NO = extract_color(cube->drawings->NO,cube->colors->dim);//2
+    cube->colors->WE = extract_color(cube->drawings->WE,cube->colors->dim);//3
+    cube->colors->SO = extract_color(cube->drawings->SO,cube->colors->dim);//4
     // printf("%p %p %p %p\n",cube->drawings->NO,cube->drawings->SO,cube->drawings->EA,cube->drawings->WE);
     // printf("%p %p %p %p\n",cube->colors->NO,cube->colors->SO,cube->colors->EA,cube->colors->WE);
 
 
 };
 
-unsigned long *extract_color(mlx_texture_t *texture)
+unsigned long *extract_color(mlx_texture_t *texture,int *arr)
 {
     int i = 0;
     int j = 0;
+    static int k;
     int total = texture->height * texture->width;
     unsigned long *tmp = malloc((texture->height * texture->width) * sizeof(unsigned long));
     // printf("wtf%p \n",tmp);
 
+    // while (k < 8)
+    // {
+        arr[k] = texture->height;
+        arr[k+1] = texture->width;
+        k+=2;
+    // }
+    
     // if (!tmp)
     // {
     //     fprintf(stderr, "Failed to allocate memory\n");
@@ -303,6 +311,17 @@ int main(int ac, char **av)
     cube->v3.deltay = sin(cube->v3.angle) * 5;           // speed
     printf("%f , %f\n", cube->v3.angle, P2);
 
+    for (size_t i = 0; i < 8; i++)
+    {
+        printf("%d ",cube->colors->dim[i]);
+        // if (i % 2 == 0)
+        // {
+        //     printf ("EA NO WE SO");
+        //     /* code */
+        // }
+        
+    }
+    
     // animation_init(&cube); // memes
     // mlx_loop_hook(cube.window->mlx,animations_draw,&cube);
     // mlx_loop_hook(cube.window->mlx,pressed,&cube);
@@ -617,14 +636,14 @@ double vertical(t_cube *cube)
 }
 void cast_v3(t_cube *cube)
 {
-    int color = 0xFFFFFFFF;
-    float i = 0;
-    float tanges;
-    cube->v3.rayangle = cube->v3.angle - FOV / 2 * RAD ;
+    // int color = 0xFFFFFFFF;
+    int i = 0;
+    // float tanges;
+    cube->v3.rayangle = cube->v3.angle - WIDTH / 2 * RAD ;
     // double viewangle = cube->v3.angle;
     // printf("%f\n", cube->v3.rayangle );
-    int mapx;
-    int mapy;
+    // int mapx;
+    // int mapy;
     // img_clear(cube->window->img,WIDTH,HEIGHT);
     draw_background(cube->window->img, cube);
     // cube->dda.startx = 50;
@@ -635,9 +654,10 @@ void cast_v3(t_cube *cube)
     // cube->dda.endx = cube->player.x + cube->v3.deltax * 5;
     // cube->dda.endy = cube->player.y + cube->v3.deltay*5;
     // ddanalizer(cube->mini_map, cube, 0xFFFF00FF);
-    while (i <= FOV)
+        // printf("%d\n", FOV);
+    while (i < WIDTH)
     {
-        cube->v3.rayangle += RAD;
+
         if (cube->v3.rayangle < 0)
         {
             cube->v3.rayangle += 2 * M_PI;
@@ -648,7 +668,7 @@ void cast_v3(t_cube *cube)
         }
         double dH = horizontal(cube);
         double dV = vertical(cube);
-
+    // printf("ZAB\n");
         // printf("%f %f\n" , cube->v3.rayangle , cube->v3.angle);
         cube->v3.wallheight = (HEIGHT * MINIBLOCK) / cube->v3.distance;
 
@@ -656,7 +676,7 @@ void cast_v3(t_cube *cube)
         {
             cube->v3.wallheight = HEIGHT;
         }
-        float lineOffset = WIDTH - cube->v3.wallheight / 2;
+        // float lineOffset = WIDTH - cube->v3.wallheight / 2;
 
         if (dH < dV)
         {
@@ -668,57 +688,27 @@ void cast_v3(t_cube *cube)
             cube->v3.distance = dV;
             cube->v3.side = 1;
         }
-    //           int drawStart = -cube->v3.wallheight / 2 + HEIGHT / 2;
-    //   if(drawStart < 0) drawStart = 0;
-    //   int drawEnd = cube->v3.wallheight / 2 + HEIGHT / 2;
-    //   if(drawEnd >= HEIGHT) drawEnd = HEIGHT - 1;
-        double ofsset = cube->v3.wallheight;
-        // printf("%d\n", cube->v3.wallheight);
-        // printf("hh %f\n", ofsset);
+        double ca = cube->v3.angle - cube->v3.rayangle ;
+
+        if (ca <= 0)
+        {
+            ca += 2 * M_PI;
+        }
+        if (ca >= 2 * M_PI)
+        {
+            ca -= 2 * M_PI;
+        }
+        cube->v3.distance = cube->v3.distance * cos(ca); // fisheye
+        // double ofsset = cube->v3.wallheight;
         cube->dda.startx = i;
         cube->dda.starty = HEIGHT / 2 - cube->v3.wallheight/2 ;
         cube->dda.endx = i ;
-        cube->dda.endy = cube->v3.wallheight + HEIGHT /2;
-        txtv3(cube->window->img, cube, cube->colors->SO, i,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 28,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 27,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 26,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 25,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 24,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 23,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 22,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 21,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 20,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 19,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 18,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 17,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 16,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 15,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 14,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 13,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 12,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 11,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 10,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 9,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 8,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 7,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 6,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 5,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 4,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 3,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 2,10);
-        // txtv3(cube->window->img, cube, cube->colors->SO, 1,10);
+        cube->dda.endy = cube->v3.wallheight/2 + HEIGHT /2;
 
-        // txtv3(cube->window->img, cube, cube->colors->SO, i,180);
-        // txtv3(cube->window->img, cube, cube->colors->NO, i,80);
-        // txtv3(cube->window->img, cube, cube->colors->WE, i,136);
-
-        // printf("sty %f endy %f \n", cube->dda.starty, cube->dda.endy);
-
-// printf("%d\n",cube->v3.wallheight);
-
+        cube->v3.rayangle += RAD;
+        // printf("%d\n",i );
         draw_textures(cube->window->img, cube);
-        // draw_rec(cube->window->img,cube,4, 0xFFFF00FF);
+
         i++;
     }
     // cube.
@@ -740,16 +730,27 @@ void draw_textures(mlx_image_t *img, t_cube *cube)
         //     color = cube->colors.NO[0];
         if (cube->v3.rayangle < M_PI)
         {
-            ddanalizer(img, cube, 0xFF0000FF);
-        txtv3(cube->window->img, cube, cube->colors->SO, cube->dda.startx,cube->dda.starty);
-
             // textured(img, cube,cube->colors->SO);
+            ddanalizer(img, cube, 0xFF0000FF);
+        // txtv3(cube->window->img, cube, cube->colors->SO, cube->dda.startx,cube->dda.starty);
+
 
             /* code */
         }
         else{
             ddanalizer(img, cube, 0x0000FFFF);
         txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty);
+        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+32);
+        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+64);
+        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+96);
+        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+128);
+        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+160);
+        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+192);
+        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+224);
+        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+96);
+        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+96);
+
+
         }
         //  txtured(cube, cube->window->img,cube->colors->NO );
 
@@ -779,7 +780,7 @@ void draw_textures(mlx_image_t *img, t_cube *cube)
         }
         else{
             ddanalizer(img, cube, 0x00FF00FF);
-        txtv3(cube->window->img, cube, cube->colors->EA, cube->dda.startx,cube->dda.starty);
+        txtv3(cube->window->img, cube, cube->colors->SO, cube->dda.startx,cube->dda.starty);
         
         }
             // textured(img, cube,cube->colors->NO);

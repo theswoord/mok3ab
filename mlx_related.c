@@ -56,14 +56,18 @@ void pressed(void *par)
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_D))
     {
-        // cube->player.y -= cube->v3.deltay;
-        // cube->player.x -= cube->v3.deltax;
+        cube->player.y += cos(cube->v3.angle);
+        cube->player.x -= sin(cube->v3.angle);
+        printf("%f %f\n", cube->v3.angle, sin(cube->v3.angle)*5);
         // mini_map_draw(cube);
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_A))
     {
+        cube->player.y -= cos(cube->v3.angle);
+        cube->player.x += sin(cube->v3.angle);
         // mini_map_draw(cube);
     }
+    // clea
 
     // draw_player(cube, 0);
     // mini_map_draw(cube);

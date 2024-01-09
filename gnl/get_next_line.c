@@ -18,7 +18,7 @@ char	*get_next_line(int fd)
 	char		*join;
 	static char	*chyata;
 
-	join = ft_calloc(BUFFER_SIZE, 1);
+	join = ft_calloc(BUFFER_SIZE, 1); // line 
 	readd = 1;
 	if (chyata)
 	{
@@ -72,22 +72,23 @@ void	*ft_calloc(size_t count, size_t size)
 
 char	*reader(int fd, char *join, int *readd)
 {
-	char	*coko;
+	char	*buffer;
 
-	coko = ft_calloc(BUFFER_SIZE + 1, 1);
-	while (pos(coko, '\n') == -1 && *readd > 0)
+	buffer = ft_calloc(BUFFER_SIZE + 1, 1);
+	while (pos(buffer, '\n') == -1 && *readd > 0)
 	{
-		ft_bzerognl(coko, BUFFER_SIZE);
-		*readd = read(fd, coko, BUFFER_SIZE);
+		ft_bzerognl(buffer, BUFFER_SIZE); // mn b3d 
+		*readd = read(fd, buffer, BUFFER_SIZE);
+		
 		if (*readd == -1)
 		{
-			free(coko);
+			free(buffer);
 			free(join);
 			return (NULL);
 		}
-		join = ft_strjoingnl(join, coko);
+		join = ft_strjoingnl(join, buffer);
 	}
-	free(coko);
+	free(buffer);
 	return (join);
 }
 // int main()

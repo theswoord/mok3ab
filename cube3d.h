@@ -48,11 +48,12 @@ enum
 
 typedef struct s_textures
 {
-    mlx_texture_t *NO;
-    mlx_texture_t *SO;
-    mlx_texture_t *WE;
     mlx_texture_t *EA;
-
+    mlx_texture_t *NO;
+    mlx_texture_t *WE;
+    mlx_texture_t *SO;
+    // int width;
+    // int height;
 }t_textures;
 
 typedef struct s_win
@@ -67,12 +68,17 @@ typedef struct s_colors
     /* data */
     int F[3];
     int C[3];
-    unsigned long *NO;
-    unsigned long *SO;
-    unsigned long *WE;
-    unsigned long *EA;
+    unsigned long *EA; //1
+    unsigned long *NO; //2
+    unsigned long *WE; //3
+    unsigned long *SO; //4
     unsigned long finalfloor;
     unsigned long finalceil;
+    int dim[8];
+    // int SOdim[2];
+    // int EAdim[2];
+    // int WEdim[2];
+
 }t_colors ;
 
 typedef struct s_map
@@ -195,8 +201,10 @@ double normalizeAngle(double angle);
 void performRotation(t_cube *cube, int clockwise);
 void parse_textures(t_cube *cube);
 void draw_background(mlx_image_t *img, t_cube *cube);
-unsigned long *extract_color(mlx_texture_t *texture);
+// unsigned long *extract_color(mlx_texture_t *texture);
 void texture_set(t_cube *cube); // you need to free
+unsigned long *extract_color(mlx_texture_t *texture,int *arr);
+
 void textured(mlx_image_t *img , t_cube *cube, unsigned long *row);
 void set_background(t_cube *cube);
 void cast_v3(t_cube *cube);
