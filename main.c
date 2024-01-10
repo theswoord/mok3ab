@@ -36,17 +36,15 @@
 // }
 void texture_set(t_cube *cube)
 {
-    cube->colors->EA = extract_color(cube->drawings->EA,cube->colors->dim);//1
-    cube->colors->NO = extract_color(cube->drawings->NO,cube->colors->dim);//2
-    cube->colors->WE = extract_color(cube->drawings->WE,cube->colors->dim);//3
-    cube->colors->SO = extract_color(cube->drawings->SO,cube->colors->dim);//4
+    cube->colors->EA = extract_color(cube->drawings->EA, cube->colors->dim); // 1
+    cube->colors->NO = extract_color(cube->drawings->NO, cube->colors->dim); // 2
+    cube->colors->WE = extract_color(cube->drawings->WE, cube->colors->dim); // 3
+    cube->colors->SO = extract_color(cube->drawings->SO, cube->colors->dim); // 4
     // printf("%p %p %p %p\n",cube->drawings->NO,cube->drawings->SO,cube->drawings->EA,cube->drawings->WE);
     // printf("%p %p %p %p\n",cube->colors->NO,cube->colors->SO,cube->colors->EA,cube->colors->WE);
-
-
 };
 
-unsigned long *extract_color(mlx_texture_t *texture,int *arr)
+unsigned long *extract_color(mlx_texture_t *texture, int *arr)
 {
     int i = 0;
     int j = 0;
@@ -57,11 +55,11 @@ unsigned long *extract_color(mlx_texture_t *texture,int *arr)
 
     // while (k < 8)
     // {
-        arr[k] = texture->height;
-        arr[k+1] = texture->width;
-        k+=2;
+    arr[k] = texture->height;
+    arr[k + 1] = texture->width;
+    k += 2;
     // }
-    
+
     // if (!tmp)
     // {
     //     fprintf(stderr, "Failed to allocate memory\n");
@@ -280,13 +278,13 @@ int main(int ac, char **av)
 {
     t_cube *cube = (t_cube *)malloc(sizeof(t_cube));
     ft_memset(cube, 0, sizeof(t_cube));
-    cube->window = (t_win*)malloc(sizeof(t_win));
+    cube->window = (t_win *)malloc(sizeof(t_win));
     ft_memset(cube, 0, sizeof(t_win));
 
-    cube->colors = (t_colors*)malloc(sizeof(t_colors));
+    cube->colors = (t_colors *)malloc(sizeof(t_colors));
     ft_memset(cube, 0, sizeof(t_colors));
 
-    cube->drawings = (t_textures*)malloc(sizeof(t_textures));
+    cube->drawings = (t_textures *)malloc(sizeof(t_textures));
     ft_memset(cube, 0, sizeof(t_textures));
 
     int fd = open(av[1], O_RDONLY);
@@ -311,17 +309,17 @@ int main(int ac, char **av)
     cube->v3.deltay = sin(cube->v3.angle) * 5;           // speed
     printf("%f , %f\n", cube->v3.angle, P2);
 
-    for (size_t i = 0; i < 8; i++)
-    {
-        printf("%d ",cube->colors->dim[i]);
-        // if (i % 2 == 0)
-        // {
-        //     printf ("EA NO WE SO");
-        //     /* code */
-        // }
-        
-    }
-    
+    // for (size_t i = 0; i < 8; i++)
+    // {
+    //     printf("%d ",cube->colors->dim[i]);
+    //     // if (i % 2 == 0)
+    //     // {
+    //     //     printf ("EA NO WE SO");
+    //     //     /* code */
+    //     // }
+
+    // }
+    // printf("%d\n",height_extract(cube,"EA"));
     // animation_init(&cube); // memes
     // mlx_loop_hook(cube.window->mlx,animations_draw,&cube);
     // mlx_loop_hook(cube.window->mlx,pressed,&cube);
@@ -554,7 +552,7 @@ double horizontal(t_cube *cube)
     cube->v3.Hy = cube->v3.rayy;
 
     return (sqrt(pow(cube->v3.Hx - cube->player.x, 2) + pow(cube->v3.Hy - cube->player.y, 2))); // sqrt if i need distance;
-                                                                                                 // printf("ha2\n");
+                                                                                                // printf("ha2\n");
 
     //         cube->dda.startx = cube->player.x;
     //     cube->dda.starty = cube->player.y;
@@ -639,7 +637,7 @@ void cast_v3(t_cube *cube)
     // int color = 0xFFFFFFFF;
     int i = 0;
     // float tanges;
-    cube->v3.rayangle = cube->v3.angle - WIDTH / 2 * RAD ;
+    cube->v3.rayangle = cube->v3.angle - WIDTH / 2 * RAD;
     // double viewangle = cube->v3.angle;
     // printf("%f\n", cube->v3.rayangle );
     // int mapx;
@@ -654,7 +652,7 @@ void cast_v3(t_cube *cube)
     // cube->dda.endx = cube->player.x + cube->v3.deltax * 5;
     // cube->dda.endy = cube->player.y + cube->v3.deltay*5;
     // ddanalizer(cube->mini_map, cube, 0xFFFF00FF);
-        // printf("%d\n", FOV);
+    // printf("%d\n", FOV);
     while (i < WIDTH)
     {
 
@@ -668,7 +666,7 @@ void cast_v3(t_cube *cube)
         }
         double dH = horizontal(cube);
         double dV = vertical(cube);
-    // printf("ZAB\n");
+        // printf("ZAB\n");
         // printf("%f %f\n" , cube->v3.rayangle , cube->v3.angle);
         cube->v3.wallheight = (HEIGHT * MINIBLOCK) / cube->v3.distance;
 
@@ -688,7 +686,7 @@ void cast_v3(t_cube *cube)
             cube->v3.distance = dV;
             cube->v3.side = 1;
         }
-        double ca = cube->v3.angle - cube->v3.rayangle ;
+        double ca = cube->v3.angle - cube->v3.rayangle;
 
         if (ca <= 0)
         {
@@ -701,9 +699,9 @@ void cast_v3(t_cube *cube)
         cube->v3.distance = cube->v3.distance * cos(ca); // fisheye
         // double ofsset = cube->v3.wallheight;
         cube->dda.startx = i;
-        cube->dda.starty = HEIGHT / 2 - cube->v3.wallheight/2 ;
-        cube->dda.endx = i ;
-        cube->dda.endy = cube->v3.wallheight/2 + HEIGHT /2;
+        cube->dda.starty = HEIGHT / 2 - cube->v3.wallheight / 2;
+        cube->dda.endx = i;
+        cube->dda.endy = cube->v3.wallheight / 2 + HEIGHT / 2;
 
         cube->v3.rayangle += RAD;
         // printf("%d\n",i );
@@ -724,69 +722,38 @@ void draw_textures(mlx_image_t *img, t_cube *cube)
     int i = 0;
     if (cube->v3.side == 0)
     {
-        // while (i < 32)
-        // {
-        //     /* code */
-        //     color = cube->colors.NO[0];
-        if (cube->v3.rayangle < M_PI)
+        if (cube->v3.rayangle < M_PI) // SO
         {
-            // textured(img, cube,cube->colors->SO);
-            ddanalizer(img, cube, 0xFF0000FF);
-        // txtv3(cube->window->img, cube, cube->colors->SO, cube->dda.startx,cube->dda.starty);
-
-
-            /* code */
+            // printf("%d\n", factor_finder(cube,"SO"));
+            // textured(img, cube,cube->colors->SO,factor_finder(cube,"SO"));
+            dakh(img,cube,cube->colors->SO,32,32,factor_finder(cube,"SO"));
+            // ddanalizer(img, cube, 0xFF0000FF);
+            // txtv3(cube->window->img, cube, cube->colors->SO, cube->dda.startx,cube->dda.starty);
         }
-        else{
-            ddanalizer(img, cube, 0x0000FFFF);
-        txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty);
-        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+32);
-        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+64);
-        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+96);
-        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+128);
-        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+160);
-        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+192);
-        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+224);
-        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+96);
-        // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx,cube->dda.starty+96);
+        else // NO
+        {
+            dakh(img,cube,cube->colors->NO,32,32,factor_finder(cube,"NO"));
 
-
+            // ddanalizer(img, cube, 0x0000FFFF);
+            // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx, cube->dda.starty);
         }
-        //  txtured(cube, cube->window->img,cube->colors->NO );
-
-            // textured(img, cube,cube->colors->WE);
-
-        //     // printf("%d\n",cube->colors.NO[i]);
-        //     i++;
-        // }
-        // i = 0;
-        // color = 0xFF00FFFF;
-        /* code */
-        // textured(img, cube,cube->colors.NO);
-        // ddanalizer(img,cube,0xFF0000FF);
     }
     else
     {
-        // color = 0x00FFFF;
-        if (cube->v3.rayangle > P3 || cube->v3.rayangle < P2)
+        if (cube->v3.rayangle > P3 || cube->v3.rayangle < P2) //EA
         {
             // textured(img, cube,cube->colors->EA);
+            dakh(img,cube,cube->colors->EA,32,32,factor_finder(cube,"EA"));
 
-            ddanalizer(img, cube, 0xFFFF00FF);
-        txtv3(cube->window->img, cube, cube->colors->WE, cube->dda.startx,cube->dda.starty);
-
-
-            /* code */
+            // ddanalizer(img, cube, 0xFFFF00FF);
+            // txtv3(cube->window->img, cube, cube->colors->WE, cube->dda.startx, cube->dda.starty);
         }
-        else{
-            ddanalizer(img, cube, 0x00FF00FF);
-        txtv3(cube->window->img, cube, cube->colors->SO, cube->dda.startx,cube->dda.starty);
-        
-        }
-            // textured(img, cube,cube->colors->NO);
+        else // WE
+        {
+            dakh(img,cube,cube->colors->WE,32,32,factor_finder(cube,"WE"));
 
-        // ddanalizer(img,cube,0x00FF00FF);
+            // ddanalizer(img, cube, 0x00FF00FF);
+            // txtv3(cube->window->img, cube, cube->colors->SO, cube->dda.startx, cube->dda.starty);
+        }
     }
-
-    // textured(img, cube, color);
 }

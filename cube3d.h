@@ -205,14 +205,18 @@ void draw_background(mlx_image_t *img, t_cube *cube);
 void texture_set(t_cube *cube); // you need to free
 unsigned long *extract_color(mlx_texture_t *texture,int *arr);
 
-void textured(mlx_image_t *img , t_cube *cube, unsigned long *row);
+// void textured(mlx_image_t *img , t_cube *cube, unsigned long *row);
 void set_background(t_cube *cube);
 void cast_v3(t_cube *cube);
 float d2r(float deg );
 int fixangle(int a);
 void draw_textures(mlx_image_t * img,t_cube * cube );
 void txtured(t_cube * cube, mlx_image_t * img, unsigned long *tex);
+void textured(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor);
 void txtv3(mlx_image_t *img,t_cube *cube, unsigned long *row, int fin, int y);
+int factor_finder(t_cube *cube, char *texture);
+int height_extract(t_cube *cube, char *texture);
+void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor);
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 
 #endif

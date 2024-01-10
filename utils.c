@@ -110,14 +110,14 @@ void ddanalizer(mlx_image_t *img, t_cube *cube, int color)
         steps--;
     }
 }
-void textured(mlx_image_t *img, t_cube *cube, unsigned long *row)
+void textured(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor)
 {
     // if (cube->dda.)
     // {
     //     /* code */
     // }
     int i = 0;
-
+    int j = 0;
     float disX = cube->dda.endx - cube->dda.startx;
     float disY = cube->dda.endy - cube->dda.starty;
     int steps = 0;
@@ -141,17 +141,18 @@ void textured(mlx_image_t *img, t_cube *cube, unsigned long *row)
         /* code */
     }
 
-    
     while (steps > 0)
     {
         X += Xinc;
         Y += Yinc;
-        // while (i < 1024)
-        // {
-        mlx_put_pixel(img, X, Y, row[(i % 32) * 32 + i / 32]);
-        i++;
+        while (j < factor)
+        {
+        mlx_put_pixel(img, X, Y+j, row[(i % 32) * 32 + i / 32]);
+        j++;
         /* code */
-        // }
+        }
+        j=0;
+        i++;
 
         steps--;
     }
@@ -205,7 +206,7 @@ int fixangle(int a)
     return a;
 }
 
-void txtured(t_cube *cube, mlx_image_t *img,unsigned long *tex )
+void txtured(t_cube *cube, mlx_image_t *img, unsigned long *tex)
 {
     int i = 0;
     int y = 0;
@@ -218,10 +219,10 @@ void txtured(t_cube *cube, mlx_image_t *img,unsigned long *tex )
         {
             while (x < 32)
             {
-            //      mlx_put_pixel(50+ x*factor,cube->v3.Hx + y*factor, tex[i]);
-            //    mlx_put_pixel(img,cube->v3.rayx + x*factor + factor - 1, cube->v3.rayy+ y*factor, tex[i]);
-            //    mlx_put_pixel(img,cube->v3.rayx + x*factor,cube->v3.rayy + y*factor + factor - 1, tex[i]);
-            //    mlx_put_pixel(img,cube->v3.rayx + x*factor + factor - 1,cube->v3.rayy + y*factor + factor - 1, tex[i]);
+                //      mlx_put_pixel(50+ x*factor,cube->v3.Hx + y*factor, tex[i]);
+                //    mlx_put_pixel(img,cube->v3.rayx + x*factor + factor - 1, cube->v3.rayy+ y*factor, tex[i]);
+                //    mlx_put_pixel(img,cube->v3.rayx + x*factor,cube->v3.rayy + y*factor + factor - 1, tex[i]);
+                //    mlx_put_pixel(img,cube->v3.rayx + x*factor + factor - 1,cube->v3.rayy + y*factor + factor - 1, tex[i]);
 
                 // mlx_put_pixel(img, 50 + x*2, 50 + y*2, tex[i]);
                 // mlx_put_pixel(img, 50 + x*2 +2, 50 + y*2 , tex[i]);
@@ -256,7 +257,7 @@ void txtured(t_cube *cube, mlx_image_t *img,unsigned long *tex )
                 // mlx_put_pixel(img, 150 + x*3 +5, 150 + y*3 , tex[i]);
                 // mlx_put_pixel(img, 150 + x*3, 150 + y*3+5, tex[i]);
                 // mlx_put_pixel(img, 150 + x*3 + 5 , 150 + y * 3 + 5, tex[i]);
-                
+
                 // mlx_put_pixel(img, 150 + x*3, 150 + y*3, tex[i]);
                 // mlx_put_pixel(img, 150 + x*3 +6, 150 + y*3 , tex[i]);
                 // mlx_put_pixel(img, 150 + x*3, 150 + y*3+6, tex[i]);
@@ -270,26 +271,25 @@ void txtured(t_cube *cube, mlx_image_t *img,unsigned long *tex )
     }
 }
 
-void txtv3(mlx_image_t *img,t_cube *cube, unsigned long *row, int fin, int y)
+void txtv3(mlx_image_t *img, t_cube *cube, unsigned long *row, int fin, int y)
 {
-        static int  i = 0;
-       static int k = 0;
+    static int i = 0;
+    static int k = 0;
     int steps = 0;
     float disX = 0;
     float disY = 32;
 
-        if (fabs(disX) > fabs(disY))
+    if (fabs(disX) > fabs(disY))
     {
         steps = fabs(disX);
         /* code */
     }
     else
         steps = fabs(disY);
-    
-    
+
     float X = fin;
     float Y = y;
-    
+
     float Xinc = disX / (float)steps;
     float Yinc = disY / (float)steps;
     while (steps > 0)
@@ -299,11 +299,86 @@ void txtv3(mlx_image_t *img,t_cube *cube, unsigned long *row, int fin, int y)
         mlx_put_pixel(img, X, Y, row[(k % 32) * 32 + k / 32]);
 
         k++;
-        
-        if (k ==1024)
+
+        if (k == 1024)
         {
-           k = 0;
+            k = 0;
         }
         steps--;
     }
 }
+
+int height_extract(t_cube *cube, char *texture)
+{
+    if (!ft_strncmp(texture, "EA", 3))
+        return (cube->colors->dim[0]);
+    if (!ft_strncmp(texture, "NO", 3))
+        return (cube->colors->dim[2]);
+    if (!ft_strncmp(texture, "WE", 3))
+        return (cube->colors->dim[4]);
+    if (!ft_strncmp(texture, "SO", 3))
+        return (cube->colors->dim[6]);
+
+    return 0;
+}
+int factor_finder(t_cube *cube, char *texture)
+{
+    return((int)(cube->v3.wallheight / height_extract(cube,texture)));
+}
+void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor) {
+    float disX = cube->dda.endx - cube->dda.startx;
+    float disY = cube->dda.endy - cube->dda.starty;
+    int steps = (fabs(disX) > fabs(disY)) ? fabs(disX) : fabs(disY);
+
+    float Xinc = disX / (float)steps;
+    float Yinc = disY / (float)steps;
+
+    float X = cube->dda.startx;
+    float Y = cube->dda.starty;
+
+    if (X > WIDTH || Y > HEIGHT || steps <= 0 || factor <= 0 || MINIBLOCK <= 0) {
+        return;
+    }
+
+    for (int i = 0; i < steps; i++) {
+        int texX = ((int)(X / MINIBLOCK)) % textureWidth;
+        int texY = ((int)(Y / (MINIBLOCK ))) % textureHeight;
+
+        unsigned long texColor = texture[texY * textureWidth + texX];
+
+        mlx_put_pixel(img, X, Y, texColor);
+
+        X += Xinc;
+        Y += Yinc;
+    }
+}
+// void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor) {
+//     float disX = cube->dda.endx - cube->dda.startx;
+//     float disY = cube->dda.endy - cube->dda.starty;
+//     int steps = (fabs(disX) > fabs(disY)) ? fabs(disX) : fabs(disY);
+
+//     float Xinc = disX / (float)steps;
+//     float Yinc = disY / (float)steps;
+
+//     float X = cube->dda.startx;
+//     float Y = cube->dda.starty;
+
+//     if (X > WIDTH || Y > HEIGHT || steps <= 0 || MINIBLOCK <= 0) {
+//         return;
+//     }
+
+//     float texScaleX = (float)textureWidth / (float)MINIBLOCK;
+//     float texScaleY = (float)textureHeight / (float)MINIBLOCK;
+
+//     for (int i = 0; i < steps; i++) {
+//         int texX = ((int)(X * texScaleX)) % textureWidth;
+//         int texY = ((int)(Y * texScaleY)) % textureHeight;
+
+//         unsigned long texColor = texture[texY * textureWidth + texX];
+
+//         mlx_put_pixel(img, X, Y, texColor);
+
+//         X += Xinc;
+//         Y += Yinc;
+//     }
+// }
