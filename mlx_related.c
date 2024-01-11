@@ -13,18 +13,18 @@ void pressed(void *par)
     {
         if (cube->map[testy][testx] != '1')
         {
-            cube->player.y += cube->v3.deltay;
-            cube->player.x += cube->v3.deltax;
+            cube->player.y += (int)cube->v3.deltay;
+            cube->player.x += (int)cube->v3.deltax;
         }
         // mini_map_draw(cube);
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_LEFT))
     {
         cube->v3.angle -= ROTSPEED;
-        // if (cube->v3.angle < 0)
-        // {
-        //     cube->v3.angle += 2 * M_PI;
-        // }
+        if (cube->v3.angle < 0)
+        {
+            cube->v3.angle += 2 * M_PI;
+        }
         cube->v3.deltax = cos(cube->v3.angle) * 5;
         cube->v3.deltay = sin(cube->v3.angle) * 5;
         // mini_map_draw(cube);
@@ -33,8 +33,8 @@ void pressed(void *par)
     {
         if (cube->map[backy][backx] != '1')
         {
-            cube->player.y -= cube->v3.deltay;
-            cube->player.x -= cube->v3.deltax;
+            cube->player.y -= (int)cube->v3.deltay;
+            cube->player.x -= (int)cube->v3.deltax;
         }
         // mini_map_draw(cube);
     }
@@ -69,8 +69,8 @@ void pressed(void *par)
     }
     // clea
 
-    // draw_player(cube, 0);
-    // mini_map_draw(cube);
+    draw_player(cube, 0);
+    mini_map_draw(cube);
     cast_v3(cube);
 
     // printf("key is %d pressed = %d\n",cube->player.y, keydata.key);

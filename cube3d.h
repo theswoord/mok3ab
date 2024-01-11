@@ -18,7 +18,7 @@
 #define P1 3.1415926535
 #define P2 M_PI/2
 #define P3 3*M_PI/2
-#define RAD 0.0174533 /30.0
+#define RAD 0.0174533 /30.0 //30
 
 
 
@@ -216,6 +216,7 @@ void textured(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor);
 void txtv3(mlx_image_t *img,t_cube *cube, unsigned long *row, int fin, int y);
 int factor_finder(t_cube *cube, char *texture);
 int height_extract(t_cube *cube, char *texture);
+void tabta(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor);
 void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor);
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 

@@ -5,8 +5,8 @@
 WE ./textures/WE.png
 EA ./textures/SO.png
 
-         F 0,0,0
-           C 80,160,25
+         F 0,0,100
+           C 80,50,25
 
 
 
