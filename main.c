@@ -305,10 +305,10 @@ int main(int ac, char **av)
     draw_background(cube->window->img, cube); // made the imgptr
     mini_map_draw(cube);
     // mlx_delete_image(cube->window->mlx, cube->mini_map); // hadi ach nkhdm ghir f walls
-    cube->v3.deltax = cos(cube->v3.angle) * 5;           // speed
-    cube->v3.deltay = sin(cube->v3.angle) * 5;           // speed
+    cube->v3.deltax = cos(cube->v3.angle) * 5.0; // speed
+    cube->v3.deltay = sin(cube->v3.angle) * 5.0; // speed
     printf("%f , %f\n", cube->v3.angle, P2);
-
+// cube->v3.angle += 2.5;
     // for (size_t i = 0; i < 8; i++)
     // {
     //     printf("%d ",cube->colors->dim[i]);
@@ -335,146 +335,7 @@ int main(int ac, char **av)
     return 0;
 }
 
-void castingv2(t_cube *cube)
-{
-    int x = 0;
-    double stepX;
-    double stepY;
-    int side; // was a NS or a EW wall hit?
-    double perpWallDist;
 
-    // printf("%f\n", atan((cube->win.planeY/1.0)*(M_PI/180)));
-    img_clear(cube->window->img, WIDTH, HEIGHT);
-
-    while (x < WIDTH)
-    {
-        cube->win.cameraX = 2.0 * x / (double)(WIDTH)-1;
-
-        cube->win.RaydirecX = cube->win.dirX + cube->win.planeX * cube->win.cameraX;
-        cube->win.RaydirecY = cube->win.dirY + cube->win.planeY * cube->win.cameraX;
-        cube->win.posinmapX = cube->player.x / (int)MINIBLOCK;
-        cube->win.posinmapY = cube->player.y / (int)MINIBLOCK;
-        // printf("fin ghadi x %f fin ghadi y  %f %f\n", cube->win.dirX, cube->win.dirY , pow(cube->win.dirX,2)+pow(cube->win.dirY,2) );
-        // printf("%d %d %d %d \n",cube->player.x,cube->player.y,cube->win.posinmapX,cube->win.posinmapY);
-        // pr
-        // printf("%f %f\n",cube->win.RaydirecX,cube->win.RaydirecY);
-
-        cube->win.deltaDistX = fabs(1 / cube->win.RaydirecX);
-
-        cube->win.deltaDistY = fabs(1 / cube->win.RaydirecY);
-
-        // printf("ray x%f ray Y %f elx %f del y%f\n", cube->win.RaydirecX,cube->win.RaydirecY,cube->win.deltaDistX, cube->win.deltaDistY);
-        if (cube->win.RaydirecX < 0)
-        {
-            stepX = -1;
-            cube->win.sideDistX = ((cube->player.x / MINIBLOCK) - cube->win.posinmapX) * cube->win.deltaDistX;
-        }
-        else
-        {
-            stepX = 1;
-            cube->win.sideDistX = ((cube->player.x / MINIBLOCK) - cube->win.posinmapX) * cube->win.deltaDistX;
-        }
-        if (cube->win.RaydirecY < 0)
-        {
-            stepY = -1;
-            cube->win.sideDistY = ((cube->player.y / MINIBLOCK) - cube->win.posinmapY) * cube->win.deltaDistY;
-        }
-        else
-        {
-            stepY = 1;
-            cube->win.sideDistY = ((cube->player.y / MINIBLOCK) - cube->win.posinmapY) * cube->win.deltaDistY;
-        }
-        int hit = 0;
-        //   printf("%f\n",cube->win.cameraX);
-        while (hit == 0)
-        {
-            // jump to next map square, either in x-direction, or in y-direction
-            if (cube->win.sideDistX < cube->win.sideDistY)
-            {
-                cube->win.sideDistX += cube->win.deltaDistX;
-                cube->win.posinmapX += stepX;
-                side = 0;
-            }
-            else
-            {
-                cube->win.sideDistY += cube->win.deltaDistY;
-                cube->win.posinmapY += stepY;
-                side = 1;
-            }
-
-            // printf("%f %f , st")
-            // printf("%f %d %f %d\n",cube->win.sideDistX,cube->win.posinmapX ,cube->win.sideDistY ,cube->win.posinmapY);
-            // Check if ray has hit a wall
-            // printf("%d %d %c \n", cube->win.posinmapY, cube->win.posinmapX ,cube->map[cube->win.posinmapY][cube->win.posinmapX]);
-            if (side == 0)
-                perpWallDist = (cube->win.sideDistX - cube->win.deltaDistX);
-            else
-                perpWallDist = (cube->win.sideDistY - cube->win.deltaDistY);
-            double wallX; // where exactly the wall was hit
-            if (side == 0)
-                wallX = cube->player.y / 32 + perpWallDist * cube->win.RaydirecY;
-            else
-                wallX = cube->player.x / 32 + perpWallDist * cube->win.RaydirecX;
-            wallX -= floor((wallX));
-            cube->dda.startx = cube->player.x;
-            cube->dda.starty = cube->player.y;
-            cube->dda.endx = ((cube->win.posinmapX * 32 + wallX * 32));
-            cube->dda.endy = ((cube->win.posinmapY * 32) + 32 * (1 - stepY) / 2);
-            // printf("end %f %f\n",cube->dda.endx,cube->dda.endy );
-            // printf("%d")
-            // printf("%d\n", x);
-            // printf("sdX %f sdY %f posX %d posY %d \n", cube->win.sideDistX , cube->win.sideDistY,cube->win.posinmapX*32,cube->win.posinmapY*32 );
-            // printf("sx %d sy %d ex %d ey %d \n", cube->dda.startx,cube->dda.starty,cube->dda.endx,cube->dda.endy);
-            if (cube->map[cube->win.posinmapY][cube->win.posinmapX] == '1')
-            {
-                // ddanalizer(cube->mini_map,cube);
-                // cube->dda.startx =
-                ddanalizer(cube->mini_map, cube, 0xFF0000FF);
-                // printf("kk\n");
-                hit = 1; // an7bs 7d hnaya
-            }
-        }
-        // Calculate height of line to draw on screen
-        int lineHeight = (int)(HEIGHT / perpWallDist);
-        // calculate lowest and highest pixel to fill in current stripe
-        int pitch = 100;
-
-        int drawStart = (-lineHeight / 2) + (HEIGHT / 2);
-        if (drawStart < 0)
-            drawStart = 0;
-        int drawEnd = (lineHeight / 2) + (HEIGHT / 2);
-        if (drawEnd >= HEIGHT)
-            drawEnd = HEIGHT - 1;
-
-        // printf("%f\n", wallX*32);
-
-        //   unsigned long color = cube->colors.NO[k];
-        int k = 0;
-        int l = 0;
-
-        cube->dda.color = 0x00FF00FF;
-
-        cube->dda.startx = x;
-        cube->dda.starty = drawStart;
-        cube->dda.endx = x;
-        cube->dda.endy = drawEnd;
-        if (side == 1)
-        {
-            cube->dda.color = 0xFFAA0FFF;
-        }
-        // while (k < 32)
-        // {
-        //     /* code */
-        // textured(cube->window->img, cube, cube->colors.SO);
-        //     k++;
-        // }
-
-        ddanalizer(cube->window->img, cube, cube->dda.color);
-        // mlx_put_pixel()
-
-        x++;
-    }
-}
 
 double horizontal(t_cube *cube)
 {
@@ -486,30 +347,30 @@ double horizontal(t_cube *cube)
     // printf("%f %f\n", cube->v3.rayangle, tanges);
     if (cube->v3.rayangle > M_PI)
     {
-        cube->v3.rayy = floor(((cube->player.y / MINIBLOCK) * MINIBLOCK)) - 0.001;
+        cube->v3.rayy = ((int)cube->player.y / MINIBLOCK * MINIBLOCK) - 0.0001; // 7yedt cast o ba9a r3da
         // printf("%f\n", cube->v3.rayy);
-        cube->v3.rayx = (cube->player.y - cube->v3.rayy) * tanges + cube->player.x;
+        cube->v3.rayx = ((int)cube->player.y - cube->v3.rayy) * tanges + (int)cube->player.x; // 7yedt cast o ba9a r3da
         cube->v3.yoffset = -MINIBLOCK;
         cube->v3.xoffset = -cube->v3.yoffset * tanges;
     }
     if (cube->v3.rayangle < M_PI)
     {
-        cube->v3.rayy = (int)((cube->player.y / MINIBLOCK) * MINIBLOCK) + MINIBLOCK;
-        cube->v3.rayx = (cube->player.y - cube->v3.rayy) * tanges + cube->player.x;
+        cube->v3.rayy = ((int)cube->player.y / MINIBLOCK) * MINIBLOCK + MINIBLOCK; // 7yedt cast o ba9a r3da
+        cube->v3.rayx = ((int)cube->player.y - cube->v3.rayy) * tanges + (int)cube->player.x; // 7yedt cast o ba9a r3da
         cube->v3.yoffset = MINIBLOCK;
         cube->v3.xoffset = -cube->v3.yoffset * tanges;
     }
     if (cube->v3.rayangle == 0)
     {
-        cube->v3.rayx = cube->player.x;
+        // cube->v3.rayx = cube->player.x;
         cube->v3.xoffset = MINIBLOCK;
-        cube->v3.rayy = cube->player.y;
+        // cube->v3.rayy = cube->player.y;
     }
     if (cube->v3.rayangle == M_PI)
     {
-        cube->v3.rayx = cube->player.x;
+        // cube->v3.rayx = cube->player.x;
         cube->v3.xoffset = -MINIBLOCK;
-        cube->v3.rayy = cube->player.y;
+        // cube->v3.rayy = cube->player.y;
     }
     // printf("ha1\n");
 
@@ -571,29 +432,29 @@ double vertical(t_cube *cube)
     // printf("h%f %fh\n",tanges,cube->v3.rayangle );
     if (cube->v3.rayangle > P2 && cube->v3.rayangle < P3)
     {
-        cube->v3.rayx = floor((cube->player.x / MINIBLOCK) * MINIBLOCK) - 0.001;
-        cube->v3.rayy = (cube->player.x - cube->v3.rayx) * tanges + cube->player.y;
+        cube->v3.rayx = ((int)cube->player.x / MINIBLOCK) * MINIBLOCK - 0.0001;
+        cube->v3.rayy = ((int)cube->player.x - cube->v3.rayx) * tanges + (int)cube->player.y;
         cube->v3.xoffset = -MINIBLOCK;
         cube->v3.yoffset = -cube->v3.xoffset * tanges;
     }
     if (cube->v3.rayangle < P2 || cube->v3.rayangle > P3)
     {
-        cube->v3.rayx = (int)((cube->player.x / MINIBLOCK) * MINIBLOCK) + MINIBLOCK;
-        cube->v3.rayy = (cube->player.x - cube->v3.rayx) * tanges + cube->player.y;
+        cube->v3.rayx = ((int)cube->player.x / MINIBLOCK * MINIBLOCK) + MINIBLOCK;
+        cube->v3.rayy = ((int)cube->player.x - cube->v3.rayx) * tanges + (int)cube->player.y;
         cube->v3.xoffset = MINIBLOCK;
         cube->v3.yoffset = -cube->v3.xoffset * tanges;
     }
     if (cube->v3.rayangle == P2)
     {
-        cube->v3.rayx = cube->player.x;
+        // cube->v3.rayx = (int)cube->player.x;
         cube->v3.yoffset = MINIBLOCK;
-        cube->v3.rayy = cube->player.y;
+        // cube->v3.rayy = (int)cube->player.y;
     }
     if (cube->v3.rayangle == P3)
     {
-        cube->v3.rayx = cube->player.x;
+        // cube->v3.rayx = (int)cube->player.x;
         cube->v3.yoffset = -MINIBLOCK;
-        cube->v3.rayy = cube->player.y;
+        // cube->v3.rayy = (int)cube->player.y;
     }
     while (1)
     {
@@ -629,24 +490,34 @@ double vertical(t_cube *cube)
     cube->v3.Vx = cube->v3.rayx;
     cube->v3.Vy = cube->v3.rayy;
 
-    return (sqrtf(pow(cube->v3.Vx - cube->player.x, 2) + pow(cube->v3.Vy - cube->player.y, 2)));
+    return (sqrt(pow(cube->v3.Vx - cube->player.x, 2) + pow(cube->v3.Vy - cube->player.y, 2)));
     // return 0;
 }
 void cast_v3(t_cube *cube)
 {
+    // printf("x %f y %f\n", cube->player.x,cube->player.y);
     int i = 0;
-    cube->v3.rayangle = cube->v3.angle - WIDTH / 2 * RAD;
-    draw_player(cube,1);
+    // cube->v3.angle += 0.01;
+    cube->v3.rayangle = cube->v3.angle - WIDTH / 2.0 * RAD;
+    // cube->v3.rayangle += 1.01;
+
+    // printf("%f %f \n",cube->v3.rayangle , cube->v3.angle);
+    draw_player(cube, 1);
     draw_background(cube->window->img, cube);
-    while (i < WIDTH)
+    // printf("%f %f\n",cube->player.x,cube->player.y);
+    while (i <= WIDTH)
     {
 
         if (cube->v3.rayangle < 0)
             cube->v3.rayangle += 2 * M_PI;
         if (cube->v3.rayangle >= 2 * M_PI)
             cube->v3.rayangle -= 2 * M_PI;
-        double dH = horizontal(cube);
-        double dV = vertical(cube);
+        double dH;
+        dH = horizontal(cube);
+        double dV;
+        dV = vertical(cube);
+    // printf("hh %f %f\n",cube->player.x,cube->player.y);
+
         cube->v3.wallheight = (HEIGHT * MINIBLOCK) / cube->v3.distance;
 
         if (cube->v3.wallheight > HEIGHT)
@@ -683,16 +554,17 @@ void cast_v3(t_cube *cube)
         if (ca >= 2 * M_PI)
             ca -= 2 * M_PI;
         cube->v3.distance = cube->v3.distance * cos(ca); // fisheye
+
         cube->dda.startx = i;
         cube->dda.starty = HEIGHT / 2 - cube->v3.wallheight / 2;
         cube->dda.endx = i;
         cube->dda.endy = cube->v3.wallheight / 2 + HEIGHT / 2;
 
         cube->v3.rayangle += RAD;
-        // draw_textures(cube->window->img, cube);
+
+        draw_textures(cube->window->img, cube);
 
         i++;
-        
     }
 }
 
@@ -708,7 +580,7 @@ void draw_textures(mlx_image_t *img, t_cube *cube)
             // printf("%d\n", factor_finder(cube,"SO"));
             // textured(img, cube,cube->colors->SO,factor_finder(cube,"SO"));
             dakh(img,cube,cube->colors->SO,32,32,factor_finder(cube,"SO"));
-            // ddanalizer(img, cube, 0xFF0000FF);
+            // ddanalizer(img, cube, 0xFF0000AA);
             // txtv3(cube->window->img, cube, cube->colors->SO, cube->dda.startx,cube->dda.starty);
         }
         else // NO
@@ -717,19 +589,19 @@ void draw_textures(mlx_image_t *img, t_cube *cube)
             // tabta(img, cube,cube->colors->NO,factor_finder(cube,"NO"));
             // textured(img, cube,cube->colors->NO,factor_finder(cube,"NO"));
 
-            // ddanalizer(img, cube, 0x0000FFFF);
+            // ddanalizer(img, cube, 0x0000FFAA);
             // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx, cube->dda.starty);
         }
     }
     else
     {
-        if (cube->v3.rayangle > P3 || cube->v3.rayangle < P2) //EA
+        if (cube->v3.rayangle > P3 || cube->v3.rayangle < P2) // EA
         {
             // textured(img, cube,cube->colors->EA);
             dakh(img,cube,cube->colors->EA,32,32,factor_finder(cube,"EA"));
             // textured(img, cube,cube->colors->EA,factor_finder(cube,"EA"));
 
-            // ddanalizer(img, cube, 0xFFFF00FF);
+            // ddanalizer(img, cube, 0xFFFF00AA);
             // txtv3(cube->window->img, cube, cube->colors->WE, cube->dda.startx, cube->dda.starty);
         }
         else // WE
@@ -737,7 +609,7 @@ void draw_textures(mlx_image_t *img, t_cube *cube)
             dakh(img,cube,cube->colors->WE,32,32,factor_finder(cube,"WE"));
             // textured(img, cube,cube->colors->WE,factor_finder(cube,"WE"));
 
-            // ddanalizer(img, cube, 0x00FF00FF);
+            // ddanalizer(img, cube, 0x00FF00AA);
             // txtv3(cube->window->img, cube, cube->colors->SO, cube->dda.startx, cube->dda.starty);
         }
     }

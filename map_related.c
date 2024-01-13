@@ -5,7 +5,7 @@ void mini_map_draw(t_cube *cube)
 
     int x = 0;
     int y = 0;
-    float step = 32 * MINISCALE;
+    double step = 32 * MINISCALE;
     static int save = 0;
     // print_tableau(cube->map);
     while (y < cube->map_stuff.lines)
@@ -21,15 +21,15 @@ void mini_map_draw(t_cube *cube)
             if ((cube->map[y][x] == 'S' || cube->map[y][x] == 'N'|| cube->map[y][x] == 'E'|| cube->map[y][x] == 'W') && save == 0)
             {
                 save = 1;
-                cube->player.x = (x*step)+(int)MINIBLOCK/2;
-                cube->player.y = (y*step)+(int)MINIBLOCK/2;
+                cube->player.x = (x*step)+MINIBLOCK/2;
+                cube->player.y = (y*step)+MINIBLOCK/2;
                 draw_player(cube,MINIBLOCK);
                 if(cube->map[y][x] == 'S')
                 cube->v3.angle = P2;
                 if(cube->map[y][x] == 'N')
                 cube->v3.angle = P3;
                 if(cube->map[y][x] == 'E')
-                cube->v3.angle = 0;
+                cube->v3.angle = 0.0;
                 if(cube->map[y][x] == 'W')
                 cube->v3.angle = M_PI;
             }

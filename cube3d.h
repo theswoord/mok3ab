@@ -8,11 +8,11 @@
 #include "stdbool.h"
 #include "math.h"
 #include <limits.h>
-#define WIDTH 1980 //l3rd
+#define WIDTH 1980.0 //l3rd
 #define HEIGHT 1080 //tol
 #define MINIBLOCK 32 //square block
 #define MINISCALE 1
-#define SPEED 3.0
+#define SPEED 1.0
 #define FOV 66*30  // 32 
 #define ROTSPEED 0.05
 #define P1 3.1415926535
@@ -88,10 +88,10 @@ typedef struct s_map
 }t_map;
 typedef struct s_player
 {
-    int x;
-    int y;
+    double x;
+    double y;
 
-    float angle; 
+    double angle; 
     float distx;
     float disty;
     float real_dis;
@@ -109,23 +109,6 @@ typedef struct s_lines
 
 }t_lines;
 
-typedef struct s_lodev
-{
-double dirX; // first direction fach kaychof ila kan N(X=0,Y=-1)S(X=0,Y=+1)E(X=+1,Y=0)W(X=-1,Y=0)
-double dirY;
-double planeX;
-double planeY;
-double RaydirecX;
-double RaydirecY;
-int posinmapX;
-int posinmapY;
-double sideDistX;
-double sideDistY;
-double deltaDistX;
-double deltaDistY;
-      //double cameraX = 2 * x / double(w) - 1; //x-coordinate in camera space
-      double cameraX; // x being 0 to WIDTH;
-}t_lodev;
 
 typedef struct s_gatto
 {
@@ -155,7 +138,6 @@ typedef struct s_cube
     // mlx_image_t *anim[2]; // troll
     t_gatto v3;
     t_textures *drawings;
-    t_lodev win;
     t_lines dda;
     int wallheight;
     mlx_image_t *walls;

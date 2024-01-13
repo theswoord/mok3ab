@@ -76,9 +76,9 @@ void ddanalizer(mlx_image_t *img, t_cube *cube, int color)
     //     /* code */
     // }
 
-    float disX = cube->dda.endx - cube->dda.startx;
-    float disY = cube->dda.endy - cube->dda.starty;
-    int steps = 0;
+    double disX = cube->dda.endx - cube->dda.startx;
+    double disY = cube->dda.endy - cube->dda.starty;
+    double steps = 0;
 
     if (fabs(disX) > fabs(disY))
     {
@@ -88,11 +88,12 @@ void ddanalizer(mlx_image_t *img, t_cube *cube, int color)
     else
         steps = fabs(disY);
 
-    float Xinc = disX / (float)steps;
-    float Yinc = disY / (float)steps;
+    double Xinc = disX / (double)steps;
+    double Yinc = disY / (double)steps;
 
-    float X = cube->dda.startx;
-    float Y = cube->dda.starty;
+    double X = cube->dda.startx;
+    double Y = cube->dda.starty;
+    // printf("%d")
     if (X > WIDTH || Y > HEIGHT)
     {
         printf("%f %f \n", X, Y);
@@ -169,24 +170,6 @@ double normalizeAngle(double angle)
         angle -= M_2_PI; // Subtract 2π until the angle is within the desired range
     }
     return angle;
-}
-void performRotation(t_cube *cube, int clockwise)
-{
-    double rotation = clockwise ? ROTSPEED : -ROTSPEED; // Determine clockwise or counterclockwise rotation
-
-    // double oldDirX = cube->win.dirX;
-    // cube->win.dirX = cube->win.dirX * cos(rotation) - cube->win.dirY * sin(rotation);
-    // cube->win.dirY = oldDirX * sin(rotation) + cube->win.dirY * cos(rotation);
-
-    double oldPlaneX = cube->win.planeX;
-    cube->win.planeX = cube->win.planeX * cos(rotation) - cube->win.planeY * sin(rotation);
-    cube->win.planeY = oldPlaneX * sin(rotation) + cube->win.planeY * cos(rotation);
-
-    // Normalize angles after rotation
-    // cube->win.dirX = normalizeAngle(cube->win.dirX);
-    // cube->win.dirY = normalizeAngle(cube->win.dirY);
-    cube->win.planeX = normalizeAngle(cube->win.planeX);
-    cube->win.planeY = normalizeAngle(cube->win.planeY);
 }
 
 float d2r(float deg)
@@ -325,33 +308,6 @@ int factor_finder(t_cube *cube, char *texture)
 {
     return((int)(cube->v3.wallheight / height_extract(cube,texture)));
 }
-// void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor) {
-//     float disX = cube->dda.endx - cube->dda.startx;
-//     float disY = cube->dda.endy - cube->dda.starty;
-//     int steps = (fabs(disX) > fabs(disY)) ? fabs(disX) : fabs(disY);
-
-//     float Xinc = disX / (float)steps;
-//     float Yinc = disY / (float)steps;
-
-//     float X = cube->dda.startx;
-//     float Y = cube->dda.starty;
-
-//     if (X > WIDTH || Y > HEIGHT || steps <= 0 || factor <= 0 || MINIBLOCK <= 0) {
-//         return;
-//     }
-
-//     for (int i = 0; i < steps; i++) {
-//         int texX = ((int)(X / MINIBLOCK)) % textureWidth;
-//         int texY = ((int)(Y / (MINIBLOCK ))) % textureHeight;
-
-//         unsigned long texColor = texture[texY * textureWidth + texX];
-//         // printf("%d %d \n",texX,texY);
-//         mlx_put_pixel(img, X, Y, texColor);
-
-//         X += Xinc;
-//         Y += Yinc;
-//     }
-// }
 void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor) {
     float disX = cube->dda.endx - cube->dda.startx;
     float disY = cube->dda.endy - cube->dda.starty;
@@ -363,25 +319,52 @@ void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWid
     float X = cube->dda.startx;
     float Y = cube->dda.starty;
 
-    if (X > WIDTH || Y > HEIGHT || steps <= 0 || MINIBLOCK <= 0) {
+    if (X > WIDTH || Y > HEIGHT || steps <= 0 || factor <= 0 || MINIBLOCK <= 0) {
         return;
     }
 
-    float texScaleX = (float)textureWidth / (float)MINIBLOCK;
-    float texScaleY = (float)textureHeight / (float)MINIBLOCK;
-
     for (int i = 0; i < steps; i++) {
-        int texX = ((int)(X * texScaleX)) % textureWidth;
-        int texY = ((int)(Y * texScaleY)) % textureHeight;
+        int texX = ((int)(X / MINIBLOCK)) % textureWidth;
+        int texY = ((int)(Y / (MINIBLOCK ))) % textureHeight;
 
         unsigned long texColor = texture[texY * textureWidth + texX];
-
+        // printf("%d %d \n",texX,texY);
         mlx_put_pixel(img, X, Y, texColor);
 
         X += Xinc;
         Y += Yinc;
     }
 }
+// void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor) {
+//     float disX = cube->dda.endx - cube->dda.startx;
+//     float disY = cube->dda.endy - cube->dda.starty;
+//     int steps = (fabs(disX) > fabs(disY)) ? fabs(disX) : fabs(disY);
+
+//     float Xinc = disX / (float)steps;
+//     float Yinc = disY / (float)steps;
+
+//     float X = cube->dda.startx;
+//     float Y = cube->dda.starty;
+
+//     if (X > WIDTH || Y > HEIGHT || steps <= 0 || MINIBLOCK <= 0) {
+//         return;
+//     }
+
+//     float texScaleX = (float)textureWidth / (float)MINIBLOCK;
+//     float texScaleY = (float)textureHeight / (float)MINIBLOCK;
+
+//     for (int i = 0; i < steps; i++) {
+//         int texX = ((int)(X * texScaleX)) % textureWidth;
+//         int texY = ((int)(Y * texScaleY)) % textureHeight;
+
+//         unsigned long texColor = texture[texY * textureWidth + texX];
+
+//         mlx_put_pixel(img, X, Y, texColor);
+
+//         X += Xinc;
+//         Y += Yinc;
+//     }
+// }
 
 
 void tabta(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor)

@@ -9,7 +9,9 @@
         "map": "c",
         "set": "c",
         "unordered_map": "c",
-        "unordered_set": "c"
+        "unordered_set": "c",
+        "cube3d.h": "c",
+        "complex": "c"
     },
     "python.formatting.provider": "autopep8"
 }

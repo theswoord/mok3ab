@@ -9,12 +9,13 @@ void pressed(void *par)
     int testy = (cube->player.y + cube->v3.deltay) / MINIBLOCK;
     int backx = (cube->player.x - cube->v3.deltax) / MINIBLOCK;
     int backy = (cube->player.y - cube->v3.deltay) / MINIBLOCK;
+
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_W))
     {
         if (cube->map[testy][testx] != '1')
         {
-            cube->player.y += (int)cube->v3.deltay;
-            cube->player.x += (int)cube->v3.deltax;
+            cube->player.y += round(cube->v3.deltay);
+            cube->player.x += round(cube->v3.deltax);
         }
         // mini_map_draw(cube);
     }
@@ -25,16 +26,16 @@ void pressed(void *par)
         {
             cube->v3.angle += 2 * M_PI;
         }
-        cube->v3.deltax = cos(cube->v3.angle) * 5;
-        cube->v3.deltay = sin(cube->v3.angle) * 5;
+        cube->v3.deltax = cos(cube->v3.angle) * 5.0;
+        cube->v3.deltay = sin(cube->v3.angle) * 5.0;
         // mini_map_draw(cube);
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_S))
     {
         if (cube->map[backy][backx] != '1')
         {
-            cube->player.y -= (int)cube->v3.deltay;
-            cube->player.x -= (int)cube->v3.deltax;
+            cube->player.y -= round(cube->v3.deltay);
+            cube->player.x -= round(cube->v3.deltax);
         }
         // mini_map_draw(cube);
     }
@@ -46,8 +47,8 @@ void pressed(void *par)
         {
             cube->v3.angle -= 2 * M_PI;
         }
-        cube->v3.deltax = cos(cube->v3.angle) * 5;
-        cube->v3.deltay = sin(cube->v3.angle) * 5;
+        cube->v3.deltax = cos(cube->v3.angle) * 5.0;
+        cube->v3.deltay = sin(cube->v3.angle) * 5.0;
         // mini_map_draw(cube);
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_ESCAPE))
@@ -56,20 +57,23 @@ void pressed(void *par)
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_D))
     {
-        cube->player.y += cos(cube->v3.angle);
-        cube->player.x -= sin(cube->v3.angle);
-        printf("%f %f\n", cube->v3.angle, sin(cube->v3.angle)*5);
+        cube->player.y += cos(cube->v3.angle) * 5.0;
+        cube->player.x -= sin(cube->v3.angle) * 5.0;
+        // printf("%f %f\n", cube->v3.angle, sin(cube->v3.angle)*5);
         // mini_map_draw(cube);
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_A))
     {
-        cube->player.y -= cos(cube->v3.angle);
-        cube->player.x += sin(cube->v3.angle);
+        cube->player.y -= cos(cube->v3.angle) * 5.0;
+        cube->player.x += sin(cube->v3.angle) * 5.0;
         // mini_map_draw(cube);
     }
     // clea
 
-    draw_player(cube, 0);
+    // draw_player(cube, 0);
+    // cube->v3.angle += 0.0001;
+    // cube->v3.rayangle += 0.0001;
+// cube->player.y+=0.100;
     mini_map_draw(cube);
     cast_v3(cube);
 
