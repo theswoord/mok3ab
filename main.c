@@ -78,7 +78,7 @@ unsigned long *extract_color(mlx_texture_t *texture, int *arr)
         j += texture->bytes_per_pixel;
         i++;
     }
-    // mlx_delete_texture(texture);
+    mlx_delete_texture(texture);
     return (tmp);
 }
 
@@ -307,7 +307,7 @@ int main(int ac, char **av)
     // mlx_delete_image(cube->window->mlx, cube->mini_map); // hadi ach nkhdm ghir f walls
     cube->v3.deltax = cos(cube->v3.angle) * 5.0; // speed
     cube->v3.deltay = sin(cube->v3.angle) * 5.0; // speed
-    printf("%f , %f\n", cube->v3.angle, P2);
+    // printf("%f , %f\n", cube->v3.angle, P2);
 // cube->v3.angle += 2.5;
     // for (size_t i = 0; i < 8; i++)
     // {
@@ -562,7 +562,7 @@ void cast_v3(t_cube *cube)
 
         cube->v3.rayangle += RAD;
 
-        draw_textures(cube->window->img, cube);
+        // draw_textures(cube->window->img, cube);
 
         i++;
     }
@@ -579,17 +579,17 @@ void draw_textures(mlx_image_t *img, t_cube *cube)
         {
             // printf("%d\n", factor_finder(cube,"SO"));
             // textured(img, cube,cube->colors->SO,factor_finder(cube,"SO"));
-            dakh(img,cube,cube->colors->SO,32,32,factor_finder(cube,"SO"));
-            // ddanalizer(img, cube, 0xFF0000AA);
+            // dakh(img,cube,cube->colors->SO,32,32,factor_finder(cube,"SO"));
+            ddanalizer(img, cube, 0xFF0000AA);
             // txtv3(cube->window->img, cube, cube->colors->SO, cube->dda.startx,cube->dda.starty);
         }
         else // NO
         {
-            dakh(img,cube,cube->colors->NO,32,32,factor_finder(cube,"NO"));
+            // dakh(img,cube,cube->colors->NO,32,32,factor_finder(cube,"NO"));
             // tabta(img, cube,cube->colors->NO,factor_finder(cube,"NO"));
             // textured(img, cube,cube->colors->NO,factor_finder(cube,"NO"));
 
-            // ddanalizer(img, cube, 0x0000FFAA);
+            ddanalizer(img, cube, 0x0000FFAA);
             // txtv3(cube->window->img, cube, cube->colors->NO, cube->dda.startx, cube->dda.starty);
         }
     }
@@ -598,18 +598,18 @@ void draw_textures(mlx_image_t *img, t_cube *cube)
         if (cube->v3.rayangle > P3 || cube->v3.rayangle < P2) // EA
         {
             // textured(img, cube,cube->colors->EA);
-            dakh(img,cube,cube->colors->EA,32,32,factor_finder(cube,"EA"));
+            // dakh(img,cube,cube->colors->EA,32,32,factor_finder(cube,"EA"));
             // textured(img, cube,cube->colors->EA,factor_finder(cube,"EA"));
 
-            // ddanalizer(img, cube, 0xFFFF00AA);
+            ddanalizer(img, cube, 0xFFFF00AA);
             // txtv3(cube->window->img, cube, cube->colors->WE, cube->dda.startx, cube->dda.starty);
         }
         else // WE
         {
-            dakh(img,cube,cube->colors->WE,32,32,factor_finder(cube,"WE"));
+            // dakh(img,cube,cube->colors->WE,32,32,factor_finder(cube,"WE"));
             // textured(img, cube,cube->colors->WE,factor_finder(cube,"WE"));
 
-            // ddanalizer(img, cube, 0x00FF00AA);
+            ddanalizer(img, cube, 0x00FF00AA);
             // txtv3(cube->window->img, cube, cube->colors->SO, cube->dda.startx, cube->dda.starty);
         }
     }

@@ -8,7 +8,7 @@ NAME = cube
 NAMEB = checker
 CC = gcc
 
-CFLAGS= -Wall -Wextra -Werror #-Ofast -ffast-math # -g -fsanitize=address
+CFLAGS= -Wall -Wextra -Werror -Ofast -ffast-math  -g -fsanitize=address
 msa7 = rm -rf
 obj = ${SRC:.c=.o}
 objb = ${SRCB:.c=.o}

@@ -19,7 +19,7 @@
 #define P2 M_PI/2
 #define P3 3*M_PI/2
 #define RAD 0.0174533 /30.0 //30
-
+#define WALLBOUND 16
 
 
 enum
@@ -130,6 +130,20 @@ typedef struct s_gatto
     int wallheight;
 }t_gatto;
 
+typedef struct s_bound
+{
+    int frontx;
+    int fronty;
+    int backx;
+    int backy;
+    int leftx;
+    int lefty;
+    int rightx;
+    int righty;
+    
+}t_bound;
+
+
 typedef struct s_cube
 {
    
@@ -149,7 +163,7 @@ typedef struct s_cube
     char **background;
     char **map;
     mlx_image_t *mini_map;
-
+    t_bound bound;
 } t_cube;
 
 
@@ -200,6 +214,7 @@ int factor_finder(t_cube *cube, char *texture);
 int height_extract(t_cube *cube, char *texture);
 void tabta(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor);
 void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor);
+void boundaries(t_cube * cube);
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 
 #endif
