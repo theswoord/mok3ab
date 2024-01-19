@@ -15,8 +15,8 @@ void draw_sun(t_cube *cube)
 
     while (angle > 0)
     {
-        x1 = 50 * cos(angle); // 50
-        y1 = 50 * sin(angle); // 50
+        x1 = 150 * cos(angle); // 50
+        y1 = 150 * sin(angle); // 50
 
         int j = 0;
         while (j < y1)
@@ -141,71 +141,28 @@ void ddanalizer(mlx_image_t *img, t_cube *cube, int color)
         steps--;
     }
 }
-void textured(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor)
+void textured(t_cube *cube, unsigned long *row, int polarity, int height)
 {
-    // if (cube->dda.)
-    // {
-    //     /* code */
-    // }
-    // int i = 0;
-    // int j = 0;
     int colm;
     int rowm;
-    double disX = cube->dda.endx - cube->dda.startx;
-    double disY = cube->dda.endy - cube->dda.starty;
-    double steps = 0;
-    // int jdida = 
-    // if (fabs(disX) > fabs(disY))
-    // {
-    // steps = fabs(disX);
-    /* code */
-    // }
-    // else
+    double disY;
+    disY = cube->dda.endy - cube->dda.starty;
+    double steps;
     steps = fabs(disY);
-
-    // double Xinc = disX / (double)steps;
-    double Yinc = disY / (double)steps;
-
-    double X = cube->dda.startx;
     double Y = cube->dda.starty;
-    // printf("%d")
-    if (X > WIDTH || Y > HEIGHT)
-    {
-        printf("%f %f \n", X, Y);
+    if (cube->dda.startx > WIDTH || Y > HEIGHT)
         return;
-        /* code */
-    }
     while (steps > 0)
     {
-        // X += Xinc;
-        Y += Yinc;
-        if (factor == 0)
-        {
-        colm = (int)(cube->v3.Hx + 0.0002) % MINIBLOCK; //
-            /* code */
-        }
-        else if (factor == 1)
-        {
-        colm = (int)(cube->v3.Vy + 0.0002) % MINIBLOCK;
-
-        }
-        
-        rowm = (int)((Y-cube->dda.savestarty)/cube->v3.savewallheight * 32); // tswira
-        // printf("%d\n", rowm);
-        // while (j < factor)
-        // {
-        // printf("%d %dhorizontal\n", (int)(cube->v3.Vx+0.0002)%MINIBLOCK,(int)(cube->v3.Vy+0.0002)%MINIBLOCK);
-
-        mlx_put_pixel(img, round(X), Y, row[(32 / MINIBLOCK) * colm + (32 * rowm)]); // tswira (galia moncef height / MINIBLOX * colm)
-        // j++;
-        /* code */
-        // }
-        // j=0;
-        // i++;
-
+        Y += 1;
+        if (polarity == 0)
+            colm = (int)(cube->v3.Hx + 0.0002) % MINIBLOCK; //
+        else if (polarity == 1)
+            colm = (int)(cube->v3.Vy + 0.0002) % MINIBLOCK;
+        rowm = (int)((Y - cube->dda.savestarty) / cube->v3.savewallheight * height); // tswira
+        mlx_put_pixel(cube->window->img, round(cube->dda.startx), Y, row[(height / MINIBLOCK) * colm + (height * rowm)]); // tswira (galia moncef height / MINIBLOX * colm)
         steps--;
     }
-    // i = 0;
 }
 double normalizeAngle(double angle)
 {

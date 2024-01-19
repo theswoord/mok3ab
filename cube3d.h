@@ -44,6 +44,8 @@ enum
 
     VERTICAL = 88,
     HORIZONTAL = 99,
+    PV=1,
+    PH=0,
 };
 
 typedef struct s_textures
@@ -213,12 +215,12 @@ float d2r(float deg );
 int fixangle(int a);
 void draw_textures(mlx_image_t * img,t_cube * cube );
 void txtured(t_cube * cube, mlx_image_t * img, unsigned long *tex);
-void textured(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor);
+void textured(t_cube *cube, unsigned long *row, int polarity, int height );
 void txtv3(mlx_image_t *img,t_cube *cube, unsigned long *row, int fin, int y);
 int factor_finder(t_cube *cube, char *texture);
 int height_extract(t_cube *cube, char *texture);
-void tabta(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor);
-void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor);
+// void tabta(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor);
+// void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor);
 void boundaries(t_cube * cube);
 void draw_sun(t_cube * cube);
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
