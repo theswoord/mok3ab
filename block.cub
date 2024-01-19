@@ -1,9 +1,9 @@
 
 
-         NO ./textures/NO.png
+         NO ./textures/NIgg.png
     SO ./textures/EA.png
 WE ./textures/WE.png
-EA ./textures/SO.png
+EA ./textures/NO.png
 
          F 0,0,0
            C 0,0,0

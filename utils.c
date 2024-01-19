@@ -1,5 +1,35 @@
 #include "cube3d.h"
 
+void draw_sun(t_cube *cube)
+{
+    int x;
+    x = 0;
+    int y;
+    y = 0;
+
+    // static const double PI = 3.1415926535;
+    double angle = P2;
+
+    double x1;
+    double y1;
+
+    while (angle > 0)
+    {
+        x1 = 50 * cos(angle); // 50
+        y1 = 50 * sin(angle); // 50
+
+        int j = 0;
+        while (j < y1)
+        {
+            mlx_put_pixel(cube->window->img, WIDTH - (x + x1), y + j, 0xEBD534FF);
+            // mlx_put_pixel(cube->window->img, WIDTH - (x + x1), y + j, 0xFFFFFFFF);
+            j++;
+        }
+
+        angle -= 0.0174533;
+    }
+}
+
 bool found_after_space(char *str, char c)
 {
     int i;
@@ -117,43 +147,61 @@ void textured(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor)
     // {
     //     /* code */
     // }
-    int i = 0;
-    int j = 0;
-    float disX = cube->dda.endx - cube->dda.startx;
-    float disY = cube->dda.endy - cube->dda.starty;
-    int steps = 0;
+    // int i = 0;
+    // int j = 0;
+    int colm;
+    int rowm;
+    double disX = cube->dda.endx - cube->dda.startx;
+    double disY = cube->dda.endy - cube->dda.starty;
+    double steps = 0;
+    // int jdida = 
+    // if (fabs(disX) > fabs(disY))
+    // {
+    // steps = fabs(disX);
+    /* code */
+    // }
+    // else
+    steps = fabs(disY);
 
-    if (fabs(disX) > fabs(disY))
-    {
-        steps = fabs(disX);
-        /* code */
-    }
-    else
-        steps = fabs(disY);
+    // double Xinc = disX / (double)steps;
+    double Yinc = disY / (double)steps;
 
-    float Xinc = disX / (float)steps;
-    float Yinc = disY / (float)steps;
-
-    float X = cube->dda.startx;
-    float Y = cube->dda.starty;
+    double X = cube->dda.startx;
+    double Y = cube->dda.starty;
+    // printf("%d")
     if (X > WIDTH || Y > HEIGHT)
     {
+        printf("%f %f \n", X, Y);
         return;
         /* code */
     }
-
     while (steps > 0)
     {
-        X += Xinc;
+        // X += Xinc;
         Y += Yinc;
-        while (j < factor)
+        if (factor == 0)
         {
-        mlx_put_pixel(img, X, Y+j, row[(i % 32) * 32 + i / 32]);
-        j++;
-        /* code */
+        colm = (int)(cube->v3.Hx + 0.0002) % MINIBLOCK; //
+            /* code */
         }
-        j=0;
-        i++;
+        else if (factor == 1)
+        {
+        colm = (int)(cube->v3.Vy + 0.0002) % MINIBLOCK;
+
+        }
+        
+        rowm = (int)((Y-cube->dda.savestarty)/cube->v3.savewallheight * 32); // tswira
+        // printf("%d\n", rowm);
+        // while (j < factor)
+        // {
+        // printf("%d %dhorizontal\n", (int)(cube->v3.Vx+0.0002)%MINIBLOCK,(int)(cube->v3.Vy+0.0002)%MINIBLOCK);
+
+        mlx_put_pixel(img, round(X), Y, row[(32 / MINIBLOCK) * colm + (32 * rowm)]); // tswira (galia moncef height / MINIBLOX * colm)
+        // j++;
+        /* code */
+        // }
+        // j=0;
+        // i++;
 
         steps--;
     }
@@ -207,44 +255,10 @@ void txtured(t_cube *cube, mlx_image_t *img, unsigned long *tex)
                 //    mlx_put_pixel(img,cube->v3.rayx + x*factor,cube->v3.rayy + y*factor + factor - 1, tex[i]);
                 //    mlx_put_pixel(img,cube->v3.rayx + x*factor + factor - 1,cube->v3.rayy + y*factor + factor - 1, tex[i]);
 
-                // mlx_put_pixel(img, 50 + x*2, 50 + y*2, tex[i]);
-                // mlx_put_pixel(img, 50 + x*2 +2, 50 + y*2 , tex[i]);
-                // mlx_put_pixel(img, 50 + x*2, 50 + y*2+1, tex[i]);
-                // mlx_put_pixel(img, 50 + x*2 +1 , 50 + y * 2 + 1, tex[i]);
-                // // mlx_put_pixel(img, 50 + x*2, 50 + y*2, tex[i]);
-                // // mlx_put_pixel(img, 50 + x*2 +2, 50 + y*2 , tex[i]);
-                // // mlx_put_pixel(img, 50 + x*2, 50 + y*2+2, tex[i]);
-                // // mlx_put_pixel(img, 50 + x*2 + 2 , 50 + y * 2 + 2, tex[i]);
-                // // ---------------------------------------------------------------------------- BLOCk
-                // mlx_put_pixel(img, 150 + x*3, 150 + y*3, tex[i]);
-                // mlx_put_pixel(img, 150 + x*3 +2, 150 + y*3 , tex[i]);
-                // mlx_put_pixel(img, 150 + x*3, 150 + y*3+1, tex[i]);
-                // mlx_put_pixel(img, 150 + x*3 +2 , 150 + y * 3 + 2, tex[i]);
-
-                // mlx_put_pixel(img, 150 + x*3, 150 + y*3, tex[i]);
-                // mlx_put_pixel(img, 150 + x*3 +2, 150 + y*3 , tex[i]);
-                // mlx_put_pixel(img, 150 + x*3, 150 + y*3+2, tex[i]);
-                // mlx_put_pixel(img, 150 + x*3 + 2 , 150 + y * 3 + 2, tex[i]);
-
-                // mlx_put_pixel(img, 150 + x*3, 150 + y*3, tex[i]);
-                // mlx_put_pixel(img, 150 + x*3 +3, 150 + y*3 , tex[i]);
-                // mlx_put_pixel(img, 150 + x*3, 150 + y*3+3, tex[i]);
-                // mlx_put_pixel(img, 150 + x*3 + 3 , 150 + y * 3 + 3, tex[i]);
-
-                // mlx_put_pixel(img, 150 + x*3, 150 + y*3, tex[i]);
-                // mlx_put_pixel(img, 150 + x*3 +4, 150 + y*3 , tex[i]);
-                // mlx_put_pixel(img, 150 + x*3, 150 + y*3+4, tex[i]);
-                // mlx_put_pixel(img, 150 + x*3 + 4 , 150 + y * 3 + 4, tex[i]);
-
-                // mlx_put_pixel(img, 150 + x*3, 150 + y*3, tex[i]);
-                // mlx_put_pixel(img, 150 + x*3 +5, 150 + y*3 , tex[i]);
-                // mlx_put_pixel(img, 150 + x*3, 150 + y*3+5, tex[i]);
-                // mlx_put_pixel(img, 150 + x*3 + 5 , 150 + y * 3 + 5, tex[i]);
-
-                // mlx_put_pixel(img, 150 + x*3, 150 + y*3, tex[i]);
-                // mlx_put_pixel(img, 150 + x*3 +6, 150 + y*3 , tex[i]);
-                // mlx_put_pixel(img, 150 + x*3, 150 + y*3+6, tex[i]);
-                // mlx_put_pixel(img, 150 + x*3 + 6 , 150 + y * 3 + 6, tex[i]);
+                mlx_put_pixel(img, 50 + x * 2, 50 + y * 2, tex[i]);
+                mlx_put_pixel(img, 50 + x * 2 + 2, 50 + y * 2, tex[i]);
+                mlx_put_pixel(img, 50 + x * 2, 50 + y * 2 + 1, tex[i]);
+                mlx_put_pixel(img, 50 + x * 2 + 1, 50 + y * 2 + 1, tex[i]);
                 x++;
                 i++;
             }
@@ -306,7 +320,7 @@ int height_extract(t_cube *cube, char *texture)
 }
 int factor_finder(t_cube *cube, char *texture)
 {
-    return((int)(cube->v3.wallheight / height_extract(cube,texture)));
+    return ((int)(cube->v3.wallheight / height_extract(cube, texture)));
 }
 // void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor) {
 //     float disX = cube->dda.endx - cube->dda.startx;
@@ -335,7 +349,8 @@ int factor_finder(t_cube *cube, char *texture)
 //         Y += Yinc;
 //     }
 // }
-void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor) {
+void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor)
+{
     float disX = cube->dda.endx - cube->dda.startx;
     float disY = cube->dda.endy - cube->dda.starty;
     int steps = (fabs(disX) > fabs(disY)) ? fabs(disX) : fabs(disY);
@@ -346,14 +361,16 @@ void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWid
     float X = cube->dda.startx;
     float Y = cube->dda.starty;
 
-    if (X > WIDTH || Y > HEIGHT || steps <= 0 || MINIBLOCK <= 0) {
+    if (X > WIDTH || Y > HEIGHT || steps <= 0 || MINIBLOCK <= 0)
+    {
         return;
     }
 
     float texScaleX = (float)textureWidth / (float)MINIBLOCK;
     float texScaleY = (float)textureHeight / (float)MINIBLOCK;
 
-    for (int i = 0; i < steps; i++) {
+    for (int i = 0; i < steps; i++)
+    {
         int texX = ((int)(X * texScaleX)) % textureWidth;
         int texY = ((int)(Y * texScaleY)) % textureHeight;
 
@@ -366,62 +383,59 @@ void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWid
     }
 }
 
-
 void tabta(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor)
 {
-int i = 0;
-int times = 0;
-int y = cube->dda.starty;
+    int i = 0;
+    int times = 0;
+    int y = cube->dda.starty;
 
-// while (y <= cube->dda.endy)
-// {
+    // while (y <= cube->dda.endy)
+    // {
     int x = cube->dda.startx;
 
-//     while (x <= cube->dda.endx)
-//     {
-        // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+1, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+2, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+3, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+4, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+5, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+6, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+7, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+8,row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+9, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+10, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+11, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+12, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+13, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+14, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+15, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y+16, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-        // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-        while (y <= cube->dda.endy)
-        {
-        while (times <= factor)
-        {
-        mlx_put_pixel(img, x, y+times, row[(i % 32) * 32 + i / 32]);
+    //     while (x <= cube->dda.endx)
+    //     {
+    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+1, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+2, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+3, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+4, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+5, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+6, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+7, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+8,row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+9, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+10, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+11, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+12, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+13, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+14, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+15, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y+16, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
+    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
+    while (y <= cube->dda.endy)
+    {
+        // while (times <= factor)
+        // {
+        mlx_put_pixel(img, x, y + times, row[(i % 32) * 32 + i / 32]);
         times++;
-        }
+        // }
         times = 0;
         i++;
         y++;
-        }
-        
-        
+    }
 
-//         x++;
-//     }
+    //         x++;
+    //     }
 
-//     y++;
-// }
-// printf("%d \n", factor);
+    //     y++;
+    // }
+    // printf("%d \n", factor);
 }

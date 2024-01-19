@@ -106,7 +106,7 @@ typedef struct s_lines
     double starty;
     double endx;
     double endy;
-
+    double savestarty;
 }t_lines;
 
 
@@ -114,6 +114,8 @@ typedef struct s_gatto
 {
     int what;
     int side;
+    double wallx;
+    double wally;
     double distance;
     double deltax;
     double deltay;
@@ -128,6 +130,8 @@ typedef struct s_gatto
     double Vx;
     double Vy;
     int wallheight;
+    int savewallheight;
+    
 }t_gatto;
 
 typedef struct s_bound
@@ -140,6 +144,7 @@ typedef struct s_bound
     int lefty;
     int rightx;
     int righty;
+    int bound[2];
     
 }t_bound;
 
@@ -215,6 +220,7 @@ int height_extract(t_cube *cube, char *texture);
 void tabta(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor);
 void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor);
 void boundaries(t_cube * cube);
+void draw_sun(t_cube * cube);
 // void rand_dda(mlx_image_t *img,int sx , int sy , int ex, int ey);
 
 #endif
