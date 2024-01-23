@@ -101,6 +101,7 @@ void pressed(void *par)
     // cube->v3.angle += 0.0001;
     // cube->v3.rayangle += 0.0001;
     // cube->player.y+=0.100;
+    
     // mini_map_draw(cube);
     cast_v3(cube);
 

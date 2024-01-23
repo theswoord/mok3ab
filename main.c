@@ -87,7 +87,7 @@ unsigned long *extract_color(mlx_texture_t *texture, int *arr)
 
 void init_mlx(t_cube *cube)
 {
-    cube->window->mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
+    cube->window->mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", false);
     cube->window->img = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);
     cube->mini_map = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);
     cube->walls = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);   // this is temporary
@@ -133,7 +133,7 @@ void draw_background(mlx_image_t *img, t_cube *cube)
             mlx_put_pixel(img, x, y, cube->colors->finalceil);
             y++;
         }
-        while (y < HEIGHT)
+        while (y < HEIGHT) // hadi ila bghit nzid hud
         {
             mlx_put_pixel(img, x, y, cube->colors->finalfloor);
             y++;
@@ -308,6 +308,8 @@ int main(int ac, char **av)
     // printf("ZABY\n");
     draw_background(cube->window->img, cube); // made the imgptr
     mini_map_draw(cube);
+    // print_tableau(cube->map);
+
     mlx_delete_image(cube->window->mlx, cube->mini_map); // hadi ach nkhdm ghir f walls
     cube->v3.deltax = cos(cube->v3.angle) * 5.0;         // speed
     cube->v3.deltay = sin(cube->v3.angle) * 5.0;         // speed
@@ -372,14 +374,14 @@ double horizontal(t_cube *cube)
             break;
         else
         {
-            if (cube->v3.rayy < HEIGHT && cube->v3.rayy > 0)
+            if (cube->v3.rayy < (cube->map_stuff.lines*MINIBLOCK) && cube->v3.rayy > 0)
                 cube->v3.rayy += cube->v3.yoffset;
             else
-                return (999998897897897);
-            if (cube->v3.rayx < WIDTH && cube->v3.rayx > 0)
+                return (99999889997897897);
+            if (cube->v3.rayx < (cube->map_stuff.max*MINIBLOCK) && cube->v3.rayx > 0)
                 cube->v3.rayx += cube->v3.xoffset;
             else
-                return (999998897897897);
+                return (99999988899997897);
         }
     }
     cube->v3.Hx = cube->v3.rayx;
@@ -415,18 +417,20 @@ double vertical(t_cube *cube)
     {
         mapy = (int)cube->v3.rayy / MINIBLOCK;
         mapx = (int)cube->v3.rayx / MINIBLOCK;
+            // printf("%d %d \n",cube->map_stuff.lines,  cube->map_stuff.max );
+
         if ((mapy >= cube->map_stuff.lines || mapx >= cube->map_stuff.max) || (mapy <= 0 || mapx <= 0) || cube->map[mapy][mapx] == '1')
             break;
         else
         {
-            if (cube->v3.rayy < HEIGHT && cube->v3.rayy > 0)
+            if (cube->v3.rayy < (cube->map_stuff.lines*MINIBLOCK) && cube->v3.rayy > 0)
                 cube->v3.rayy += cube->v3.yoffset;
             else
-                return (999998897897897);
-            if (cube->v3.rayx < WIDTH && cube->v3.rayx > 0)
+                return (99999889997897897);
+            if (cube->v3.rayx < (cube->map_stuff.max*MINIBLOCK) && cube->v3.rayx > 0)
                 cube->v3.rayx += cube->v3.xoffset;
             else
-                return (999998897897897);
+                return (99999889789997897);
         }
     }
     cube->v3.Vx = cube->v3.rayx;
@@ -439,7 +443,7 @@ void cast_v3(t_cube *cube)
     cube->v3.rayangle = cube->v3.angle - WIDTH / 2 * RAD;
     // draw_player(cube, 1);
     draw_background(cube->window->img, cube);
-    while (i <= WIDTH)
+    while (i <WIDTH)
     {
 
         if (cube->v3.rayangle < 0)
@@ -457,6 +461,7 @@ void cast_v3(t_cube *cube)
         if (dH < dV)
         {
             cube->v3.distance = dH;
+            
             // cube->dda.startx = cube->player.x;
             // cube->dda.starty = cube->player.y;
             // cube->dda.endx = cube->v3.Hx;

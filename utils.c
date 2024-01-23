@@ -21,12 +21,12 @@ void draw_sun(t_cube *cube)
         int j = 0;
         while (j < y1)
         {
-            mlx_put_pixel(cube->window->img, WIDTH - (x + x1), y + j, 0xEBD534FF);
+            mlx_put_pixel(cube->window->img, WIDTH - (x + x1), y + j, 0xFFFFFFFF);
             // mlx_put_pixel(cube->window->img, WIDTH - (x + x1), y + j, 0xFFFFFFFF);
             j++;
         }
 
-        angle -= 0.0174533;
+        angle -= 0.00174533;
     }
 }
 
@@ -160,27 +160,11 @@ void textured(t_cube *cube, unsigned long *row, int polarity, int height)
         else if (polarity == 1)
             colm = (int)(cube->v3.Vy + 0.0002) % MINIBLOCK;
         rowm = (int)((Y - cube->dda.savestarty) / cube->v3.savewallheight * height); // tswira
-        mlx_put_pixel(cube->window->img, round(cube->dda.startx), Y, row[(height / MINIBLOCK) * colm + (height * rowm)]); // tswira (galia moncef height / MINIBLOX * colm)
+        mlx_put_pixel(cube->window->img, round(cube->dda.startx-1), Y, row[(height / MINIBLOCK) * colm + (height * rowm)]); // tswira (galia moncef height / MINIBLOX * colm)
         steps--;
     }
 }
-double normalizeAngle(double angle)
-{
-    while (angle < 0)
-    {
-        angle += M_2_PI; // Add 2π until the angle is non-negative
-    }
-    while (angle >= M_2_PI)
-    {
-        angle -= M_2_PI; // Subtract 2π until the angle is within the desired range
-    }
-    return angle;
-}
 
-float d2r(float deg)
-{
-    return (deg * M_PI / 180.0);
-}
 int fixangle(int a)
 {
     if (a > 359)
@@ -194,73 +178,6 @@ int fixangle(int a)
     return a;
 }
 
-void txtured(t_cube *cube, mlx_image_t *img, unsigned long *tex)
-{
-    int i = 0;
-    int y = 0;
-    int x = 0;
-    int factor = 2;
-
-    while (i < 1024)
-    {
-        while (y < 32)
-        {
-            while (x < 32)
-            {
-                //      mlx_put_pixel(50+ x*factor,cube->v3.Hx + y*factor, tex[i]);
-                //    mlx_put_pixel(img,cube->v3.rayx + x*factor + factor - 1, cube->v3.rayy+ y*factor, tex[i]);
-                //    mlx_put_pixel(img,cube->v3.rayx + x*factor,cube->v3.rayy + y*factor + factor - 1, tex[i]);
-                //    mlx_put_pixel(img,cube->v3.rayx + x*factor + factor - 1,cube->v3.rayy + y*factor + factor - 1, tex[i]);
-
-                mlx_put_pixel(img, 50 + x * 2, 50 + y * 2, tex[i]);
-                mlx_put_pixel(img, 50 + x * 2 + 2, 50 + y * 2, tex[i]);
-                mlx_put_pixel(img, 50 + x * 2, 50 + y * 2 + 1, tex[i]);
-                mlx_put_pixel(img, 50 + x * 2 + 1, 50 + y * 2 + 1, tex[i]);
-                x++;
-                i++;
-            }
-            x = 0;
-            y++;
-        }
-    }
-}
-
-void txtv3(mlx_image_t *img, t_cube *cube, unsigned long *row, int fin, int y)
-{
-    static int i = 0;
-    static int k = 0;
-    int steps = 0;
-    float disX = 0;
-    float disY = 32;
-
-    if (fabs(disX) > fabs(disY))
-    {
-        steps = fabs(disX);
-        /* code */
-    }
-    else
-        steps = fabs(disY);
-
-    float X = fin;
-    float Y = y;
-
-    float Xinc = disX / (float)steps;
-    float Yinc = disY / (float)steps;
-    while (steps > 0)
-    {
-        X += Xinc;
-        Y += Yinc;
-        mlx_put_pixel(img, X, Y, row[(k % 32) * 32 + k / 32]);
-
-        k++;
-
-        if (k == 1024)
-        {
-            k = 0;
-        }
-        steps--;
-    }
-}
 
 int height_extract(t_cube *cube, char *texture)
 {
@@ -275,124 +192,6 @@ int height_extract(t_cube *cube, char *texture)
 
     return 0;
 }
-int factor_finder(t_cube *cube, char *texture)
-{
-    return ((int)(cube->v3.wallheight / height_extract(cube, texture)));
-}
-// void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor) {
-//     float disX = cube->dda.endx - cube->dda.startx;
-//     float disY = cube->dda.endy - cube->dda.starty;
-//     int steps = (fabs(disX) > fabs(disY)) ? fabs(disX) : fabs(disY);
 
-//     float Xinc = disX / (float)steps;
-//     float Yinc = disY / (float)steps;
 
-//     float X = cube->dda.startx;
-//     float Y = cube->dda.starty;
 
-//     if (X > WIDTH || Y > HEIGHT || steps <= 0  || MINIBLOCK <= 0) {
-//         return;
-//     }
-
-//     for (int i = 0; i < steps; i++) {
-//         int texX = ((int)(X / MINIBLOCK)) % textureWidth;
-//         int texY = ((int)(Y / (MINIBLOCK ))) % textureHeight;
-
-//         unsigned long texColor = texture[texY * textureWidth + texX];
-//         // printf("%d %d \n",texX,texY);
-//         mlx_put_pixel(img, X, Y, texColor);
-
-//         X += Xinc;
-//         Y += Yinc;
-//     }
-// }
-void dakh(mlx_image_t *img, t_cube *cube, unsigned long *texture, int textureWidth, int textureHeight, int factor)
-{
-    float disX = cube->dda.endx - cube->dda.startx;
-    float disY = cube->dda.endy - cube->dda.starty;
-    int steps = (fabs(disX) > fabs(disY)) ? fabs(disX) : fabs(disY);
-
-    float Xinc = disX / (float)steps;
-    float Yinc = disY / (float)steps;
-
-    float X = cube->dda.startx;
-    float Y = cube->dda.starty;
-
-    if (X > WIDTH || Y > HEIGHT || steps <= 0 || MINIBLOCK <= 0)
-    {
-        return;
-    }
-
-    float texScaleX = (float)textureWidth / (float)MINIBLOCK;
-    float texScaleY = (float)textureHeight / (float)MINIBLOCK;
-
-    for (int i = 0; i < steps; i++)
-    {
-        int texX = ((int)(X * texScaleX)) % textureWidth;
-        int texY = ((int)(Y * texScaleY)) % textureHeight;
-
-        unsigned long texColor = texture[texY * textureWidth + texX];
-
-        mlx_put_pixel(img, X, Y, texColor);
-
-        X += Xinc;
-        Y += Yinc;
-    }
-}
-
-void tabta(mlx_image_t *img, t_cube *cube, unsigned long *row, int factor)
-{
-    int i = 0;
-    int times = 0;
-    int y = cube->dda.starty;
-
-    // while (y <= cube->dda.endy)
-    // {
-    int x = cube->dda.startx;
-
-    //     while (x <= cube->dda.endx)
-    //     {
-    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+1, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+2, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+3, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+4, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+5, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+6, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+7, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+8,row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+9, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+10, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+11, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+12, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+13, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+14, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+15, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y+16, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-    // mlx_put_pixel(img, x, y, row[(i % 32) * 32 + i / 32]);
-    while (y <= cube->dda.endy)
-    {
-        // while (times <= factor)
-        // {
-        mlx_put_pixel(img, x, y + times, row[(i % 32) * 32 + i / 32]);
-        times++;
-        // }
-        times = 0;
-        i++;
-        y++;
-    }
-
-    //         x++;
-    //     }
-
-    //     y++;
-    // }
-    // printf("%d \n", factor);
-}

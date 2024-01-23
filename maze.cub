@@ -1,12 +1,12 @@
 
 
-         NO ./textures/NO.png
-    SO ./textures/water.png
-WE ./textures/brick.png
-EA ./textures/chjra.png
+         NO ./textures/chjra.png
+    SO ./textures/brick.png
+WE ./textures/for.png
+EA ./textures/NO.png
 
-         F 0,0,100
-           C 80,50,25
+         C 0,0,100
+           F 80,50,25
 
 
 
