@@ -1,9 +1,9 @@
 
 
-         NO ./textures/chjra.png
-    SO ./textures/brick.png
-WE ./textures/for.png
-EA ./textures/NO.png
+         NO ./textures/studio2.png
+    SO ./textures/element.png
+WE ./textures/studio3.png
+EA ./textures/studio1.png
 
          C 0,0,100
            F 80,50,25

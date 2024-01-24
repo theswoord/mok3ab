@@ -9,10 +9,8 @@ void parse_textures(t_cube *cube)
     {
     if (found_after_space(cube->textures[i],'N'))
     {
-        // what = NO;
         tmp = ft_strtrim(cube->textures[i]," \t NO");
         cube->drawings->NO =mlx_load_png(tmp);
-    // printf("hh\n");
         free (tmp);
     }
         if (found_after_space(cube->textures[i],'S'))

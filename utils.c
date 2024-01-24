@@ -6,8 +6,6 @@ void draw_sun(t_cube *cube)
     x = 0;
     int y;
     y = 0;
-
-    // static const double PI = 3.1415926535;
     double angle = P2;
 
     double x1;
@@ -15,14 +13,13 @@ void draw_sun(t_cube *cube)
 
     while (angle > 0)
     {
-        x1 = 150 * cos(angle); // 50
-        y1 = 150 * sin(angle); // 50
+        x1 = 150 * cos(angle);
+        y1 = 150 * sin(angle);
 
         int j = 0;
         while (j < y1)
         {
             mlx_put_pixel(cube->window->img, WIDTH - (x + x1), y + j, 0xFFFFFFFF);
-            // mlx_put_pixel(cube->window->img, WIDTH - (x + x1), y + j, 0xFFFFFFFF);
             j++;
         }
 
@@ -80,20 +77,16 @@ char *copy_and_fill(char *str, int count, char c)
     int i = 0;
     char *new;
     new = ft_calloc(count + 1, 1);
-    // printf("%d\n",count);
     while (str[i] != '\0')
     {
         new[i] = str[i];
         i++;
-        /* code */
     }
     while (i < count)
     {
         new[i] = c;
         i++;
-        /* code */
     }
-    // printf("%p %p\n",new, str);
 
     free(str);
     return new;
@@ -101,11 +94,6 @@ char *copy_and_fill(char *str, int count, char c)
 
 void ddanalizer(mlx_image_t *img, t_cube *cube, int color)
 {
-    // if (cube->dda.)
-    // {
-    //     /* code */
-    // }
-
     double disX = cube->dda.endx - cube->dda.startx;
     double disY = cube->dda.endy - cube->dda.starty;
     double steps = 0;
@@ -113,7 +101,6 @@ void ddanalizer(mlx_image_t *img, t_cube *cube, int color)
     if (fabs(disX) > fabs(disY))
     {
         steps = fabs(disX);
-        /* code */
     }
     else
         steps = fabs(disY);
@@ -123,21 +110,13 @@ void ddanalizer(mlx_image_t *img, t_cube *cube, int color)
 
     double X = cube->dda.startx;
     double Y = cube->dda.starty;
-    // printf("%d")
     if (X > WIDTH || Y > HEIGHT)
-    {
-        printf("%f %f \n", X, Y);
         return;
-        /* code */
-    }
-    // printf("X %f  Y %f \n",disX,disY);
-    // printf("%f %f\n",cube->dda.endx,cube->dda.endy);
     while (steps >= 0)
     {
         X += Xinc;
         Y += Yinc;
         mlx_put_pixel(img, round(X), round(Y), color);
-
         steps--;
     }
 }
@@ -164,20 +143,6 @@ void textured(t_cube *cube, unsigned long *row, int polarity, int height)
         steps--;
     }
 }
-
-int fixangle(int a)
-{
-    if (a > 359)
-    {
-        a -= 360;
-    }
-    if (a < 0)
-    {
-        a += 360;
-    }
-    return a;
-}
-
 
 int height_extract(t_cube *cube, char *texture)
 {

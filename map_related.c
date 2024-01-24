@@ -5,9 +5,8 @@ void mini_map_draw(t_cube *cube)
 
     int x = 0;
     int y = 0;
-    double step = 32 * MINISCALE;
+    double step = 32;
     static int save = 0;
-    // print_tableau(cube->map);
     while (y < cube->map_stuff.lines)
     {
         while (x < cube->map_stuff.max)
@@ -39,7 +38,6 @@ void mini_map_draw(t_cube *cube)
         x=0;
         y++;
     }
-    // is_wall(cube,1,34);
     
 }
 
@@ -51,17 +49,13 @@ void fill_map(t_cube *cube)
     while (cube->map[j])
     {
     cube->map_stuff.max = fmax(cube->map_stuff.max, ft_strlengnl(cube->map[j+1]));
-    // printf()
         j++; // here
-        /* code */
     }
     cube->map_stuff.lines = j;
-    // printf("%d %d\n",cube->map_stuff.max,cube->map_stuff.lines);
     while (cube->map[i])
     {
         cube->map[i] = copy_and_fill(cube->map[i],cube->map_stuff.max,' ');
         i++; // here
-        /* code */
     }
     
 }

@@ -1,47 +1,11 @@
 #include "cube3d.h"
 
-// void animation_init(t_cube *cube) // for bonus
-// {
-//     cube->anim[0] = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./blood.png"));
-//     cube->anim[1] = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./dry.png"));
-
-// }
-
-// void *animations_draw(t_cube *cube) // an7yedhom
-// {
-//     int i = 0;
-//     while (1)
-//     {
-//         /* code */
-//         if (i == 600)
-//         {
-//             printf("%d\n",i);
-//             mlx_image_to_window(cube->window->mlx,cube->anim[0],500,500);
-//             // mlx_delete_image(cube->window->mlx,cube->anim[0]);
-
-//             mlx_image_to_window(cube->window->mlx,cube->anim[1],500,500);
-//             // cube->anim[0] = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./blood.png"));
-//             // cube->anim[1] = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./dry.png"));
-
-//     //         /* code */
-//         }
-//         // sleep(1);
-//             // mlx_image_to_window(cube->window->mlx,cube->anim[1],500,500);
-
-//         if(i == 1800)
-//             i=0;
-//         i++;
-//     }
-//     return NULL;
-// }
 void texture_set(t_cube *cube)
 {
     cube->colors->EA = extract_color(cube->drawings->EA, cube->colors->dim); // 1
     cube->colors->NO = extract_color(cube->drawings->NO, cube->colors->dim); // 2
     cube->colors->WE = extract_color(cube->drawings->WE, cube->colors->dim); // 3
     cube->colors->SO = extract_color(cube->drawings->SO, cube->colors->dim); // 4
-    // printf("%p %p %p %p\n",cube->drawings->NO,cube->drawings->SO,cube->drawings->EA,cube->drawings->WE);
-    // printf("%p %p %p %p\n",cube->colors->NO,cube->colors->SO,cube->colors->EA,cube->colors->WE);
 };
 
 unsigned long *extract_color(mlx_texture_t *texture, int *arr)
@@ -53,31 +17,13 @@ unsigned long *extract_color(mlx_texture_t *texture, int *arr)
     unsigned long *tmp = malloc((texture->height * texture->width) * sizeof(unsigned long));
     if (!tmp)
         return NULL;
-
-    // printf("wtf%p \n",tmp);
-
-    // while (k < 8)
-    // {
     arr[k] = texture->height;
     arr[k + 1] = texture->width;
     k += 2;
-    // }
-
-    // if (!tmp)
-    // {
-    //     fprintf(stderr, "Failed to allocate memory\n");
-    //     exit(EXIT_FAILURE);
-    // }
     while (i < total)
     {
-        // j++;
-        // if (/* condition */)
-        // {
-        //     /* code */
-        // }
 
         tmp[i] = (texture->pixels[j] << 24) | (texture->pixels[j + 1] << 16) | (texture->pixels[j + 2] << 8) | (texture->pixels[j + 3]);
-        // printf("%d %d %d %d\n", texture->pixels[j],texture->pixels[j+1],texture->pixels[j+2],texture->pixels[j+3]);
         j += texture->bytes_per_pixel;
         i++;
     }
@@ -90,18 +36,14 @@ void init_mlx(t_cube *cube)
     cube->window->mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", false);
     cube->window->img = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);
     cube->mini_map = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);
-    cube->walls = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);   // this is temporary
+    // cube->walls = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);   // this is temporary
     mlx_image_to_window(cube->window->mlx, cube->window->img, 0, 0); // put img ptr on the window
     // mlx_image_to_window(cube->window->mlx, cube->mini_map,50,50);
     mlx_image_to_window(cube->window->mlx, cube->mini_map, 0, 0);
-    // mlx_image_to_window(cube->window->mlx, cube->walls, 0, 0); // here
-
-    // cube->mini_map = mlx_texture_to_image(cube->window->mlx,mlx_load_png("./blood.png")); // test image fo9 image hh
 }
 
 void set_background(t_cube *cube)
 {
-    //  unsigned long floor
     cube->colors->finalfloor = (cube->colors->F[0] << 24) | (cube->colors->F[1] << 16) | (cube->colors->F[2] << 8) | 0xFF; // hadi parsing dial color;
     cube->colors->finalceil = (cube->colors->C[0] << 24) | (cube->colors->C[1] << 16) | (cube->colors->C[2] << 8) | 0xFF;  // hadi parsing dial color;
 }
@@ -220,21 +162,10 @@ void rgb_parse(char *str, t_cube *cube)
         free(str);
         what = 'C';
     }
-    // what =
     work = ft_split(tmp, ',');
     free(tmp);
     set_rgb(work, cube, what); // check before set
     free_tableau(work);
-    // while (str[i])
-    // {
-    //     // if (str[i] == '')
-    //     // {
-    //     //     /* code */
-    //     // }
-
-    //     i++;
-    //     /* code */
-    // }
 }
 
 void read_map(int fd, t_cube *cube)
@@ -303,36 +234,12 @@ int main(int ac, char **av)
     init_mlx(cube);
 
     fill_map(cube);
-    // mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", true);
-    // img = mlx_new_image(mlx, WIDTH, HEIGHT);
-    // printf("ZABY\n");
     draw_background(cube->window->img, cube); // made the imgptr
     mini_map_draw(cube);
-    // print_tableau(cube->map);
 
     mlx_delete_image(cube->window->mlx, cube->mini_map); // hadi ach nkhdm ghir f walls
-    cube->v3.deltax = cos(cube->v3.angle) * 5.0;         // speed
-    cube->v3.deltay = sin(cube->v3.angle) * 5.0;         // speed
-    // printf("%f , %f\n", cube->v3.angle, P2);
-    // cube->v3.angle += 2.5;
-    // for (size_t i = 0; i < 8; i++)
-    // {
-    //     printf("%d ",cube->colors->dim[i]);
-    //     // if (i % 2 == 0)
-    //     // {
-    //     //     printf ("EA NO WE SO");
-    //     //     /* code */
-    //     // }
-
-    // }
-    // printf("%d\n",height_extract(cube,"EA"));
-    // animation_init(&cube); // memes
-    // mlx_loop_hook(cube.window->mlx,animations_draw,&cube);
-    // mlx_loop_hook(cube.window->mlx,pressed,&cube);
-
-    // cube->win.planeX = 0.66;
-    // cube->win.planeY = 0.0;
-    // castingv2(cube);
+    cube->v3.deltax = cos(cube->v3.angle) * SPEED;         // speed
+    cube->v3.deltay = sin(cube->v3.angle) * SPEED;         // speed
 
     mlx_loop_hook(cube->window->mlx, &pressed, cube);
     // mlx_key_hook(cube->window->mlx,&pressed,cube);
@@ -417,7 +324,6 @@ double vertical(t_cube *cube)
     {
         mapy = (int)cube->v3.rayy / MINIBLOCK;
         mapx = (int)cube->v3.rayx / MINIBLOCK;
-            // printf("%d %d \n",cube->map_stuff.lines,  cube->map_stuff.max );
 
         if ((mapy >= cube->map_stuff.lines || mapx >= cube->map_stuff.max) || (mapy <= 0 || mapx <= 0) || cube->map[mapy][mapx] == '1')
             break;
