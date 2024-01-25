@@ -227,6 +227,7 @@ int main(int ac, char **av)
     print_tableau(cube->textures);
     parse(cube);
     parse_textures(cube);
+    
     // printf("%p %p %p %p\n",cube->drawings->NO,cube->drawings->SO,cube->drawings->EA,cube->drawings->WE);
 
     texture_set(cube);

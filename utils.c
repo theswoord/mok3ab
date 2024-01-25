@@ -139,7 +139,7 @@ void textured(t_cube *cube, unsigned long *row, int polarity, int height)
         else if (polarity == 1)
             colm = (int)(cube->v3.Vy + 0.0002) % MINIBLOCK;
         rowm = (int)((Y - cube->dda.savestarty) / cube->v3.savewallheight * height); // tswira
-        mlx_put_pixel(cube->window->img, round(cube->dda.startx-1), Y, row[(height / MINIBLOCK) * colm + (height * rowm)]); // tswira (galia moncef height / MINIBLOX * colm)
+        mlx_put_pixel(cube->window->img, round(cube->dda.startx-1), Y+1, row[(height / MINIBLOCK) * colm + (height * rowm)]); // tswira (galia moncef height / MINIBLOX * colm)
         steps--;
     }
 }

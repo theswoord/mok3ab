@@ -11,7 +11,8 @@
         "unordered_map": "c",
         "unordered_set": "c",
         "cube3d.h": "c",
-        "complex": "c"
+        "complex": "c",
+        "get_next_line.h": "c"
     },
     "python.formatting.provider": "autopep8"
 }

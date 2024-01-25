@@ -9,7 +9,7 @@
 #include "math.h"
 #include <limits.h>
 #define WIDTH 1980.0 //l3rd
-#define HEIGHT 1080 //tol
+#define HEIGHT 1080.0 //tol
 #define MINIBLOCK 32 //square block
 #define SPEED 7.0
 #define FOV 66*30  // 32 
@@ -63,8 +63,8 @@ typedef struct s_colors
 
 typedef struct s_map
 {
-    int max;
-    int lines;
+    double max;
+    double lines;
 }t_map;
 typedef struct s_player
 {
@@ -171,4 +171,8 @@ void textured(t_cube *cube, unsigned long *row, int polarity, int height );
 int height_extract(t_cube *cube, char *texture);
 void boundaries(t_cube * cube);
 void draw_sun(t_cube * cube);
+void free_tab(char **tab);
+void img_destroy(t_cube * cube);
+void free_all(t_cube*cube);
+void free_stucts(t_cube * cube);
 #endif

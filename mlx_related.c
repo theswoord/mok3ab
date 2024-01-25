@@ -59,6 +59,13 @@ void pressed(void *par)
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_ESCAPE))
     {
+        free_all(cube);
+        
+        // while (1)
+        // {
+        //     /* code */
+        // }
+
         exit(0); // free
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_D))
