@@ -24,7 +24,7 @@ ${NAME} : ${obj}
 	${CC} ${readflag} ${CFLAGS}  ${obj} ${MLX} -framework Cocoa -framework OpenGL -framework IOKit  $(libraries) -o $(NAME)
 
 %.o: %.c
-	${CC} -c $< -o $@
+	${CC} ${CFLAGS} -c $< -o $@
 
 test: 
 	${CC} ${MLX} -framework Cocoa -framework OpenGL  -framework IOKit ${TEST}

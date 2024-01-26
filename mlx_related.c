@@ -24,9 +24,23 @@ void pressed(void *par)
     {
         if (cube->map[cube->bound.fronty][cube->bound.frontx] != '1')
         {
+            // if (cube->player.y >= cube->map_stuff.lines*MINIBLOCK || cube->player.x >= cube->map_stuff.max*MINIBLOCK)
+            // {
+            //     if (cube->player.y >= cube->map_stuff.lines*MINIBLOCK)
+            //     {
+            //         cube->player.y -=  cube->map_stuff.lines*MINIBLOCK;
+            //     }
+            //     else
+            //     {
+            //         cube->player.x -=  cube->map_stuff.max*MINIBLOCK;
+            //     }
+                
             cube->player.y += round(cube->v3.deltay);
             cube->player.x += round(cube->v3.deltax);
-        }
+                /* code */
+            }
+            
+        // }
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_LEFT))
     {
@@ -84,6 +98,6 @@ void pressed(void *par)
             cube->player.y -= round(cube->v3.deltax);
         }
     }
-    // mini_map_draw(cube);
+    mini_map_draw(cube);
     cast_v3(cube);
 }

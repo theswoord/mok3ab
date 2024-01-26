@@ -166,7 +166,7 @@ unsigned long *extract_color(mlx_texture_t *texture,int *arr);
 
 void set_background(t_cube *cube);
 void cast_v3(t_cube *cube);
-void draw_textures(mlx_image_t * img,t_cube * cube );
+void draw_textures(t_cube * cube );
 void textured(t_cube *cube, unsigned long *row, int polarity, int height );
 int height_extract(t_cube *cube, char *texture);
 void boundaries(t_cube * cube);
