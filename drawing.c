@@ -18,7 +18,7 @@ void draw_2dblock(mlx_image_t *img, int x , int y, int size, int color)
     }
     
 }
-void draw_player(t_cube * cube, int size)
+void draw_player(t_cube * cube)
 {
     mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y,0xFF0000FF);
     mlx_put_pixel(cube->mini_map,cube->player.x,cube->player.y-1,0xFF0000FF);

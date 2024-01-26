@@ -155,7 +155,7 @@ void draw_2dblock(mlx_image_t *img, int x , int y, int size, int color);
 void mini_map_draw(t_cube *cube);
 char* copy_and_fill(char *str, int count , char c);
 void fill_map(t_cube *cube);
-void draw_player(t_cube *cube, int size);
+void draw_player(t_cube *cube);
 void pressed(void *par);
 int abs(int n);
 void ddanalizer(mlx_image_t *img , t_cube *cube,int color);

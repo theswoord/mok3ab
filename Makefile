@@ -8,7 +8,7 @@ NAME = cube
 NAMEB = checker
 CC = gcc
 
-CFLAGS= -Wall -Wextra -Werror -Ofast -ffast-math # -g -fsanitize=address
+CFLAGS= -Wall -Wextra -Werror -Ofast -ffast-math  #-g -fsanitize=address
 msa7 = rm -rf
 obj = ${SRC:.c=.o}
 objb = ${SRCB:.c=.o}
@@ -24,7 +24,7 @@ ${NAME} : ${obj}
 	${CC} ${readflag} ${CFLAGS}  ${obj} ${MLX} -framework Cocoa -framework OpenGL -framework IOKit  $(libraries) -o $(NAME)
 
 %.o: %.c
-	${CC} ${CFLAGS} -c $< -o $@
+	${CC} -Wall -Wextra -Werror -Ofast -ffast-math -c $< -o $@
 
 test: 
 	${CC} ${MLX} -framework Cocoa -framework OpenGL  -framework IOKit ${TEST}

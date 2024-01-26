@@ -22,7 +22,7 @@ void mini_map_draw(t_cube *cube)
                 save = 1;
                 cube->player.x = (x*step)+MINIBLOCK/2;
                 cube->player.y = (y*step)+MINIBLOCK/2;
-                draw_player(cube,MINIBLOCK);
+                draw_player(cube);
                 if(cube->map[y][x] == 'S')
                 cube->v3.angle = P2;
                 if(cube->map[y][x] == 'N')
@@ -44,7 +44,7 @@ void mini_map_draw(t_cube *cube)
 void fill_map(t_cube *cube)
 {
     int i = 0;
-    int max = 0;
+    // int max = 0;
     int j = 0;
     while (cube->map[j])
     {

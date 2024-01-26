@@ -6,7 +6,7 @@ void texture_set(t_cube *cube)
     cube->colors->NO = extract_color(cube->drawings->NO, cube->colors->dim); // 2
     cube->colors->WE = extract_color(cube->drawings->WE, cube->colors->dim); // 3
     cube->colors->SO = extract_color(cube->drawings->SO, cube->colors->dim); // 4
-};
+}
 
 unsigned long *extract_color(mlx_texture_t *texture, int *arr)
 {
@@ -313,7 +313,7 @@ void cast_v3(t_cube *cube)
 {
     int i = 0;
     cube->v3.rayangle = cube->v3.angle - WIDTH / 2 * RAD;
-    draw_player(cube, 1);
+    draw_player(cube);
     draw_background(cube->window->img, cube);
     while (i <= WIDTH)
     {
