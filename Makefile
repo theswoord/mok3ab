@@ -2,7 +2,7 @@
 
 
 TEST = hh2.c
-SRC = main.c utils.c map_related.c drawing.c mlx_related.c math_helper.c map_checks.c parse.c free.c
+SRC = main.c utils.c map_related.c drawing.c mlx_related.c math_helper.c map_checks.c parse.c free.c check_map.c
 SRCB = ./bonus_checker/bonus.c ./bonus_checker/instructionpush_bonus.c ./bonus_checker/instructionsrotate_bonus.c ./bonus_checker/instructionsswap_bonus.c ./bonus_checker/output_bonus.c ./bonus_checker/tools_bonus.c ./bonus_checker/instructionhelpers_bonus.c ./bonus_checker/utils2_bonus.c ./bonus_checker/tools2_bonus.c ./bonus_checker/free_bonus.c ./bonus_checker/checker_bonus.c
 NAME = cube
 NAMEB = checker

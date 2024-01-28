@@ -124,10 +124,8 @@ void textured(t_cube *cube, unsigned long *row, int polarity, int height)
 {
     int colm;
     int rowm;
-    double disY;
-    disY = cube->dda.endy - cube->dda.starty;
     double steps;
-    steps = fabs(disY);
+    steps = fabs(cube->dda.endy - cube->dda.starty);
     double Y = cube->dda.starty;
     if (cube->dda.startx > WIDTH || Y > HEIGHT)
         return;
@@ -139,11 +137,37 @@ void textured(t_cube *cube, unsigned long *row, int polarity, int height)
         else if (polarity == 1)
             colm = (int)(cube->v3.Vy + 0.0002) % MINIBLOCK;
         rowm = (int)((Y - cube->dda.savestarty) / cube->v3.savewallheight * height); // tswira
-        mlx_put_pixel(cube->window->img, round(cube->dda.startx-1), Y+1, row[((height / MINIBLOCK) * colm + (height * rowm))+1]); // tswira (galia moncef height / MINIBLOX * colm)
+        if (rowm < 32)
+        {
+        mlx_put_pixel(cube->window->img, round(cube->dda.startx), Y, row[((height / MINIBLOCK) * colm + (height * rowm))]); // tswira (galia moncef height / MINIBLOX * colm)
+        }
+        
         steps--;
     }
 }
-
+void textured_inverted(t_cube *cube, unsigned long *row, int polarity, int height)
+{
+    int colm;
+    int rowm;
+    double steps;
+    steps = fabs(cube->dda.endy - cube->dda.starty);
+    double Y = cube->dda.starty;
+    if (cube->dda.startx > WIDTH || Y > HEIGHT)
+        return;
+    while (steps > 0)
+    {
+        Y += 1;
+        if (polarity == 0)
+            colm = (int)(cube->v3.Hx + 0.0002) % MINIBLOCK; //
+        else if (polarity == 1)
+            colm = (int)(cube->v3.Vy + 0.0002) % MINIBLOCK;
+        rowm = (int)((Y - cube->dda.savestarty) / cube->v3.savewallheight * height); // tswira
+        if (rowm < 32 )
+        mlx_put_pixel(cube->window->img, round(cube->dda.startx), Y, row[((height / MINIBLOCK) * 31-colm + (height * rowm))]); // tswira (galia moncef height / MINIBLOX * colm)
+        
+        steps--;
+    }
+}
 int height_extract(t_cube *cube, char *texture)
 {
     if (!ft_strncmp(texture, "EA", 3))
@@ -160,3 +184,33 @@ int height_extract(t_cube *cube, char *texture)
 
 
 
+int	toupperv2(int c)
+{
+	if (c >= 'a' && c <= 'z')
+	{
+		c += 0;
+	}
+	if (c >= '0' && c <= '9')
+	{
+		c += 0;
+	}
+	return (c);
+}
+
+int element_count(char* str, char c)
+{
+    int i = 0;
+    int count = 0;
+    while (str[i])
+    {
+        /* code */
+        if (str[i]==c)
+        {
+            /* code */
+            count ++;
+        }
+        
+        i++;
+    }
+    return count;
+}

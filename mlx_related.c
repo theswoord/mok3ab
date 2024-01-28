@@ -2,14 +2,14 @@
 
 void boundaries(t_cube *cube)
 {
-    cube->bound.frontx = (cube->player.x + 2* round(cube->v3.deltax)) / MINIBLOCK;
-    cube->bound.fronty = (cube->player.y + 2* round(cube->v3.deltay)) / MINIBLOCK;
-    cube->bound.backx = (cube->player.x - 2* round(cube->v3.deltax)) / MINIBLOCK;
-    cube->bound.backy = (cube->player.y - 2* round(cube->v3.deltay)) / MINIBLOCK;
-    cube->bound.righty = (cube->player.y + 2* round(cube->v3.deltax)) / MINIBLOCK;
-    cube->bound.rightx = (cube->player.x - 2* round(cube->v3.deltay)) / MINIBLOCK;
-    cube->bound.lefty = (cube->player.y - 2* round(cube->v3.deltax)) / MINIBLOCK;
-    cube->bound.leftx = (cube->player.x + 2* round(cube->v3.deltay)) / MINIBLOCK;
+    cube->bound.frontx = (cube->player.x + 3* round(cube->v3.deltax)) / MINIBLOCK;
+    cube->bound.fronty = (cube->player.y + 3* round(cube->v3.deltay)) / MINIBLOCK;
+    cube->bound.backx = (cube->player.x - 3* round(cube->v3.deltax)) / MINIBLOCK;
+    cube->bound.backy = (cube->player.y - 3* round(cube->v3.deltay)) / MINIBLOCK;
+    cube->bound.righty = (cube->player.y + 3* round(cube->v3.deltax)) / MINIBLOCK;
+    cube->bound.rightx = (cube->player.x - 3* round(cube->v3.deltay)) / MINIBLOCK;
+    cube->bound.lefty = (cube->player.y - 3* round(cube->v3.deltax)) / MINIBLOCK;
+    cube->bound.leftx = (cube->player.x + 3* round(cube->v3.deltay)) / MINIBLOCK;
 }
 
 void pressed(void *par)
@@ -137,6 +137,6 @@ void pressed(void *par)
             }
         }
     }
-    mini_map_draw(cube);
+    // mini_map_draw(cube);
     cast_v3(cube);
 }

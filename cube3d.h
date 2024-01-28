@@ -6,7 +6,7 @@
 #include "./gnl/get_next_line.h"
 #include "MLX420/include/MLX42/MLX42.h"
 #include "stdbool.h"
-#include "math.h"
+#include <math.h>
 #include <limits.h>
 #define WIDTH 1980.0 //l3rd
 #define HEIGHT 1080.0 //tol
@@ -30,6 +30,7 @@ enum
     HORIZONTAL = 99,
     PV=1,
     PH=0,
+    
 };
 
 typedef struct s_textures
@@ -140,6 +141,12 @@ typedef struct s_cube
     char **map;
     mlx_image_t *mini_map;
     t_bound bound;
+    int xp;
+    int yp;
+    int length;
+    int width;
+    int queue;
+    const char* wanted;
 } t_cube;
 
 
@@ -175,4 +182,13 @@ void free_tab(char **tab);
 void img_destroy(t_cube * cube);
 void free_all(t_cube*cube);
 void free_stucts(t_cube * cube);
+int check_player(t_cube *cube);
+void	check_cub(char *str);
+int	check_walls(t_cube *cube);
+void map_check(t_cube *cube);
+void check_double_lines(char *str);
+void check_ft(t_cube *cube);
+int	toupperv2(int c);
+void textured_inverted(t_cube *cube, unsigned long *row, int polarity, int height);
+int element_count(char* str, char c);
 #endif
