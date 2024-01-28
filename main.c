@@ -3,15 +3,16 @@
 void texture_set(t_cube *cube)
 {
     int i = 0;
-    cube->colors->EA = extract_color(cube->drawings->EA, cube->colors->dim); // 1
-    cube->colors->NO = extract_color(cube->drawings->NO, cube->colors->dim); // 2
-    cube->colors->WE = extract_color(cube->drawings->WE, cube->colors->dim); // 3
-    cube->colors->SO = extract_color(cube->drawings->SO, cube->colors->dim); // 4
+    
+    cube->colors->EA = extract_color(cube->drawings->EA, cube->colors->dim);
+    cube->colors->NO = extract_color(cube->drawings->NO, cube->colors->dim);
+    cube->colors->WE = extract_color(cube->drawings->WE, cube->colors->dim); 
+    cube->colors->SO = extract_color(cube->drawings->SO, cube->colors->dim);
     while (i < 8)
     {
         if (cube->colors->dim[i] != 32)
         {
-            printf("Error : more or less than 32 bit\n");
+            print_error("Error : more or less than 32 bit\n");
             exit(1);
         }
         i++;
@@ -46,7 +47,7 @@ void init_mlx(t_cube *cube)
     cube->window->mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", false);
     cube->window->img = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);
     cube->mini_map = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);
-    mlx_image_to_window(cube->window->mlx, cube->window->img, 0, 0); // put img ptr on the window
+    mlx_image_to_window(cube->window->mlx, cube->window->img, 0, 0);
     mlx_image_to_window(cube->window->mlx, cube->mini_map, 0, 0);
 }
 
@@ -67,7 +68,7 @@ void draw_background(mlx_image_t *img, t_cube *cube)
             mlx_put_pixel(img, x, y, cube->colors->finalceil);
             y++;
         }
-        while (y < HEIGHT) // hadi ila bghit nzid hud
+        while (y < HEIGHT)
         {
             mlx_put_pixel(img, x, y, cube->colors->finalfloor);
             y++;
@@ -81,11 +82,11 @@ void draw_background(mlx_image_t *img, t_cube *cube)
 void map_divider(char *textures, char *background, char *map, t_cube *cube)
 {
     cube->background = ft_split(background, '\n');
+    // printf("%s\n", textures);
     if (element_count(background, ',') > 4)
     {
-        printf("WAAA33\n");
+        print_error("Error: check the RGB params");
         exit(1);
-        /* code */
     }
 
     free(background);
@@ -93,12 +94,6 @@ void map_divider(char *textures, char *background, char *map, t_cube *cube)
     free(textures);
     cube->map = ft_split(map, '\n');
     free(map);
-    if (cube->queue != 6)
-    {
-
-        printf("7a9k\n");
-        exit(1);
-    }
 }
 void parse(t_cube *cube)
 {
@@ -120,7 +115,7 @@ void set_rgb(char **tab, t_cube *cube, char what)
         i++;
     if (i != 3)
     {
-        printf("Error number of color are more or less than 3.\n");
+        print_error("Error number of color are more or less than 3.\n");
         exit(1);
     }
     i = 0;
@@ -129,11 +124,10 @@ void set_rgb(char **tab, t_cube *cube, char what)
         if (what == 'F')
         {
             cube->colors->F[i] = ft_atoi(tab[i]);
-            // printf("%d----------\n",ft_atoi(tab[i]));
             if ((ft_atoi(tab[i]) > 255 || ft_atoi(tab[i]) < 0))
             {
 
-                printf("Error color range more than 255 or less than 0\n");
+                print_error("Error color range more than 255 or less than 0\n");
                 exit(1);
             }
         }
@@ -142,25 +136,19 @@ void set_rgb(char **tab, t_cube *cube, char what)
             cube->colors->C[i] = ft_atoi(tab[i]);
             if (ft_atoi(tab[i]) > 255 || ft_atoi(tab[i]) < 0)
             {
-                printf("Error color range more than 255 or less than 0\n");
+                print_error("Error color range more than 255 or less than 0\n");
                 exit(1);
             }
         }
         i++;
     }
 }
-void rgb_parse(char *str, t_cube *cube) // space before
+void rgb_parse(char *str, t_cube *cube)
 
 {
-    // str = ft_strtrim(str, " \t");
-    // int i = 0;
-    // char what ;
-    // int is_floor = 0;
-    // int is_ceilling = 0;
     char what = 0;
     char **work = NULL;
     char *tmp = NULL;
-    // found_after_space(str,'F');
     if (found_after_space(str, 'F') == true)
     {
         tmp = ft_strtrim(str, " \tF");
@@ -173,22 +161,11 @@ void rgb_parse(char *str, t_cube *cube) // space before
         free(str);
         what = 'C';
     }
-    // what =
     work = ft_split(tmp, ',');
     free(tmp);
 
-    set_rgb(work, cube, what); // check before set
+    set_rgb(work, cube, what);
     free_tableau(work);
-    // while (str[i])
-    // {
-    //     // if (str[i] == '')
-    //     // {
-    //     //     /* code */
-    //     // }
-
-    //     i++;
-    //     /* code */
-    // }
 }
 void read_map(int fd, t_cube *cube)
 {
@@ -197,7 +174,6 @@ void read_map(int fd, t_cube *cube)
     char *background = NULL;
     char *map = NULL;
     char *line = get_next_line(fd);
-    // line = ft_strtrim(line," \t");
 
     while (line)
     {
@@ -222,28 +198,19 @@ void read_map(int fd, t_cube *cube)
             free(line);
             if (ft_strnstr(map, "11", ft_strlen(map)) && cube->queue != 6)
             {
-                printf("blati\n");
+                print_error("Error: either Map is not last or you have Duplicates\n");
                 exit(1);
                 /* code */
             }
         }
-
-        // else
-        //{
-        //     free(line);
-        // }
         line = get_next_line(fd);
-        // printf("%s",line);
     }
-
-    // map= ft_strtrim(map,"\n");
     char *hh = ft_strtrim(map, "\n");
     free(map);
-    // printf("%s", map);
     if (ft_strnstr(hh, "\n\n", ft_strlen(hh)))
     {
 
-        printf("tayz\n");
+        print_error("Error : many newlines found in your map\n");
         exit(1);
     }
     map_divider(textures, background, hh, cube);
@@ -251,10 +218,9 @@ void read_map(int fd, t_cube *cube)
 
 int main(int ac, char **av)
 {
-    // ac = 1;
     if (ac != 2)
     {
-        printf("Error : more or less than 2 ac\n");
+        print_error("Error : more or less than 2 ac\n");
         return (0);
     }
 
@@ -274,17 +240,13 @@ int main(int ac, char **av)
     read_map(fd, cube);
 
     check_ft(cube);
-
-    // print_tableau(cube->textures);
     parse(cube);
     parse_textures(cube);
     if (!cube->drawings->NO || !cube->drawings->EA || !cube->drawings->WE || !cube->drawings->SO)
     {
-        printf("tabnk\n");
+        print_error("Error : check the PNG or read ^above^ \n");
         exit(1);
-        /* code */
     }
-    // printf("%p %p %p %p\n",cube->drawings->NO,cube->drawings->SO,cube->drawings->EA,cube->drawings->WE);
 
     texture_set(cube);
 
@@ -295,15 +257,14 @@ int main(int ac, char **av)
     if (!check_player(cube) || !check_walls(cube))
         exit(0);
     printf("ALL GOOD\n");
-    draw_background(cube->window->img, cube); // made the imgptr
+    draw_background(cube->window->img, cube);
     mini_map_draw(cube);
 
-    mlx_delete_image(cube->window->mlx, cube->mini_map); // hadi ach nkhdm ghir f walls
-    cube->v3.deltax = cos(cube->v3.angle) * SPEED;       // speed
-    cube->v3.deltay = sin(cube->v3.angle) * SPEED;       // speed
+    mlx_delete_image(cube->window->mlx, cube->mini_map); 
+    cube->v3.deltax = cos(cube->v3.angle) * SPEED;
+    cube->v3.deltay = sin(cube->v3.angle) * SPEED;
 
     mlx_loop_hook(cube->window->mlx, &pressed, cube);
-    // mlx_key_hook(cube->window->mlx,&pressed,cube);
     mlx_loop(cube->window->mlx);
     mlx_terminate(cube->window->mlx);
     return 0;
@@ -317,15 +278,15 @@ double horizontal(t_cube *cube)
     tanges = -1 / tan(cube->v3.rayangle);
     if (cube->v3.rayangle > M_PI)
     {
-        cube->v3.rayy = ((int)cube->player.y / MINIBLOCK * MINIBLOCK) - 0.0001;               // 7yedt cast o ba9a r3da
-        cube->v3.rayx = ((int)cube->player.y - cube->v3.rayy) * tanges + (int)cube->player.x; // 7yedt cast o ba9a r3da
+        cube->v3.rayy = ((int)cube->player.y / MINIBLOCK * MINIBLOCK) - 0.0001;              
+        cube->v3.rayx = ((int)cube->player.y - cube->v3.rayy) * tanges + (int)cube->player.x;
         cube->v3.yoffset = -MINIBLOCK;
         cube->v3.xoffset = -cube->v3.yoffset * tanges;
     }
     if (cube->v3.rayangle < M_PI)
     {
-        cube->v3.rayy = ((int)cube->player.y / MINIBLOCK) * MINIBLOCK + MINIBLOCK;            // 7yedt cast o ba9a r3da
-        cube->v3.rayx = ((int)cube->player.y - cube->v3.rayy) * tanges + (int)cube->player.x; // 7yedt cast o ba9a r3da
+        cube->v3.rayy = ((int)cube->player.y / MINIBLOCK) * MINIBLOCK + MINIBLOCK;           
+        cube->v3.rayx = ((int)cube->player.y - cube->v3.rayy) * tanges + (int)cube->player.x;
         cube->v3.yoffset = MINIBLOCK;
         cube->v3.xoffset = -cube->v3.yoffset * tanges;
     }
@@ -408,7 +369,6 @@ void cast_v3(t_cube *cube)
 {
     int i = 0;
     cube->v3.rayangle = cube->v3.angle - WIDTH / 2 * RAD;
-    // draw_player(cube);
     draw_background(cube->window->img, cube);
     while (i < WIDTH)
     {
@@ -429,24 +389,11 @@ void cast_v3(t_cube *cube)
         {
             cube->v3.distance = dH;
 
-            // cube->dda.startx = cube->player.x;
-            // cube->dda.starty = cube->player.y;
-            // cube->dda.endx = cube->v3.Hx;
-            // cube->dda.endy = cube->v3.Hy;
-            // ddanalizer(cube->mini_map, cube, 0x00FFFFFF);
-
             cube->v3.side = 0;
         }
         else
         {
             cube->v3.distance = dV;
-            // cube->dda.startx = cube->player.x;
-            // cube->dda.starty = cube->player.y;
-            // cube->dda.endx = cube->v3.Vx;
-            // cube->dda.endy = cube->v3.Vy;
-            // printf("%d %dvertical\n", (int)(cube->v3.Vx+0.0002)/MINIBLOCK,(int)(cube->v3.Vy+0.0002)/MINIBLOCK);
-
-            // ddanalizer(cube->mini_map, cube, 0x0000FFFF);
 
             cube->v3.side = 1;
         }
@@ -455,7 +402,7 @@ void cast_v3(t_cube *cube)
             ca += 2 * M_PI;
         if (ca >= 2 * M_PI)
             ca -= 2 * M_PI;
-        cube->v3.distance = cube->v3.distance * cos(ca); // fisheye
+        cube->v3.distance = cube->v3.distance * cos(ca);
         cube->dda.startx = i - 1;
         cube->dda.starty = HEIGHT / 2 - cube->v3.wallheight / 2;
         cube->dda.savestarty = HEIGHT / 2 - cube->v3.savewallheight / 2;
@@ -472,16 +419,16 @@ void draw_textures(t_cube *cube)
 {
     if (cube->v3.side == PH)
     {
-        if (cube->v3.rayangle < M_PI) // SO
+        if (cube->v3.rayangle < M_PI) 
             textured_inverted(cube, cube->colors->SO, cube->v3.side, height_extract(cube, "SO"));
-        else // NO
+        else 
             textured(cube, cube->colors->NO, cube->v3.side, height_extract(cube, "NO"));
     }
     else
     {
-        if (cube->v3.rayangle > P3 || cube->v3.rayangle < P2) // EA
+        if (cube->v3.rayangle > P3 || cube->v3.rayangle < P2)
             textured(cube, cube->colors->EA, cube->v3.side, height_extract(cube, "EA"));
-        else // WE
+        else 
             textured_inverted(cube, cube->colors->WE, cube->v3.side, height_extract(cube, "WE"));
     }
 }

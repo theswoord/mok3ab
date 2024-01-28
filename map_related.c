@@ -44,18 +44,17 @@ void mini_map_draw(t_cube *cube)
 void fill_map(t_cube *cube)
 {
     int i = 0;
-    // int max = 0;
     int j = 0;
     while (cube->map[j])
     {
     cube->map_stuff.max = fmax(cube->map_stuff.max, ft_strlengnl(cube->map[j+1]));
-        j++; // here
+        j++; 
     }
     cube->map_stuff.lines = j;
     while (cube->map[i])
     {
         cube->map[i] = copy_and_fill(cube->map[i],cube->map_stuff.max,' ');
-        i++; // here
+        i++;
     }
     
 }

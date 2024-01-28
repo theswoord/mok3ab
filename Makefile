@@ -2,13 +2,13 @@
 
 
 TEST = hh2.c
-SRC = main.c utils.c map_related.c drawing.c mlx_related.c math_helper.c map_checks.c parse.c free.c check_map.c
+SRC = main.c utils.c map_related.c drawing.c mlx_related.c math_helper.c map_checks.c parse.c free.c check_map.c errors.c
 SRCB = ./bonus_checker/bonus.c ./bonus_checker/instructionpush_bonus.c ./bonus_checker/instructionsrotate_bonus.c ./bonus_checker/instructionsswap_bonus.c ./bonus_checker/output_bonus.c ./bonus_checker/tools_bonus.c ./bonus_checker/instructionhelpers_bonus.c ./bonus_checker/utils2_bonus.c ./bonus_checker/tools2_bonus.c ./bonus_checker/free_bonus.c ./bonus_checker/checker_bonus.c
 NAME = cube
 NAMEB = checker
 CC = gcc
 
-CFLAGS= -Wall -Wextra -Werror -Ofast -ffast-math  #-g -fsanitize=address
+CFLAGS= -Wall -Wextra -Werror -Ofast -ffast-math  -g -fsanitize=address
 msa7 = rm -rf
 obj = ${SRC:.c=.o}
 objb = ${SRCB:.c=.o}
@@ -23,7 +23,7 @@ all : libs ${NAME}
 ${NAME} : ${obj}
 	${CC} ${readflag} ${CFLAGS}  ${obj} ${MLX} -framework Cocoa -framework OpenGL -framework IOKit  $(libraries) -o $(NAME)
 
-%.o: %.c
+%.o: %.c cube3d.h
 	${CC} -Wall -Wextra -Werror -Ofast -ffast-math -c $< -o $@
 
 test: 

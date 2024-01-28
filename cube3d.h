@@ -52,10 +52,10 @@ typedef struct s_colors
 {
     int F[3];
     int C[3];
-    unsigned long *EA; //1
-    unsigned long *NO; //2
-    unsigned long *WE; //3
-    unsigned long *SO; //4
+    unsigned long *EA;
+    unsigned long *NO; 
+    unsigned long *WE; 
+    unsigned long *SO; 
     unsigned long finalfloor;
     unsigned long finalceil;
     int dim[8];
@@ -152,7 +152,6 @@ typedef struct s_cube
 
 bool found_after_space(char *str, char c);
 
-/*map*/
 void read_map(int fd, t_cube *cube);
 void map_divider(char * textures , char *background , char *map , t_cube *cube);
 void print_tableau(char ** tableau);
@@ -168,9 +167,9 @@ int abs(int n);
 void ddanalizer(mlx_image_t *img , t_cube *cube,int color);
 void parse_textures(t_cube *cube);
 void draw_background(mlx_image_t *img, t_cube *cube);
-void texture_set(t_cube *cube); // you need to free
+void texture_set(t_cube *cube); 
 unsigned long *extract_color(mlx_texture_t *texture,int *arr);
-
+void print_error(char *str);
 void set_background(t_cube *cube);
 void cast_v3(t_cube *cube);
 void draw_textures(t_cube * cube );
@@ -191,4 +190,5 @@ void check_ft(t_cube *cube);
 int	toupperv2(int c);
 void textured_inverted(t_cube *cube, unsigned long *row, int polarity, int height);
 int element_count(char* str, char c);
+void safe_texture( char *str);
 #endif

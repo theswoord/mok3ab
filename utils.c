@@ -56,7 +56,6 @@ void print_tableau(char **tableau)
     {
         printf("%s\n", tableau[i]);
         i++;
-        /* code */
     }
 }
 
@@ -67,7 +66,6 @@ void free_tableau(char **tab)
     {
         free(tab[i]);
         i++;
-        /* code */
     }
     free(tab);
 }
@@ -203,10 +201,8 @@ int element_count(char* str, char c)
     int count = 0;
     while (str[i])
     {
-        /* code */
         if (str[i]==c)
         {
-            /* code */
             count ++;
         }
         

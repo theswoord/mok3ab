@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 04:33:20 by youel-id          #+#    #+#             */
-/*   Updated: 2024/01/28 10:38:31 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/01/28 17:12:28 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int check_player(t_cube *cube)
 				count++;
 				if(count > 1)
 				{
-					printf("Error : multi_player");	
+					print_error("Error : multi_player");	
 					return(0);		
 				}
 			}
@@ -43,7 +43,7 @@ int check_player(t_cube *cube)
 	}
 	if(count == 0)
 	{
-		printf("Error: No PLAYER");
+		print_error("Error: No PLAYER");
 		return 0;
 	}
 	return 1;
@@ -55,12 +55,12 @@ void	check_cub(char *str)
 	len = ft_strlen(str);
 	if (str[len - 1] != 'b' || str[len - 2] != 'u')
 	{
-		printf("Error : need to use .cub \n");
+		print_error("Error : need to use .cub \n");
 		exit(1);
 	}
 	if (str[len - 3] != 'c' || str[len - 4] != '.')
 	{
-		printf("Error : need to use .cub \n");
+		print_error("Error : need to use .cub \n");
 		exit(1);
 	}
 }
@@ -93,7 +93,7 @@ int	check_walls(t_cube *cube)
 	{
 		if ((cube->map[i][0] != '1' && cube->map[i][0] != ' ' ) || (cube->map[i][cube->width - 1] != '1' && cube->map[i][cube->width - 1] != ' ') )
 		{
-			printf("ERROR:<----- There is no wall\n");
+			print_error("ERROR:<----- There is no wall\n");
 			return (0);
 		}
 		i++;
@@ -103,7 +103,7 @@ int	check_walls(t_cube *cube)
 	{
 		if ((cube->map[0][i] != '1' && cube->map[0][i] != ' ') || (cube->map[cube->length - 1][i] != '1' && cube->map[cube->length - 1][i] != ' ' ))
 		{
-			printf("ERROR-->: There is no wall\n");
+			print_error("ERROR-->: There is no wall\n");
 			return (0);
 		}
 		i++;
@@ -123,32 +123,32 @@ int	check_walls(t_cube *cube)
 			
 			if(cube->map[0][j] == '0')
 			{
-				printf("erreur in map\n");
+				print_error("erreur in map\n");
 				exit(1);
 			}
 			else if (cube->map[cube->length - 1][j] == '0')
 			{
-				printf("erreur in map\n");
+				print_error("erreur in map\n");
 				exit(1);
 			}
             else if(cube->map[i][j]== '0' && ((cube->map[i + 1][j] == ' ') || cube->map[i + 1][j]== '\t'))
 			 {
-				printf("Erreur in map\n");
+				print_error("Erreur in map\n");
 				exit(1);
 			 }
 			else if(cube->map[i][j] == '0' && ((cube->map[i][j + 1] == ' ') || cube->map[i][j + 1] == '\t'))
 			{
-				printf("Errorss in map\n");
+				print_error("Errorss in map\n");
 				exit(1);
 			}
 			else if(cube->map[i][j] == '0' && ((cube->map[i - 1][j] == ' ') || cube->map[i - 1][j] == '\t'))
 			{
-				printf("Errorsss-----> in map\n");
+				print_error("Errorsss-----> in map\n");
 				exit(1);
 			}
 			else if(cube->map[i][j] == '0' && ((cube->map[i][j - 1] == ' ') || cube->map[i][j - 1] == '\t'))
 			{
-				printf("Errors in map\n");
+				print_error("Errors in map\n");
 				exit(1);
 			}
          }
@@ -169,7 +169,7 @@ void check_ft(t_cube *cube)
 		{
 						if (ft_strchr(cube->wanted,(toupperv2(cube->map[i][j]))) == 0)
 			{
-				printf("erreur in alpha\n");
+				print_error("erreur in alpha\n");
 				exit(1);
 			}
 		}

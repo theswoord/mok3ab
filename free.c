@@ -19,17 +19,13 @@ void img_destroy(t_cube * cube)
 }
 void free_stucts(t_cube * cube)
 {
-    // printf("%p\n %p\n %p\n %p\n %p\n %p\n %p\n",cube->textures,cube->background,cube->map,cube->window,cube->drawings,cube->colors,cube);
-    // free_tableau(cube->textures);
-    // free_tableau(cube->background);
     free_tableau(cube->map);
 
     free(cube->window);
     free(cube->drawings);
     free(cube->colors);
-    // free(cube->window);
 
-    free(cube); // hh
+    free(cube);
 }
 void free_all(t_cube*cube)
 {

@@ -22,25 +22,12 @@ void pressed(void *par)
     {
         if (cube->map[cube->bound.fronty][(int)cube->player.x / MINIBLOCK] != '1' && cube->map[(int)cube->player.y / MINIBLOCK][cube->bound.frontx] != '1')
         {
-            // if (cube->player.y >= cube->map_stuff.lines*MINIBLOCK || cube->player.x >= cube->map_stuff.max*MINIBLOCK)
-            // {
-            //     if (cube->player.y >= cube->map_stuff.lines*MINIBLOCK)
-            //     {
-            //         cube->player.y -=  cube->map_stuff.lines*MINIBLOCK;
-            //     }
-            //     else
-            //     {
-            //         cube->player.x -=  cube->map_stuff.max*MINIBLOCK;
-            //     }
             if (cube->map[cube->bound.fronty][cube->bound.frontx] != '1')
             {
                 cube->player.y += round(cube->v3.deltay);
                 cube->player.x += round(cube->v3.deltax);
-                /* code */
             }
         }
-
-        // }
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_LEFT))
     {
@@ -49,23 +36,13 @@ void pressed(void *par)
         {
             cube->v3.angle += 2 * M_PI;
         }
-        cube->v3.deltax = cos(cube->v3.angle) * SPEED; // x
-        cube->v3.deltay = sin(cube->v3.angle) * SPEED; // y
+        cube->v3.deltax = cos(cube->v3.angle) * SPEED;
+        cube->v3.deltay = sin(cube->v3.angle) * SPEED;
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_S))
     {
         if (cube->map[cube->bound.backy][(int)cube->player.x / MINIBLOCK] != '1' && cube->map[(int)cube->player.y / MINIBLOCK][cube->bound.backx] != '1')
         {
-            // if (cube->player.y >= cube->map_stuff.lines*MINIBLOCK || cube->player.x >= cube->map_stuff.max*MINIBLOCK)
-            // {
-            //     if (cube->player.y >= cube->map_stuff.lines*MINIBLOCK)
-            //     {
-            //         cube->player.y -=  cube->map_stuff.lines*MINIBLOCK;
-            //     }
-            //     else
-            //     {
-            //         cube->player.x -=  cube->map_stuff.max*MINIBLOCK;
-            //     }
             if (cube->map[cube->bound.backy][cube->bound.backx] != '1')
             {
                 cube->player.y -= round(cube->v3.deltay);
@@ -88,27 +65,13 @@ void pressed(void *par)
     {
         free_all(cube);
 
-        // while (1)
-        // {
-        //     /* code */
-        // }
-
-        exit(0); // free
+        printf("the game exited\n");
+        exit(0); 
     }
     if (mlx_is_key_down(cube->window->mlx, MLX_KEY_D))
     {
         if (cube->map[cube->bound.righty][(int)cube->player.x / MINIBLOCK] != '1' && cube->map[(int)cube->player.y / MINIBLOCK][cube->bound.rightx] != '1')
         {
-            // if (cube->player.y >= cube->map_stuff.lines*MINIBLOCK || cube->player.x >= cube->map_stuff.max*MINIBLOCK)
-            // {
-            //     if (cube->player.y >= cube->map_stuff.lines*MINIBLOCK)
-            //     {
-            //         cube->player.y -=  cube->map_stuff.lines*MINIBLOCK;
-            //     }
-            //     else
-            //     {
-            //         cube->player.x -=  cube->map_stuff.max*MINIBLOCK;
-            //     }
             if (cube->map[cube->bound.righty][cube->bound.rightx] != '1')
             {
                 cube->player.x -= round(cube->v3.deltay);
@@ -120,16 +83,6 @@ void pressed(void *par)
     {
         if (cube->map[cube->bound.lefty][(int)cube->player.x / MINIBLOCK] != '1' && cube->map[(int)cube->player.y / MINIBLOCK][cube->bound.leftx] != '1')
         {
-            // if (cube->player.y >= cube->map_stuff.lines*MINIBLOCK || cube->player.x >= cube->map_stuff.max*MINIBLOCK)
-            // {
-            //     if (cube->player.y >= cube->map_stuff.lines*MINIBLOCK)
-            //     {
-            //         cube->player.y -=  cube->map_stuff.lines*MINIBLOCK;
-            //     }
-            //     else
-            //     {
-            //         cube->player.x -=  cube->map_stuff.max*MINIBLOCK;
-            //     }
             if (cube->map[cube->bound.lefty][cube->bound.leftx] != '1')
             {
                 cube->player.x += round(cube->v3.deltay);
@@ -137,6 +90,5 @@ void pressed(void *par)
             }
         }
     }
-    // mini_map_draw(cube);
     cast_v3(cube);
 }
