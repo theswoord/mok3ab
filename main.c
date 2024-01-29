@@ -12,7 +12,7 @@ void texture_set(t_cube *cube)
     {
         if (cube->colors->dim[i] != 32)
         {
-            print_error("Error : more or less than 32 bit\n");
+            print_error("Error\nmore or less than 32 bit\n");
             exit(1);
         }
         i++;
@@ -83,7 +83,7 @@ void map_divider(char *textures, char *background, char *map, t_cube *cube)
 {
     if (cube->queue < 6)
     {
-        print_error("o ghwt\n");
+        print_error("Error\nSomething wrong with the map");
         exit(1);
         /* code */
     }
@@ -92,7 +92,7 @@ void map_divider(char *textures, char *background, char *map, t_cube *cube)
     
     if (element_count(background, ',') > 4)
     {
-        print_error("Error: check the RGB params");
+        print_error("Error\ncheck the RGB params");
         exit(1);
     }
 
@@ -122,7 +122,7 @@ void set_rgb(char **tab, t_cube *cube, char what)
         i++;
     if (i != 3)
     {
-        print_error("Error number of color are more or less than 3.\n");
+        print_error("Error\nnumber of color are more or less than 3.\n");
         exit(1);
     }
     i = 0;
@@ -134,7 +134,7 @@ void set_rgb(char **tab, t_cube *cube, char what)
             if ((ft_atoi(tab[i]) > 255 || ft_atoi(tab[i]) < 0))
             {
 
-                print_error("Error color range more than 255 or less than 0\n");
+                print_error("Error\ncolor range more than 255 or less than 0\n");
                 exit(1);
             }
         }
@@ -143,7 +143,7 @@ void set_rgb(char **tab, t_cube *cube, char what)
             cube->colors->C[i] = ft_atoi(tab[i]);
             if (ft_atoi(tab[i]) > 255 || ft_atoi(tab[i]) < 0)
             {
-                print_error("Error color range more than 255 or less than 0\n");
+                print_error("Error\ncolor range more than 255 or less than 0\n");
                 exit(1);
             }
         }
@@ -170,7 +170,7 @@ void rgb_parse(char *str, t_cube *cube)
     }
     else
     {
-        print_error("Error : Color parse problems \n");
+        print_error("Error\nColor parse problems \n");
         exit(1);
     }
     work = ft_split(tmp, ',');
@@ -213,7 +213,7 @@ void read_map(int fd, t_cube *cube)
             free(line);
             if (ft_strnstr(map, "11", ft_strlen(map)) && cube->queue != 6)
             {
-                print_error("Error: either Map is not last or you have Duplicates\n");
+                print_error("Error\neither Map is not last or you have Duplicates\n");
                 exit(1);
                 /* code */
             }
@@ -225,7 +225,7 @@ void read_map(int fd, t_cube *cube)
     if (ft_strnstr(hh, "\n\n", ft_strlen(hh)))
     {
 
-        print_error("Error : many newlines found in your map\n");
+        print_error("Error\nmany newlines found in your map\n");
         exit(1);
     }
 
@@ -236,7 +236,7 @@ int main(int ac, char **av)
 {
     if (ac != 2)
     {
-        print_error("Error : more or less than 2 ac\n");
+        print_error("Error\nmore or less than 2 ac\n");
         return (0);
     }
     check_cub(av[1]);
@@ -266,7 +266,7 @@ int main(int ac, char **av)
     parse_textures(cube);
     if (!cube->drawings->NO || !cube->drawings->EA || !cube->drawings->WE || !cube->drawings->SO)
     {
-        print_error("Error : check the PNG or read ^above^ \n");
+        print_error("Error\ncheck the PNG or read ^above^ \n");
         exit(1);
     }
 

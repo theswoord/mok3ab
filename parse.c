@@ -37,7 +37,7 @@ void parse_textures(t_cube *cube)
         }
         else 
         {
-            printf("Error Texture parse\n");
+            print_error("Error\nTexture parse\n");
             exit(1);
         }
         i++;
