@@ -81,8 +81,15 @@ void draw_background(mlx_image_t *img, t_cube *cube)
 }
 void map_divider(char *textures, char *background, char *map, t_cube *cube)
 {
+    if (cube->queue < 6)
+    {
+        print_error("o ghwt\n");
+        exit(1);
+        /* code */
+    }
     cube->background = ft_split(background, '\n');
     // printf("%s\n", textures);
+    
     if (element_count(background, ',') > 4)
     {
         print_error("Error: check the RGB params");
@@ -149,17 +156,22 @@ void rgb_parse(char *str, t_cube *cube)
     char what = 0;
     char **work = NULL;
     char *tmp = NULL;
-    if (found_after_space(str, 'F') == true)
+    if (ft_strnstr(str+return_after_space(str),"F ", 2))
     {
         tmp = ft_strtrim(str, " \tF");
         free(str);
         what = 'F';
     }
-    else if (found_after_space(str, 'C') == true)
+    else if (ft_strnstr(str+return_after_space(str),"C ", 2))
     {
         tmp = ft_strtrim(str, " \tC");
         free(str);
         what = 'C';
+    }
+    else
+    {
+        print_error("Error : Color parse problems \n");
+        exit(1);
     }
     work = ft_split(tmp, ',');
     free(tmp);
@@ -174,7 +186,10 @@ void read_map(int fd, t_cube *cube)
     char *background = NULL;
     char *map = NULL;
     char *line = get_next_line(fd);
-
+    if (!line)
+    {
+        exit(1);
+    }
     while (line)
     {
 
@@ -213,6 +228,7 @@ void read_map(int fd, t_cube *cube)
         print_error("Error : many newlines found in your map\n");
         exit(1);
     }
+
     map_divider(textures, background, hh, cube);
 }
 
@@ -223,6 +239,14 @@ int main(int ac, char **av)
         print_error("Error : more or less than 2 ac\n");
         return (0);
     }
+    check_cub(av[1]);
+    int fd = open(av[1], O_RDONLY);
+    if (fd == -1)
+    {
+        return 1;
+        /* code */
+    }
+    
 
     t_cube *cube = (t_cube *)malloc(sizeof(t_cube));
     ft_memset(cube, 0, sizeof(t_cube));
@@ -234,8 +258,6 @@ int main(int ac, char **av)
 
     cube->drawings = (t_textures *)malloc(sizeof(t_textures));
     ft_memset(cube, 0, sizeof(t_textures));
-    check_cub(av[1]);
-    int fd = open(av[1], O_RDONLY);
     cube->wanted = "01EWSN ";
     read_map(fd, cube);
 
@@ -255,7 +277,7 @@ int main(int ac, char **av)
     fill_map(cube);
     map_check(cube);
     if (!check_player(cube) || !check_walls(cube))
-        exit(0);
+        exit(1);
     printf("ALL GOOD\n");
     draw_background(cube->window->img, cube);
     mini_map_draw(cube);
@@ -373,7 +395,7 @@ void cast_v3(t_cube *cube)
     while (i < WIDTH)
     {
 
-        if (cube->v3.rayangle < 0)
+        if (cube->v3.rayangle <= 0)
             cube->v3.rayangle += 2 * M_PI;
         if (cube->v3.rayangle >= 2 * M_PI)
             cube->v3.rayangle -= 2 * M_PI;
@@ -406,7 +428,7 @@ void cast_v3(t_cube *cube)
         cube->dda.startx = i - 1;
         cube->dda.starty = HEIGHT / 2 - cube->v3.wallheight / 2;
         cube->dda.savestarty = HEIGHT / 2 - cube->v3.savewallheight / 2;
-        cube->dda.endx = i - 1;
+        // cube->dda.endx = i - 1;
         cube->dda.endy = cube->v3.wallheight / 2 + HEIGHT / 2;
         cube->v3.rayangle += RAD;
         draw_textures(cube);

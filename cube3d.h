@@ -131,7 +131,7 @@ typedef struct s_cube
     t_textures *drawings;
     t_lines dda;
     int wallheight;
-    mlx_image_t *walls;
+    // mlx_image_t *walls;
     t_player player;
     t_map map_stuff;
     t_win *window;
@@ -190,5 +190,6 @@ void check_ft(t_cube *cube);
 int	toupperv2(int c);
 void textured_inverted(t_cube *cube, unsigned long *row, int polarity, int height);
 int element_count(char* str, char c);
-void safe_texture( char *str);
+void safe_texture( char *str, char * check);
+int return_after_space(char *str);
 #endif
