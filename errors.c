@@ -1,22 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/29 18:28:02 by nbouhali          #+#    #+#             */
+/*   Updated: 2024/01/29 18:28:03 by nbouhali         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube3d.h"
 
-void print_error(char *str)
+void	print_error(char *str)
 {
-    int i;
-    i=0;
-    while (str[i])
-    {
-        write(2,&str[i],1);
-        i++;
-    }
-    
-}
+	int	i;
 
-// void errors_general(t_cube *cube,int errno)
-// {
-//     // if (errno = )
-//     // {
-//     //     /* code */
-//     // }
-    
-// }
+	i = 0;
+	while (str[i])
+	{
+		write(2, &str[i], 1);
+		i++;
+	}
+}
