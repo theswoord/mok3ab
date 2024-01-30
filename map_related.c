@@ -6,17 +6,29 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:28:12 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/01/29 18:28:13 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:12:04 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+void	mini_map_draw_help(t_cube *cube, int *y, int *x)
+{
+	if (cube->map[*y][*x] == 'S')
+		cube->v3.angle = P2;
+	if (cube->map[*y][*x] == 'N')
+		cube->v3.angle = P3;
+	if (cube->map[*y][*x] == 'E')
+		cube->v3.angle = 0.0;
+	if (cube->map[*y][*x] == 'W')
+		cube->v3.angle = M_PI;
+}
+
 void	mini_map_draw(t_cube *cube)
 {
 	int			x;
 	int			y;
-	static int	save = 0;
+	static int	save;
 
 	x = 0;
 	y = 0;
@@ -31,14 +43,7 @@ void	mini_map_draw(t_cube *cube)
 				save = 1;
 				cube->player.x = (x * MINIBLOCK) + MINIBLOCK / 2;
 				cube->player.y = (y * MINIBLOCK) + MINIBLOCK / 2;
-				if (cube->map[y][x] == 'S')
-					cube->v3.angle = P2;
-				if (cube->map[y][x] == 'N')
-					cube->v3.angle = P3;
-				if (cube->map[y][x] == 'E')
-					cube->v3.angle = 0.0;
-				if (cube->map[y][x] == 'W')
-					cube->v3.angle = M_PI;
+				mini_map_draw_help(cube, &y, &x);
 			}
 			x++;
 		}

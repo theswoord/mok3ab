@@ -12,7 +12,8 @@
         "unordered_set": "c",
         "cube3d.h": "c",
         "complex": "c",
-        "get_next_line.h": "c"
+        "get_next_line.h": "c",
+        "__tree": "c"
     },
     "python.formatting.provider": "autopep8"
 }

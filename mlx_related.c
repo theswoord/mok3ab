@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:28:18 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/01/29 20:18:19 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:20:48 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,51 +39,13 @@ void	pressed(void *par)
 	cube = par;
 	boundaries(cube);
 	if (mlx_is_key_down(cube->window->mlx, MLX_KEY_W))
-	{
-		if (cube->map[cube->bound.fronty][(int)cube->player.x
-			/ MINIBLOCK] != '1' && cube->map[(int)cube->player.y
-			/ MINIBLOCK][cube->bound.frontx] != '1')
-		{
-			if (cube->map[cube->bound.fronty][cube->bound.frontx] != '1')
-			{
-				cube->player.y += round(cube->v3.deltay);
-				cube->player.x += round(cube->v3.deltax);
-			}
-		}
-	}
+		move_forward(cube);
 	if (mlx_is_key_down(cube->window->mlx, MLX_KEY_LEFT))
-	{
-		cube->v3.angle -= ROTSPEED;
-		if (cube->v3.angle < 0)
-		{
-			cube->v3.angle += 2 * M_PI;
-		}
-		cube->v3.deltax = cos(cube->v3.angle) * SPEED;
-		cube->v3.deltay = sin(cube->v3.angle) * SPEED;
-	}
+		turn_left(cube);
 	if (mlx_is_key_down(cube->window->mlx, MLX_KEY_S))
-	{
-		if (cube->map[cube->bound.backy][(int)cube->player.x / MINIBLOCK] != '1'
-			&& cube->map[(int)cube->player.y
-			/ MINIBLOCK][cube->bound.backx] != '1')
-		{
-			if (cube->map[cube->bound.backy][cube->bound.backx] != '1')
-			{
-				cube->player.y -= round(cube->v3.deltay);
-				cube->player.x -= round(cube->v3.deltax);
-			}
-		}
-	}
+		move_backward(cube);
 	if (mlx_is_key_down(cube->window->mlx, MLX_KEY_RIGHT))
-	{
-		cube->v3.angle += ROTSPEED;
-		if (cube->v3.angle >= 2 * M_PI)
-		{
-			cube->v3.angle -= 2 * M_PI;
-		}
-		cube->v3.deltax = cos(cube->v3.angle) * SPEED;
-		cube->v3.deltay = sin(cube->v3.angle) * SPEED;
-	}
+		turn_right(cube);
 	if (mlx_is_key_down(cube->window->mlx, MLX_KEY_ESCAPE))
 	{
 		free_all(cube);
@@ -91,30 +53,84 @@ void	pressed(void *par)
 		exit(0);
 	}
 	if (mlx_is_key_down(cube->window->mlx, MLX_KEY_D))
-	{
-		if (cube->map[cube->bound.righty][(int)cube->player.x
-			/ MINIBLOCK] != '1' && cube->map[(int)cube->player.y
-			/ MINIBLOCK][cube->bound.rightx] != '1')
-		{
-			if (cube->map[cube->bound.righty][cube->bound.rightx] != '1')
-			{
-				cube->player.x -= round(cube->v3.deltay);
-				cube->player.y += round(cube->v3.deltax);
-			}
-		}
-	}
+		strife_right(cube);
 	if (mlx_is_key_down(cube->window->mlx, MLX_KEY_A))
+		strife_left(cube);
+	cast_v3(cube);
+}
+
+void	move_forward(t_cube *cube)
+{
+	if (cube->map[cube->bound.fronty][(int)cube->player.x / MINIBLOCK] != '1'
+		&& cube->map[(int)cube->player.y
+		/ MINIBLOCK][cube->bound.frontx] != '1')
 	{
-		if (cube->map[cube->bound.lefty][(int)cube->player.x / MINIBLOCK] != '1'
-			&& cube->map[(int)cube->player.y
-			/ MINIBLOCK][cube->bound.leftx] != '1')
+		if (cube->map[cube->bound.fronty][cube->bound.frontx] != '1')
 		{
-			if (cube->map[cube->bound.lefty][cube->bound.leftx] != '1')
-			{
-				cube->player.x += round(cube->v3.deltay);
-				cube->player.y -= round(cube->v3.deltax);
-			}
+			cube->player.y += round(cube->v3.deltay);
+			cube->player.x += round(cube->v3.deltax);
 		}
 	}
-	cast_v3(cube);
+}
+
+void	turn_left(t_cube *cube)
+{
+	cube->v3.angle -= ROTSPEED;
+	if (cube->v3.angle < 0)
+	{
+		cube->v3.angle += 2 * M_PI;
+	}
+	cube->v3.deltax = cos(cube->v3.angle) * SPEED;
+	cube->v3.deltay = sin(cube->v3.angle) * SPEED;
+}
+
+void	move_backward(t_cube *cube)
+{
+	if (cube->map[cube->bound.backy][(int)cube->player.x / MINIBLOCK] != '1'
+		&& cube->map[(int)cube->player.y / MINIBLOCK][cube->bound.backx] != '1')
+	{
+		if (cube->map[cube->bound.backy][cube->bound.backx] != '1')
+		{
+			cube->player.y -= round(cube->v3.deltay);
+			cube->player.x -= round(cube->v3.deltax);
+		}
+	}
+}
+
+void	strife_left(t_cube *cube)
+{
+	if (cube->map[cube->bound.lefty][(int)cube->player.x / MINIBLOCK] != '1'
+		&& cube->map[(int)cube->player.y / MINIBLOCK][cube->bound.leftx] != '1')
+	{
+		if (cube->map[cube->bound.lefty][cube->bound.leftx] != '1')
+		{
+			cube->player.x += round(cube->v3.deltay);
+			cube->player.y -= round(cube->v3.deltax);
+		}
+	}
+}
+
+void	strife_right(t_cube *cube)
+{
+	if (cube->map[cube->bound.righty][(int)cube->player.x / MINIBLOCK] != '1'
+		&& cube->map[(int)cube->player.y
+		/ MINIBLOCK][cube->bound.rightx] != '1')
+	{
+		if (cube->map[cube->bound.righty][cube->bound.rightx] != '1')
+		{
+			cube->player.x -= round(cube->v3.deltay);
+			cube->player.y += round(cube->v3.deltax);
+		}
+	}
+}
+
+void	turn_right(t_cube *cube)
+{
+	cube->v3.angle += ROTSPEED;
+	if (cube->v3.angle >= 2 * M_PI)
+	{
+		cube->v3.angle -= 2 * M_PI;
+	}
+	cube->v3.deltax = cos(cube->v3.angle) * SPEED;
+	cube->v3.deltay = sin(cube->v3.angle) * SPEED;
 }

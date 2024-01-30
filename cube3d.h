@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:27:56 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/01/29 20:18:23 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:24:19 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,4 +190,11 @@ void				textured_inverted(t_cube *cube, unsigned long *row,
 						int polarity, int height);
 int					element_count(char *str, char c);
 int					return_after_space(char *str);
+void				move_forward(t_cube *cube);
+void				strife_right(t_cube *cube);
+void				strife_left(t_cube *cube);
+void				move_backward(t_cube *cube);
+void				turn_right(t_cube *cube);
+void				turn_left(t_cube *cube);
+void				problem(char *str);
 #endif

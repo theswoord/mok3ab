@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:28:20 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/01/29 18:28:21 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:39:30 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,7 @@ void	parse_textures(t_cube *cube)
 			free(tmp);
 		}
 		else
-		{
-			print_error("Error\nTexture parse\n");
-			exit(1);
-		}
+			problem("Error\nTexture parse\n");
 		i++;
 	}
 	free_tableau(cube->textures);
