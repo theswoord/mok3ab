@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:28:23 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/01/29 18:30:52 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:36:11 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void	textured(t_cube *cube, unsigned long *row, int polarity, int height)
 	{
 		y += 1;
 		if (polarity == 0)
-			colm = (int)(cube->v3.Hx + 0.0002) % MINIBLOCK;
+			colm = (int)(cube->v3.Hx + 0.0002) % MB;
 		else if (polarity == 1)
-			colm = (int)(cube->v3.Vy + 0.0002) % MINIBLOCK;
+			colm = (int)(cube->v3.Vy + 0.0002) % MB;
 		rowm = (int)((y - cube->dda.savestarty) / cube->v3.savewallheight
 				* height);
 		if (rowm < 32)
@@ -91,7 +91,7 @@ void	textured(t_cube *cube, unsigned long *row, int polarity, int height)
 			if (cube->dda.startx >= WIDTH || y >= HEIGHT)
 				return ;
 			mlx_put_pixel(cube->window->img, (cube->dda.startx), y, row[((height
-						/ MINIBLOCK) * colm + (height * rowm))]);
+						/ MB) * colm + (height * rowm))]);
 		}
 		steps--;
 	}
@@ -111,9 +111,9 @@ void	textured_inverted(t_cube *cube, unsigned long *row, int polarity,
 	{
 		y += 1;
 		if (polarity == 0)
-			colm = (int)(cube->v3.Hx + 0.0002) % MINIBLOCK;
+			colm = (int)(cube->v3.Hx + 0.0002) % MB;
 		else if (polarity == 1)
-			colm = (int)(cube->v3.Vy + 0.0002) % MINIBLOCK;
+			colm = (int)(cube->v3.Vy + 0.0002) % MB;
 		rowm = (int)((y - cube->dda.savestarty) / cube->v3.savewallheight
 				* height);
 		if (rowm < 32)
@@ -121,7 +121,7 @@ void	textured_inverted(t_cube *cube, unsigned long *row, int polarity,
 			if (cube->dda.startx >= WIDTH || y >= HEIGHT)
 				return ;
 			mlx_put_pixel(cube->window->img, round(cube->dda.startx), y,
-				row[((height / MINIBLOCK) * 31 - colm + (height * rowm))]);
+				row[((height / MB) * 31 - colm + (height * rowm))]);
 		}
 		steps--;
 	}

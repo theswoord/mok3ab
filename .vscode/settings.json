@@ -13,7 +13,8 @@
         "cube3d.h": "c",
         "complex": "c",
         "get_next_line.h": "c",
-        "__tree": "c"
+        "__tree": "c",
+        "filesystem": "c"
     },
     "python.formatting.provider": "autopep8"
 }

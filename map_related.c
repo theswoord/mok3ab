@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:28:12 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/01/30 17:12:04 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:57:04 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ void	mini_map_draw(t_cube *cube)
 
 	x = 0;
 	y = 0;
-	while (y < cube->map_stuff.lines)
+	while (y < cube->misc.lines)
 	{
-		while (x < cube->map_stuff.max)
+		while (x < cube->misc.max)
 		{
 			if ((cube->map[y][x] == 'S' || cube->map[y][x] == 'N'
 					|| cube->map[y][x] == 'E' || cube->map[y][x] == 'W')
 				&& save == 0)
 			{
 				save = 1;
-				cube->player.x = (x * MINIBLOCK) + MINIBLOCK / 2;
-				cube->player.y = (y * MINIBLOCK) + MINIBLOCK / 2;
+				cube->p.x = (x * MB) + MB / 2;
+				cube->p.y = (y * MB) + MB / 2;
 				mini_map_draw_help(cube, &y, &x);
 			}
 			x++;
@@ -61,14 +61,14 @@ void	fill_map(t_cube *cube)
 	j = 0;
 	while (cube->map[j])
 	{
-		cube->map_stuff.max = fmax(cube->map_stuff.max, ft_strlengnl(cube->map[j
+		cube->misc.max = fmax(cube->misc.max, ft_strlengnl(cube->map[j
 					+ 1]));
 		j++;
 	}
-	cube->map_stuff.lines = j;
+	cube->misc.lines = j;
 	while (cube->map[i])
 	{
-		cube->map[i] = copy_and_fill(cube->map[i], cube->map_stuff.max, ' ');
+		cube->map[i] = copy_and_fill(cube->map[i], cube->misc.max, ' ');
 		i++;
 	}
 }

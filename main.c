@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:28:06 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/02/01 01:22:20 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 02:24:19 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,6 @@ void	init_mlx(t_cube *cube)
 	cube->window->mlx = mlx_init(WIDTH, HEIGHT, "almoka3ab", false);
 	cube->window->img = mlx_new_image(cube->window->mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(cube->window->mlx, cube->window->img, 0, 0);
-}
-
-void	set_background(t_cube *cube)
-{
-	cube->colors->finalfloor = (cube->colors->F[0] << 24)
-		| (cube->colors->F[1] << 16)
-		| (cube->colors->F[2] << 8)
-		| 0xFF;
-	cube->colors->finalceil = (cube->colors->C[0] << 24)
-		| (cube->colors->C[1] << 16)
-		| (cube->colors->C[2] << 8)
-		| 0xFF;
 }
 
 void	draw_background(mlx_image_t *img, t_cube *cube)
@@ -165,13 +153,13 @@ void	rgb_parse(char *str, t_cube *cube)
 	what = 0;
 	work = NULL;
 	tmp = NULL;
-	if (ft_strnstr(str + return_after_space(str), "F ", 2))
+	if (ft_strnstr(str + sp(str), "F ", 2))
 	{
 		tmp = ft_strtrim(str, " \tF");
 		free(str);
 		what = 'F';
 	}
-	else if (ft_strnstr(str + return_after_space(str), "C ", 2))
+	else if (ft_strnstr(str + sp(str), "C ", 2))
 	{
 		tmp = ft_strtrim(str, " \tC");
 		free(str);
@@ -310,121 +298,160 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-double	horizontal(t_cube *cube)
+void	horizontal_part_one(t_cube *cube)
 {
 	double	tanges;
-	int		mapy;
-	int		mapx;
 
 	tanges = -1 / tan(cube->v3.rayangle);
 	if (cube->v3.rayangle > M_PI)
 	{
-		cube->v3.rayy = ((int)cube->player.y / MINIBLOCK * MINIBLOCK) - 0.0001;
-		cube->v3.rayx = ((int)cube->player.y - cube->v3.rayy) * tanges
-			+ (int)cube->player.x;
-		cube->v3.yoffset = -MINIBLOCK;
+		cube->v3.rayy = ((int)cube->p.y / MB * MB) - 0.0001;
+		cube->v3.rayx = ((int)cube->p.y - cube->v3.rayy) * tanges
+			+ (int)cube->p.x;
+		cube->v3.yoffset = -MB;
 		cube->v3.xoffset = -cube->v3.yoffset * tanges;
 	}
 	if (cube->v3.rayangle < M_PI)
 	{
-		cube->v3.rayy = ((int)cube->player.y / MINIBLOCK) * MINIBLOCK
-			+ MINIBLOCK;
-		cube->v3.rayx = ((int)cube->player.y - cube->v3.rayy) * tanges
-			+ (int)cube->player.x;
-		cube->v3.yoffset = MINIBLOCK;
+		cube->v3.rayy = ((int)cube->p.y / MB) * MB + MB;
+		cube->v3.rayx = ((int)cube->p.y - cube->v3.rayy) * tanges
+			+ (int)cube->p.x;
+		cube->v3.yoffset = MB;
 		cube->v3.xoffset = -cube->v3.yoffset * tanges;
 	}
 	if (cube->v3.rayangle == 0)
-		cube->v3.xoffset = MINIBLOCK;
+		cube->v3.xoffset = MB;
 	if (cube->v3.rayangle == M_PI)
-		cube->v3.xoffset = -MINIBLOCK;
+		cube->v3.xoffset = -MB;
+}
+
+void	horizontal_rays(t_cube *cube)
+{
+	cube->v3.Hx = cube->v3.rayx;
+	cube->v3.Hy = cube->v3.rayy;
+}
+
+double	horizontal(t_cube *c)
+{
+	int	mapy;
+	int	mapx;
+
+	horizontal_part_one(c);
 	while (1)
 	{
-		mapy = (int)cube->v3.rayy / MINIBLOCK;
-		mapx = (int)cube->v3.rayx / MINIBLOCK;
-		if ((mapy >= cube->map_stuff.lines || mapx >= cube->map_stuff.max)
-			|| (mapy <= 0 || mapx <= 0) || cube->map[mapy][mapx] == '1')
+		mapy = (int)c->v3.rayy / MB;
+		mapx = (int)c->v3.rayx / MB;
+		if ((mapy >= c->misc.lines || mapx >= c->misc.max) || (mapy <= 0
+				|| mapx <= 0) || c->map[mapy][mapx] == '1')
 			break ;
 		else
 		{
-			if (cube->v3.rayy < (cube->map_stuff.lines * MINIBLOCK)
-				&& cube->v3.rayy > 0)
-				cube->v3.rayy += cube->v3.yoffset;
+			if (c->v3.rayy < (c->misc.lines * MB) && c->v3.rayy > 0)
+				c->v3.rayy += c->v3.yoffset;
 			else
 				return (99999889997897897);
-			if (cube->v3.rayx < (cube->map_stuff.max * MINIBLOCK)
-				&& cube->v3.rayx > 0)
-				cube->v3.rayx += cube->v3.xoffset;
+			if (c->v3.rayx < (c->misc.max * MB) && c->v3.rayx > 0)
+				c->v3.rayx += c->v3.xoffset;
 			else
 				return (99999988899997897);
 		}
 	}
-	cube->v3.Hx = cube->v3.rayx;
-	cube->v3.Hy = cube->v3.rayy;
-	return (sqrt(pow(cube->v3.Hx - cube->player.x, 2) + pow(cube->v3.Hy
-				- cube->player.y, 2)));
+	horizontal_rays(c);
+	return (sqrt(pow(c->v3.Hx - c->p.x, 2) + pow(c->v3.Hy - c->p.y, 2)));
 }
 
-double	vertical(t_cube *cube)
+void	vertical_part_one(t_cube *cube)
 {
 	double	tanges;
-	int		mapy;
-	int		mapx;
 
 	tanges = -tan(cube->v3.rayangle);
 	if (cube->v3.rayangle > P2 && cube->v3.rayangle < P3)
 	{
-		cube->v3.rayx = ((int)cube->player.x / MINIBLOCK) * MINIBLOCK - 0.0001;
-		cube->v3.rayy = ((int)cube->player.x - cube->v3.rayx) * tanges
-			+ (int)cube->player.y;
-		cube->v3.xoffset = -MINIBLOCK;
+		cube->v3.rayx = ((int)cube->p.x / MB) * MB - 0.0001;
+		cube->v3.rayy = ((int)cube->p.x - cube->v3.rayx) * tanges
+			+ (int)cube->p.y;
+		cube->v3.xoffset = -MB;
 		cube->v3.yoffset = -cube->v3.xoffset * tanges;
 	}
 	if (cube->v3.rayangle < P2 || cube->v3.rayangle > P3)
 	{
-		cube->v3.rayx = ((int)cube->player.x / MINIBLOCK * MINIBLOCK)
-			+ MINIBLOCK;
-		cube->v3.rayy = ((int)cube->player.x - cube->v3.rayx) * tanges
-			+ (int)cube->player.y;
-		cube->v3.xoffset = MINIBLOCK;
+		cube->v3.rayx = ((int)cube->p.x / MB * MB) + MB;
+		cube->v3.rayy = ((int)cube->p.x - cube->v3.rayx) * tanges
+			+ (int)cube->p.y;
+		cube->v3.xoffset = MB;
 		cube->v3.yoffset = -cube->v3.xoffset * tanges;
 	}
 	if (cube->v3.rayangle == P2)
-		cube->v3.yoffset = MINIBLOCK;
+		cube->v3.yoffset = MB;
 	if (cube->v3.rayangle == P3)
-		cube->v3.yoffset = -MINIBLOCK;
+		cube->v3.yoffset = -MB;
+}
+
+void	vertical_rays(t_cube *cube)
+{
+	cube->v3.Vx = cube->v3.rayx;
+	cube->v3.Vy = cube->v3.rayy;
+}
+
+double	vertical(t_cube *c)
+{
+	int	mapy;
+	int	mapx;
+
+	vertical_part_one(c);
 	while (1)
 	{
-		mapy = (int)cube->v3.rayy / MINIBLOCK;
-		mapx = (int)cube->v3.rayx / MINIBLOCK;
-		if ((mapy >= cube->map_stuff.lines || mapx >= cube->map_stuff.max)
-			|| (mapy <= 0 || mapx <= 0) || cube->map[mapy][mapx] == '1')
+		mapy = (int)c->v3.rayy / MB;
+		mapx = (int)c->v3.rayx / MB;
+		if ((mapy >= c->misc.lines || mapx >= c->misc.max) || (mapy <= 0
+				|| mapx <= 0) || c->map[mapy][mapx] == '1')
 			break ;
 		else
 		{
-			if (cube->v3.rayy < (cube->map_stuff.lines * MINIBLOCK)
-				&& cube->v3.rayy > 0)
-				cube->v3.rayy += cube->v3.yoffset;
+			if (c->v3.rayy < (c->misc.lines * MB) && c->v3.rayy > 0)
+				c->v3.rayy += c->v3.yoffset;
 			else
 				return (99999889997897897);
-			if (cube->v3.rayx < (cube->map_stuff.max * MINIBLOCK)
-				&& cube->v3.rayx > 0)
-				cube->v3.rayx += cube->v3.xoffset;
+			if (c->v3.rayx < (c->misc.max * MB) && c->v3.rayx > 0)
+				c->v3.rayx += c->v3.xoffset;
 			else
 				return (99999889789997897);
 		}
 	}
-	cube->v3.Vx = cube->v3.rayx;
-	cube->v3.Vy = cube->v3.rayy;
-	return (sqrt(pow(cube->v3.Vx - cube->player.x, 2) + pow(cube->v3.Vy
-				- cube->player.y, 2)));
+	vertical_rays(c);
+	return (sqrt(pow(c->v3.Vx - c->p.x, 2) + pow(c->v3.Vy - c->p.y, 2)));
+}
+
+void	cast_v3_help(t_cube *cube)
+{
+	double	dh;
+	double	dv;
+
+	if (cube->v3.rayangle <= 0)
+		cube->v3.rayangle += 2 * M_PI;
+	if (cube->v3.rayangle >= 2 * M_PI)
+		cube->v3.rayangle -= 2 * M_PI;
+	dh = horizontal(cube);
+	dv = vertical(cube);
+	cube->v3.wallheight = (HEIGHT * MB) / cube->v3.distance;
+	cube->v3.savewallheight = cube->v3.wallheight;
+	if (cube->v3.wallheight > HEIGHT)
+		cube->v3.wallheight = HEIGHT;
+	if (dh < dv)
+	{
+		cube->v3.distance = dh;
+		cube->v3.side = 0;
+	}
+	else
+	{
+		cube->v3.distance = dv;
+		cube->v3.side = 1;
+	}
 }
 
 void	cast_v3(t_cube *cube)
 {
 	int		i;
-	double	dh;
-	double	dv;
 	double	ca;
 
 	i = 0;
@@ -432,26 +459,7 @@ void	cast_v3(t_cube *cube)
 	draw_background(cube->window->img, cube);
 	while (i < WIDTH)
 	{
-		if (cube->v3.rayangle <= 0)
-			cube->v3.rayangle += 2 * M_PI;
-		if (cube->v3.rayangle >= 2 * M_PI)
-			cube->v3.rayangle -= 2 * M_PI;
-		dh = horizontal(cube);
-		dv = vertical(cube);
-		cube->v3.wallheight = (HEIGHT * MINIBLOCK) / cube->v3.distance;
-		cube->v3.savewallheight = cube->v3.wallheight;
-		if (cube->v3.wallheight > HEIGHT)
-			cube->v3.wallheight = HEIGHT;
-		if (dh < dv)
-		{
-			cube->v3.distance = dh;
-			cube->v3.side = 0;
-		}
-		else
-		{
-			cube->v3.distance = dv;
-			cube->v3.side = 1;
-		}
+		cast_v3_help(cube);
 		ca = cube->v3.angle - cube->v3.rayangle;
 		if (ca <= 0)
 			ca += 2 * M_PI;
@@ -488,4 +496,16 @@ void	draw_textures(t_cube *cube)
 			textured_inverted(cube, cube->colors->WE, cube->v3.side,
 				height_extract(cube, "WE"));
 	}
+}
+
+void	set_background(t_cube *cube)
+{
+	cube->colors->finalfloor = (cube->colors->F[0] << 24)
+		| (cube->colors->F[1] << 16)
+		| (cube->colors->F[2] << 8)
+		| 0xFF;
+	cube->colors->finalceil = (cube->colors->C[0] << 24)
+		| (cube->colors->C[1] << 16)
+		| (cube->colors->C[2] << 8)
+		| 0xFF;
 }

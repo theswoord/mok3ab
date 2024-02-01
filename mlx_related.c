@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:28:18 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/01/30 13:20:48 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:57:04 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 void	boundaries(t_cube *cube)
 {
-	cube->bound.frontx = (cube->player.x + 3 * round(cube->v3.deltax))
-		/ MINIBLOCK;
-	cube->bound.fronty = (cube->player.y + 3 * round(cube->v3.deltay))
-		/ MINIBLOCK;
-	cube->bound.backx = (cube->player.x - 3 * round(cube->v3.deltax))
-		/ MINIBLOCK;
-	cube->bound.backy = (cube->player.y - 3 * round(cube->v3.deltay))
-		/ MINIBLOCK;
-	cube->bound.righty = (cube->player.y + 3 * round(cube->v3.deltax))
-		/ MINIBLOCK;
-	cube->bound.rightx = (cube->player.x - 3 * round(cube->v3.deltay))
-		/ MINIBLOCK;
-	cube->bound.lefty = (cube->player.y - 3 * round(cube->v3.deltax))
-		/ MINIBLOCK;
-	cube->bound.leftx = (cube->player.x + 3 * round(cube->v3.deltay))
-		/ MINIBLOCK;
+	cube->bound.frontx = (cube->p.x + 3 * round(cube->v3.deltax))
+		/ MB;
+	cube->bound.fronty = (cube->p.y + 3 * round(cube->v3.deltay))
+		/ MB;
+	cube->bound.backx = (cube->p.x - 3 * round(cube->v3.deltax))
+		/ MB;
+	cube->bound.backy = (cube->p.y - 3 * round(cube->v3.deltay))
+		/ MB;
+	cube->bound.righty = (cube->p.y + 3 * round(cube->v3.deltax))
+		/ MB;
+	cube->bound.rightx = (cube->p.x - 3 * round(cube->v3.deltay))
+		/ MB;
+	cube->bound.lefty = (cube->p.y - 3 * round(cube->v3.deltax))
+		/ MB;
+	cube->bound.leftx = (cube->p.x + 3 * round(cube->v3.deltay))
+		/ MB;
 }
 
 void	pressed(void *par)
@@ -61,14 +61,14 @@ void	pressed(void *par)
 
 void	move_forward(t_cube *cube)
 {
-	if (cube->map[cube->bound.fronty][(int)cube->player.x / MINIBLOCK] != '1'
-		&& cube->map[(int)cube->player.y
-		/ MINIBLOCK][cube->bound.frontx] != '1')
+	if (cube->map[cube->bound.fronty][(int)cube->p.x / MB] != '1'
+		&& cube->map[(int)cube->p.y
+		/ MB][cube->bound.frontx] != '1')
 	{
 		if (cube->map[cube->bound.fronty][cube->bound.frontx] != '1')
 		{
-			cube->player.y += round(cube->v3.deltay);
-			cube->player.x += round(cube->v3.deltax);
+			cube->p.y += round(cube->v3.deltay);
+			cube->p.x += round(cube->v3.deltax);
 		}
 	}
 }
@@ -86,40 +86,40 @@ void	turn_left(t_cube *cube)
 
 void	move_backward(t_cube *cube)
 {
-	if (cube->map[cube->bound.backy][(int)cube->player.x / MINIBLOCK] != '1'
-		&& cube->map[(int)cube->player.y / MINIBLOCK][cube->bound.backx] != '1')
+	if (cube->map[cube->bound.backy][(int)cube->p.x / MB] != '1'
+		&& cube->map[(int)cube->p.y / MB][cube->bound.backx] != '1')
 	{
 		if (cube->map[cube->bound.backy][cube->bound.backx] != '1')
 		{
-			cube->player.y -= round(cube->v3.deltay);
-			cube->player.x -= round(cube->v3.deltax);
+			cube->p.y -= round(cube->v3.deltay);
+			cube->p.x -= round(cube->v3.deltax);
 		}
 	}
 }
 
 void	strife_left(t_cube *cube)
 {
-	if (cube->map[cube->bound.lefty][(int)cube->player.x / MINIBLOCK] != '1'
-		&& cube->map[(int)cube->player.y / MINIBLOCK][cube->bound.leftx] != '1')
+	if (cube->map[cube->bound.lefty][(int)cube->p.x / MB] != '1'
+		&& cube->map[(int)cube->p.y / MB][cube->bound.leftx] != '1')
 	{
 		if (cube->map[cube->bound.lefty][cube->bound.leftx] != '1')
 		{
-			cube->player.x += round(cube->v3.deltay);
-			cube->player.y -= round(cube->v3.deltax);
+			cube->p.x += round(cube->v3.deltay);
+			cube->p.y -= round(cube->v3.deltax);
 		}
 	}
 }
 
 void	strife_right(t_cube *cube)
 {
-	if (cube->map[cube->bound.righty][(int)cube->player.x / MINIBLOCK] != '1'
-		&& cube->map[(int)cube->player.y
-		/ MINIBLOCK][cube->bound.rightx] != '1')
+	if (cube->map[cube->bound.righty][(int)cube->p.x / MB] != '1'
+		&& cube->map[(int)cube->p.y
+		/ MB][cube->bound.rightx] != '1')
 	{
 		if (cube->map[cube->bound.righty][cube->bound.rightx] != '1')
 		{
-			cube->player.x -= round(cube->v3.deltay);
-			cube->player.y += round(cube->v3.deltax);
+			cube->p.x -= round(cube->v3.deltay);
+			cube->p.y += round(cube->v3.deltax);
 		}
 	}
 }

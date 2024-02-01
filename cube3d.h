@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:27:56 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/02/01 01:22:32 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 02:25:13 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <math.h>
 # define WIDTH 1980.0
 # define HEIGHT 1080.0
-# define MINIBLOCK 32
+# define MB 32
 # define SPEED 7.0
 # define FOV 66 * 30
 # define ROTSPEED 0.05
@@ -32,11 +32,6 @@
 
 enum
 {
-	NO = 8,
-	SO = 2,
-	WE = 4,
-	EA = 6,
-
 	VERTICAL = 88,
 	HORIZONTAL = 99,
 	PV = 1,
@@ -138,8 +133,8 @@ typedef struct s_cube
 	t_textures		*drawings;
 	t_lines			dda;
 	int				wallheight;
-	t_player		player;
-	t_map			map_stuff;
+	t_player		p;
+	t_map			misc;
 	t_win			*window;
 	t_colors		*colors;
 	char			**textures;
@@ -189,7 +184,7 @@ int					toupperv2(int c);
 void				textured_inverted(t_cube *cube, unsigned long *row,
 						int polarity, int height);
 int					element_count(char *str, char c);
-int					return_after_space(char *str);
+int					sp(char *str);
 void				move_forward(t_cube *cube);
 void				strife_right(t_cube *cube);
 void				strife_left(t_cube *cube);
@@ -197,4 +192,16 @@ void				move_backward(t_cube *cube);
 void				turn_right(t_cube *cube);
 void				turn_left(t_cube *cube);
 void				problem(char *str);
+void	horizontal_part_one(t_cube *cube);
+void	horizontal_rays(t_cube *cube);
+void	vertical_part_one(t_cube *cube);
+void	vertical_rays(t_cube *cube);
+void	cast_v3_help(t_cube *cube);
+void	parse_functions(int fd, t_cube *cube);
+void	struct_init(t_cube *cube);
+void	ptr_init(char **textures, char **background, char **map);
+void	read_map_lost(char **save_ptr, char **map);
+void	read_map_help(t_cube *cube, char **line, char **map);
+void	read_textures(t_cube *cube, char **line, char **textures);
+void	read_background(t_cube *cube, char **line, char **background);
 #endif

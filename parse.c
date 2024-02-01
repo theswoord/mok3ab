@@ -6,62 +6,65 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:28:20 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/01/30 13:39:30 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 02:19:48 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-void	parse_textures(t_cube *cube)
+void	parse_north(t_cube *cube, char **tmp, int *i)
 {
-	int		what;
+	*tmp = ft_strtrim(cube->textures[*i], " \t NO");
+	cube->drawings->NO = mlx_load_png(*tmp);
+	free(*tmp);
+}
+
+void	parse_south(t_cube *cube, char **tmp, int *i)
+{
+	*tmp = ft_strtrim(cube->textures[*i], " \t SO");
+	cube->drawings->SO = mlx_load_png(*tmp);
+	free(*tmp);
+}
+
+void	parse_east(t_cube *cube, char **tmp, int *i)
+{
+	*tmp = ft_strtrim(cube->textures[*i], " \t EA");
+	cube->drawings->EA = mlx_load_png(*tmp);
+	free(*tmp);
+}
+
+void	parse_west(t_cube *cube, char **tmp, int *i)
+{
+	*tmp = ft_strtrim(cube->textures[*i], " \t WE");
+	cube->drawings->WE = mlx_load_png(*tmp);
+	free(*tmp);
+}
+
+void	parse_textures(t_cube *c)
+{
 	int		i;
 	char	*tmp;
 
-	what = 0;
 	i = 0;
 	tmp = NULL;
-	while (cube->textures[i])
+	while (c->textures[i])
 	{
-		if (ft_strnstr(cube->textures[i]
-				+ return_after_space(cube->textures[i]), "NO .", 4))
-		{
-			tmp = ft_strtrim(cube->textures[i], " \t NO");
-			cube->drawings->NO = mlx_load_png(tmp);
-			free(tmp);
-		}
-		else if (ft_strnstr(cube->textures[i]
-				+ return_after_space(cube->textures[i]), "SO .", 4))
-		{
-			what = SO;
-			tmp = ft_strtrim(cube->textures[i], " \t SO");
-			cube->drawings->SO = mlx_load_png(tmp);
-			free(tmp);
-		}
-		else if (ft_strnstr(cube->textures[i]
-				+ return_after_space(cube->textures[i]), "EA .", 4))
-		{
-			what = EA;
-			tmp = ft_strtrim(cube->textures[i], " \t EA");
-			cube->drawings->EA = mlx_load_png(tmp);
-			free(tmp);
-		}
-		else if (ft_strnstr(cube->textures[i]
-				+ return_after_space(cube->textures[i]), "WE .", 4))
-		{
-			what = WE;
-			tmp = ft_strtrim(cube->textures[i], " \t WE");
-			cube->drawings->WE = mlx_load_png(tmp);
-			free(tmp);
-		}
+		if (ft_strnstr(c->textures[i] + sp(c->textures[i]), "NO .", 4))
+			parse_north(c, &tmp, &i);
+		else if (ft_strnstr(c->textures[i] + sp(c->textures[i]), "SO .", 4))
+			parse_south(c, &tmp, &i);
+		else if (ft_strnstr(c->textures[i] + sp(c->textures[i]), "EA .", 4))
+			parse_east(c, &tmp, &i);
+		else if (ft_strnstr(c->textures[i] + sp(c->textures[i]), "WE .", 4))
+			parse_west(c, &tmp, &i);
 		else
 			problem("Error\nTexture parse\n");
 		i++;
 	}
-	free_tableau(cube->textures);
+	free_tableau(c->textures);
 }
 
-int	return_after_space(char *str)
+int	sp(char *str)
 {
 	int	i;
 
