@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:27:56 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/02/01 02:25:13 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 02:56:57 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@
 # define FOV 66 * 30
 # define ROTSPEED 0.05
 # define P1 3.1415926535
-# define P2 M_PI / 2
-# define P3 3 * M_PI / 2
-# define RAD 0.0174533 / 30.0
+// # define P2 M_PI / 2
+// # define P3 3 * M_PI / 2
+# define RAD 0.0174533
 
 enum
 {
@@ -192,16 +192,35 @@ void				move_backward(t_cube *cube);
 void				turn_right(t_cube *cube);
 void				turn_left(t_cube *cube);
 void				problem(char *str);
-void	horizontal_part_one(t_cube *cube);
-void	horizontal_rays(t_cube *cube);
-void	vertical_part_one(t_cube *cube);
-void	vertical_rays(t_cube *cube);
-void	cast_v3_help(t_cube *cube);
-void	parse_functions(int fd, t_cube *cube);
-void	struct_init(t_cube *cube);
-void	ptr_init(char **textures, char **background, char **map);
-void	read_map_lost(char **save_ptr, char **map);
-void	read_map_help(t_cube *cube, char **line, char **map);
-void	read_textures(t_cube *cube, char **line, char **textures);
-void	read_background(t_cube *cube, char **line, char **background);
+void				horizontal_part_one(t_cube *cube);
+void				horizontal_rays(t_cube *cube);
+void				vertical_part_one(t_cube *cube);
+void				vertical_rays(t_cube *cube);
+void				cast_v3_help(t_cube *cube);
+void				parse_functions(int fd, t_cube *cube);
+void				struct_init(t_cube *cube);
+void				ptr_init(char **textures, char **background, char **map);
+void				read_map_lost(char **save_ptr, char **map);
+void				read_map_help(t_cube *cube, char **line, char **map);
+void				read_textures(t_cube *cube, char **line, char **textures);
+void				read_background(t_cube *cube, char **line,
+						char **background);
+double				vertical(t_cube *c);
+double				horizontal(t_cube *c);
+void				turn_right(t_cube *cube);
+void				strife_right(t_cube *cube);
+void				strife_left(t_cube *cube);
+void				move_backward(t_cube *cube);
+void				turn_left(t_cube *cube);
+void				move_forward(t_cube *cube);
+void				boundaries(t_cube *cube);
+void				init_mlx(t_cube *cube);
+void				parse(t_cube *cube);
+void				parse_west(t_cube *cube, char **tmp, int *i);
+void				parse_east(t_cube *cube, char **tmp, int *i);
+void				parse_north(t_cube *cube, char **tmp, int *i);
+void				parse_south(t_cube *cube, char **tmp, int *i);
+void				ft_calcule(t_cube *cube);
+void				map_check_help(t_cube *cube, int *i, int *j);
+
 #endif

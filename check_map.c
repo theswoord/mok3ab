@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 04:33:20 by youel-id          #+#    #+#             */
-/*   Updated: 2024/01/30 17:07:07 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 02:48:06 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,40 +114,4 @@ void	map_check_help(t_cube *cube, int *i, int *j)
 	else if (cube->map[*i][*j] == '0' && ((cube->map[*i][*j - 1] == ' ')
 			|| cube->map[*i][*j - 1] == '\t'))
 		problem("Error\nin map\n");
-}
-
-void	map_check(t_cube *cube)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	ft_calcule(cube);
-	while (cube->map[++i])
-	{
-		j = -1;
-		while (cube->map[i][++j])
-		{
-			map_check_help(cube, &i, &j);
-		}
-	}
-}
-
-void	check_ft(t_cube *cube)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (cube->map[++i])
-	{
-		j = -1;
-		while (cube->map[i][++j])
-		{
-			if (ft_strchr(cube->wanted, (toupperv2(cube->map[i][j]))) == 0)
-			{
-				problem("Error\nin alpha\n");
-			}
-		}
-	}
 }

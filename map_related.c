@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:28:12 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/02/01 01:57:04 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 02:57:17 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	mini_map_draw_help(t_cube *cube, int *y, int *x)
 {
 	if (cube->map[*y][*x] == 'S')
-		cube->v3.angle = P2;
+		cube->v3.angle = M_PI / 2;
 	if (cube->map[*y][*x] == 'N')
-		cube->v3.angle = P3;
+		cube->v3.angle = 3 * M_PI / 2;
 	if (cube->map[*y][*x] == 'E')
 		cube->v3.angle = 0.0;
 	if (cube->map[*y][*x] == 'W')
@@ -61,8 +61,7 @@ void	fill_map(t_cube *cube)
 	j = 0;
 	while (cube->map[j])
 	{
-		cube->misc.max = fmax(cube->misc.max, ft_strlengnl(cube->map[j
-					+ 1]));
+		cube->misc.max = fmax(cube->misc.max, ft_strlengnl(cube->map[j + 1]));
 		j++;
 	}
 	cube->misc.lines = j;

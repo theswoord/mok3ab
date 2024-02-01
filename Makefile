@@ -2,7 +2,7 @@
 
 
 TEST = hh2.c
-SRC = main.c utils.c map_related.c drawing.c mlx_related.c math_helper.c map_checks.c parse.c free.c check_map.c errors.c
+SRC = main.c utils.c map_related.c drawing.c mlx_related.c math_helper.c map_checks.c parse.c free.c check_map.c errors.c cast_vertical.c cast_horizontal.c map_help.c texture_help.c parse_help2.c parse_help3.c parse_help4.c movements.c texture_help2.c
 SRCB = ./bonus_checker/bonus.c ./bonus_checker/instructionpush_bonus.c ./bonus_checker/instructionsrotate_bonus.c ./bonus_checker/instructionsswap_bonus.c ./bonus_checker/output_bonus.c ./bonus_checker/tools_bonus.c ./bonus_checker/instructionhelpers_bonus.c ./bonus_checker/utils2_bonus.c ./bonus_checker/tools2_bonus.c ./bonus_checker/free_bonus.c ./bonus_checker/checker_bonus.c
 NAME = cub3D
 NAMEB = checker
