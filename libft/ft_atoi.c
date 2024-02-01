@@ -12,11 +12,11 @@
 
 #include "libft.h"
 
-int ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	int b;
-	int ichara;
-	int l7asol;
+	int	b;
+	int	ichara;
+	int	l7asol;
 
 	b = 0;
 	ichara = 1;
@@ -36,6 +36,6 @@ int ft_atoi(const char *str)
 		b++;
 	}
 	if (str[b] && !ft_isalnum(b))
-		return -1;
+		return (-1);
 	return (l7asol * ichara);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouhali <nbouhali@student.1337.ma >       +#+  +:+       +#+        */
+/*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:55:16 by nbouhali          #+#    #+#             */
-/*   Updated: 2023/01/13 19:48:55 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 03:22:43 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_next_line(int fd)
 	char		*join;
 	static char	*chyata;
 
-	join = ft_calloc(BUFFER_SIZE, 1); // line 
+	join = ft_calloc(BUFFER_SIZE, 1);
 	readd = 1;
 	if (chyata)
 	{
@@ -77,9 +77,8 @@ char	*reader(int fd, char *join, int *readd)
 	buffer = ft_calloc(BUFFER_SIZE + 1, 1);
 	while (pos(buffer, '\n') == -1 && *readd > 0)
 	{
-		ft_bzerognl(buffer, BUFFER_SIZE); // mn b3d 
+		ft_bzerognl(buffer, BUFFER_SIZE);
 		*readd = read(fd, buffer, BUFFER_SIZE);
-		
 		if (*readd == -1)
 		{
 			free(buffer);

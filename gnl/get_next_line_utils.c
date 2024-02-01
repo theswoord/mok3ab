@@ -18,7 +18,7 @@ size_t	ft_strlengnl(char *s)
 
 	a = 0;
 	if (!s)
-		return 0;
+		return (0);
 	while (s[a] != '\0')
 	{
 		a++;
