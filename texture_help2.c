@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 02:44:25 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/02/01 02:50:33 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 03:13:27 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	textured(t_cube *cube, unsigned long *row, int polarity, int height)
 	{
 		y += 1;
 		if (polarity == 0)
-			colm = (int)(cube->v3.Hx + 0.0002) % MB;
+			colm = (int)(cube->v3.hx + 0.0002) % MB;
 		else if (polarity == 1)
-			colm = (int)(cube->v3.Vy + 0.0002) % MB;
+			colm = (int)(cube->v3.vy + 0.0002) % MB;
 		rowm = (int)((y - cube->dda.savestarty) / cube->v3.savewallheight
 				* height);
 		if (rowm < 32)
@@ -55,9 +55,9 @@ void	textured_inverted(t_cube *cube, unsigned long *row, int polarity,
 	{
 		y += 1;
 		if (polarity == 0)
-			colm = (int)(cube->v3.Hx + 0.0002) % MB;
+			colm = (int)(cube->v3.hx + 0.0002) % MB;
 		else if (polarity == 1)
-			colm = (int)(cube->v3.Vy + 0.0002) % MB;
+			colm = (int)(cube->v3.vy + 0.0002) % MB;
 		rowm = (int)((y - cube->dda.savestarty) / cube->v3.savewallheight
 				* height);
 		if (rowm < 32)

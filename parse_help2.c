@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 02:33:05 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/02/01 02:50:20 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 03:11:59 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ void	set_rgb(char **tab, t_cube *cube, char what)
 	{
 		if (what == 'F')
 		{
-			cube->colors->F[i] = ft_atoi(tab[i]);
+			cube->colors->f[i] = ft_atoi(tab[i]);
 			if ((ft_atoi(tab[i]) > 255 || ft_atoi(tab[i]) < 0))
 				problem("Error\ncolor range more than 255 or less than 0\n");
 		}
 		if (what == 'C')
 		{
-			cube->colors->C[i] = ft_atoi(tab[i]);
+			cube->colors->c[i] = ft_atoi(tab[i]);
 			if (ft_atoi(tab[i]) > 255 || ft_atoi(tab[i]) < 0)
 				problem("Error\ncolor range more than 255 or less than 0\n");
 		}

@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:27:56 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/02/01 02:56:57 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 03:13:51 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@
 # define HEIGHT 1080.0
 # define MB 32
 # define SPEED 7.0
-# define FOV 66 * 30
 # define ROTSPEED 0.05
 # define P1 3.1415926535
-// # define P2 M_PI / 2
-// # define P3 3 * M_PI / 2
 # define RAD 0.0174533
 
 enum
@@ -36,15 +33,14 @@ enum
 	HORIZONTAL = 99,
 	PV = 1,
 	PH = 0,
-
 };
 
 typedef struct s_textures
 {
-	mlx_texture_t	*EA;
-	mlx_texture_t	*NO;
-	mlx_texture_t	*WE;
-	mlx_texture_t	*SO;
+	mlx_texture_t	*ea;
+	mlx_texture_t	*no;
+	mlx_texture_t	*we;
+	mlx_texture_t	*so;
 }					t_textures;
 
 typedef struct s_win
@@ -55,12 +51,12 @@ typedef struct s_win
 }					t_win;
 typedef struct s_colors
 {
-	int				F[3];
-	int				C[3];
-	unsigned long	*EA;
-	unsigned long	*NO;
-	unsigned long	*WE;
-	unsigned long	*SO;
+	int				f[3];
+	int				c[3];
+	unsigned long	*ea;
+	unsigned long	*no;
+	unsigned long	*we;
+	unsigned long	*so;
 	unsigned long	finalfloor;
 	unsigned long	finalceil;
 	int				dim[8];
@@ -104,10 +100,10 @@ typedef struct s_gatto
 	double			rayy;
 	double			xoffset;
 	double			yoffset;
-	double			Hx;
-	double			Hy;
-	double			Vx;
-	double			Vy;
+	double			hx;
+	double			hy;
+	double			vx;
+	double			vy;
 	int				wallheight;
 	int				savewallheight;
 

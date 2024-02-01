@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:50:43 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/02/01 02:57:23 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 03:13:51 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	vertical_part_one(t_cube *cube)
 
 void	vertical_rays(t_cube *cube)
 {
-	cube->v3.Vx = cube->v3.rayx;
-	cube->v3.Vy = cube->v3.rayy;
+	cube->v3.vx = cube->v3.rayx;
+	cube->v3.vy = cube->v3.rayy;
 }
 
 double	vertical(t_cube *c)
@@ -71,7 +71,7 @@ double	vertical(t_cube *c)
 		}
 	}
 	vertical_rays(c);
-	return (sqrt(pow(c->v3.Vx - c->p.x, 2) + pow(c->v3.Vy - c->p.y, 2)));
+	return (sqrt(pow(c->v3.vx - c->p.x, 2) + pow(c->v3.vy - c->p.y, 2)));
 }
 
 void	cast_v3_help(t_cube *cube)
@@ -106,19 +106,19 @@ void	draw_textures(t_cube *cube)
 	if (cube->v3.side == PH)
 	{
 		if (cube->v3.rayangle < M_PI)
-			textured_inverted(cube, cube->colors->SO, cube->v3.side,
+			textured_inverted(cube, cube->colors->so, cube->v3.side,
 				height_extract(cube, "SO"));
 		else
-			textured(cube, cube->colors->NO, cube->v3.side, height_extract(cube,
+			textured(cube, cube->colors->no, cube->v3.side, height_extract(cube,
 					"NO"));
 	}
 	else
 	{
 		if (cube->v3.rayangle > 3 * M_PI / 2 || cube->v3.rayangle < M_PI / 2)
-			textured(cube, cube->colors->EA, cube->v3.side, height_extract(cube,
+			textured(cube, cube->colors->ea, cube->v3.side, height_extract(cube,
 					"EA"));
 		else
-			textured_inverted(cube, cube->colors->WE, cube->v3.side,
+			textured_inverted(cube, cube->colors->we, cube->v3.side,
 				height_extract(cube, "WE"));
 	}
 }

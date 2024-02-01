@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:28:04 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/01/29 18:28:05 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 03:09:05 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	free_textures(t_cube *cube)
 {
-	free(cube->colors->NO);
-	free(cube->colors->SO);
-	free(cube->colors->EA);
-	free(cube->colors->WE);
+	free(cube->colors->no);
+	free(cube->colors->so);
+	free(cube->colors->ea);
+	free(cube->colors->we);
 }
 
 void	img_destroy(t_cube *cube)

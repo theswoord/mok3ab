@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:28:06 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/02/01 02:51:30 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 03:11:51 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	parse_functions(int fd, t_cube *cube)
 	check_ft(cube);
 	parse(cube);
 	parse_textures(cube);
-	if (!cube->drawings->NO || !cube->drawings->EA || !cube->drawings->WE
-		|| !cube->drawings->SO)
+	if (!cube->drawings->no || !cube->drawings->ea || !cube->drawings->we
+		|| !cube->drawings->so)
 		problem("Error\ncheck the PNG or read ^above^ \n");
 	texture_set(cube);
 	init_mlx(cube);
@@ -62,12 +62,12 @@ int	main(int ac, char **av)
 
 void	set_background(t_cube *cube)
 {
-	cube->colors->finalfloor = (cube->colors->F[0] << 24)
-		| (cube->colors->F[1] << 16)
-		| (cube->colors->F[2] << 8)
+	cube->colors->finalfloor = (cube->colors->f[0] << 24)
+		| (cube->colors->f[1] << 16)
+		| (cube->colors->f[2] << 8)
 		| 0xFF;
-	cube->colors->finalceil = (cube->colors->C[0] << 24)
-		| (cube->colors->C[1] << 16)
-		| (cube->colors->C[2] << 8)
+	cube->colors->finalceil = (cube->colors->c[0] << 24)
+		| (cube->colors->c[1] << 16)
+		| (cube->colors->c[2] << 8)
 		| 0xFF;
 }

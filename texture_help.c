@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 02:31:57 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/02/01 02:50:29 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 03:09:20 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	texture_set(t_cube *cube)
 	int	i;
 
 	i = 0;
-	cube->colors->EA = extract_color(cube->drawings->EA, cube->colors->dim);
-	cube->colors->NO = extract_color(cube->drawings->NO, cube->colors->dim);
-	cube->colors->WE = extract_color(cube->drawings->WE, cube->colors->dim);
-	cube->colors->SO = extract_color(cube->drawings->SO, cube->colors->dim);
+	cube->colors->ea = extract_color(cube->drawings->ea, cube->colors->dim);
+	cube->colors->no = extract_color(cube->drawings->no, cube->colors->dim);
+	cube->colors->we = extract_color(cube->drawings->we, cube->colors->dim);
+	cube->colors->so = extract_color(cube->drawings->so, cube->colors->dim);
 	while (i < 8)
 	{
 		if (cube->colors->dim[i] != 32)

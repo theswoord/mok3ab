@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:51:20 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/02/01 02:55:12 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 03:13:16 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	horizontal_part_one(t_cube *cube)
 
 void	horizontal_rays(t_cube *cube)
 {
-	cube->v3.Hx = cube->v3.rayx;
-	cube->v3.Hy = cube->v3.rayy;
+	cube->v3.hx = cube->v3.rayx;
+	cube->v3.hy = cube->v3.rayy;
 }
 
 double	horizontal(t_cube *c)
@@ -71,7 +71,7 @@ double	horizontal(t_cube *c)
 		}
 	}
 	horizontal_rays(c);
-	return (sqrt(pow(c->v3.Hx - c->p.x, 2) + pow(c->v3.Hy - c->p.y, 2)));
+	return (sqrt(pow(c->v3.hx - c->p.x, 2) + pow(c->v3.hy - c->p.y, 2)));
 }
 
 void	cast_v3(t_cube *cube)
