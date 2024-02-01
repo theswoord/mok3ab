@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:27:56 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/01/30 18:24:19 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:22:32 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define WIDTH 1980.0
 # define HEIGHT 1080.0
 # define MINIBLOCK 32
-# define SPEED 5.0
+# define SPEED 7.0
 # define FOV 66 * 30
 # define ROTSPEED 0.05
 # define P1 3.1415926535

@@ -6,7 +6,7 @@
 /*   By: nbouhali < nbouhali@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:28:06 by nbouhali          #+#    #+#             */
-/*   Updated: 2024/01/30 18:18:54 by nbouhali         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:22:20 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,43 @@ void	rgb_parse(char *str, t_cube *cube)
 	free_tableau(work);
 }
 
+void	read_background(t_cube *cube, char **line, char **background)
+{
+	*background = ft_strjoingnl(*background, *line);
+	cube->queue++;
+	free(*line);
+}
+
+void	read_textures(t_cube *cube, char **line, char **textures)
+{
+	*textures = ft_strjoingnl(*textures, *line);
+	cube->queue++;
+	free(*line);
+}
+
+void	read_map_help(t_cube *cube, char **line, char **map)
+{
+	*map = ft_strjoingnl(*map, *line);
+	free(*line);
+	if (ft_strnstr(*map, "11", ft_strlen(*map)) && cube->queue != 6)
+		problem("Error\nyour Map is not last\n");
+}
+
+void	read_map_lost(char **save_ptr, char **map)
+{
+	*save_ptr = ft_strtrim(*map, "\n");
+	free(*map);
+	if (ft_strnstr(*save_ptr, "\n\n", ft_strlen(*save_ptr)))
+		problem("Error\nmany newlines found in your map\n");
+}
+
+void	ptr_init(char **textures, char **background, char **map)
+{
+	*textures = NULL;
+	*background = NULL;
+	*map = NULL;
+}
+
 void	read_map(int fd, t_cube *cube)
 {
 	char	*textures;
@@ -193,9 +230,7 @@ void	read_map(int fd, t_cube *cube)
 	char	*line;
 	char	*save_ptr;
 
-	textures = NULL;
-	background = NULL;
-	map = NULL;
+	ptr_init(&textures, &background, &map);
 	line = get_next_line(fd);
 	if (!line)
 		problem("Error\nfile empty");
@@ -203,33 +238,48 @@ void	read_map(int fd, t_cube *cube)
 	{
 		if (ft_strnstr(line, "F ", ft_strlen(line)) || ft_strnstr(line, "C ",
 				ft_strlen(line)))
-		{
-			background = ft_strjoingnl(background, line);
-			cube->queue++;
-			free(line);
-		}
+			read_background(cube, &line, &background);
 		else if (ft_strnstr(line, "EA ", ft_strlen(line)) || ft_strnstr(line,
 				"WE ", ft_strlen(line)) || ft_strnstr(line, "SO ",
 				ft_strlen(line)) || ft_strnstr(line, "NO ", ft_strlen(line)))
-		{
-			textures = ft_strjoingnl(textures, line);
-			cube->queue++;
-			free(line);
-		}
+			read_textures(cube, &line, &textures);
 		else
-		{
-			map = ft_strjoingnl(map, line);
-			free(line);
-			if (ft_strnstr(map, "11", ft_strlen(map)) && cube->queue != 6)
-				problem("Error\neither Map is not last\n");
-		}
+			read_map_help(cube, &line, &map);
 		line = get_next_line(fd);
 	}
-	save_ptr = ft_strtrim(map, "\n");
-	free(map);
-	if (ft_strnstr(save_ptr, "\n\n", ft_strlen(save_ptr)))
-		problem("Error\nmany newlines found in your map\n");
+	read_map_lost(&save_ptr, &map);
 	map_divider(textures, background, save_ptr, cube);
+}
+
+void	struct_init(t_cube *cube)
+{
+	cube->window = (t_win *)malloc(sizeof(t_win));
+	ft_memset(cube, 0, sizeof(t_win));
+	cube->colors = (t_colors *)malloc(sizeof(t_colors));
+	ft_memset(cube, 0, sizeof(t_colors));
+	cube->drawings = (t_textures *)malloc(sizeof(t_textures));
+	ft_memset(cube, 0, sizeof(t_textures));
+	cube->wanted = "01EWSN ";
+}
+
+void	parse_functions(int fd, t_cube *cube)
+{
+	cube->wanted = "01EWSN ";
+	read_map(fd, cube);
+	check_ft(cube);
+	parse(cube);
+	parse_textures(cube);
+	if (!cube->drawings->NO || !cube->drawings->EA || !cube->drawings->WE
+		|| !cube->drawings->SO)
+		problem("Error\ncheck the PNG or read ^above^ \n");
+	texture_set(cube);
+	init_mlx(cube);
+	fill_map(cube);
+	map_check(cube);
+	if (!check_player(cube) || !check_walls(cube))
+		exit(1);
+	draw_background(cube->window->img, cube);
+	mini_map_draw(cube);
 }
 
 int	main(int ac, char **av)
@@ -250,28 +300,8 @@ int	main(int ac, char **av)
 	}
 	cube = (t_cube *)malloc(sizeof(t_cube));
 	ft_memset(cube, 0, sizeof(t_cube));
-	cube->window = (t_win *)malloc(sizeof(t_win));
-	ft_memset(cube, 0, sizeof(t_win));
-	cube->colors = (t_colors *)malloc(sizeof(t_colors));
-	ft_memset(cube, 0, sizeof(t_colors));
-	cube->drawings = (t_textures *)malloc(sizeof(t_textures));
-	ft_memset(cube, 0, sizeof(t_textures));
-	cube->wanted = "01EWSN ";
-	read_map(fd, cube);
-	check_ft(cube);
-	parse(cube);
-	parse_textures(cube);
-	if (!cube->drawings->NO || !cube->drawings->EA || !cube->drawings->WE
-		|| !cube->drawings->SO)
-		problem("Error\ncheck the PNG or read ^above^ \n");
-	texture_set(cube);
-	init_mlx(cube);
-	fill_map(cube);
-	map_check(cube);
-	if (!check_player(cube) || !check_walls(cube))
-		exit(1);
-	draw_background(cube->window->img, cube);
-	mini_map_draw(cube);
+	struct_init(cube);
+	parse_functions(fd, cube);
 	cube->v3.deltax = cos(cube->v3.angle) * SPEED;
 	cube->v3.deltay = sin(cube->v3.angle) * SPEED;
 	mlx_loop_hook(cube->window->mlx, &pressed, cube);
